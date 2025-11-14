@@ -209,12 +209,16 @@ function toggleMenu(icon){
   menu.classList.toggle('show'); icon.classList.toggle('active');
   const spans=icon.querySelectorAll('span');
   if(icon.classList.contains('active')){
+    icon.style.transform = 'translateX(3px)';
     spans[0].style.transform='rotate(45deg) translate(5px,5px)';
     spans[1].style.opacity='0';
     spans[2].style.transform='rotate(-45deg) translate(6px,-6px)';
-  } else { spans[0].style.transform='none'; spans[1].style.opacity='1'; spans[2].style.transform='none'; }
+} else {
+    icon.style.transform = 'translateX(0)'; 
+    spans[0].style.transform='none';
+    spans[1].style.opacity='1';
+    spans[2].style.transform='none';
 }
-
 // Close menu
 document.addEventListener('click', e=>{
   const menu=document.getElementById('menuButtons');
