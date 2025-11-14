@@ -24,9 +24,26 @@ body.light-theme {
     --hover-text: #e74c3c;
 }
 
-/* Safe area adjustments for iPhone notch */
-body {
+html, body {
     margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+/* FORCE SAFE AREA TO ALWAYS DARK */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: env(safe-area-inset-top);
+    background: #181818; /* always dark */
+    z-index: 9999;
+}
+
+/* Body background */
+body {
     padding-top: env(safe-area-inset-top);
     padding-left: env(safe-area-inset-left);
     padding-right: env(safe-area-inset-right);
@@ -40,11 +57,11 @@ body {
     display: flex;
     align-items: center;
     padding: 0 16px;
-    padding-top: env(safe-area-inset-top);
-    height: calc(60px + env(safe-area-inset-top));
+    height: 60px;
     background: #181818;
     border-bottom: 1px solid #333;
     position: relative;
+    z-index: 10;
     box-sizing: border-box;
 }
 
@@ -80,7 +97,7 @@ body {
 /* Menu buttons */
 .menu-buttons {
     position: absolute;
-    top: calc(60px + env(safe-area-inset-top));
+    top: 60px;
     right: 16px;
     background: #181818;
     border: 1px solid #333;
