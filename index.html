@@ -22,18 +22,38 @@ body {
     padding: 0 16px;
     border-bottom: 1px solid #2a2a2a;
     position: relative;
+    justify-content: space-between;
 }
 
-/* Logo image replacing text */
+/* Logo */
 .logo-img {
-    height: 32px; /* roughly same as previous text height */
+    height: 32px;
     width: auto;
+}
+
+/* Search bar */
+.search-container {
+    flex: 1;
+    margin: 0 16px;
+    position: relative;
+}
+
+.search-container input {
+    width: 100%;
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: none;
+    background: #222;
+    color: #fff;
+    font-size: 14px;
+}
+
+.search-container input::placeholder {
+    color: #aaa;
 }
 
 /* Hamburger menu */
 .menu-icon {
-    margin-left: auto;
-    margin-right: 5px; /* moved 5px to the left */
     width: 25px;
     height: 20px;
     display: flex;
@@ -41,6 +61,7 @@ body {
     justify-content: space-between;
     cursor: pointer;
     z-index: 1001;
+    margin-right: 10px;
 }
 
 .menu-icon span {
@@ -51,28 +72,30 @@ body {
     transition: 0.3s;
 }
 
-/* Menu buttons container */
-.menu-buttons {
+/* User avatar */
+.avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #555;
+    cursor: pointer;
+    position: relative;
+}
+
+.avatar-dropdown {
     position: absolute;
-    top: 60px;
-    right: 16px;
+    right: 0;
+    top: 50px;
     background: #181818;
     border: 1px solid #333;
     border-radius: 6px;
-    display: flex;
+    display: none;
     flex-direction: column;
     overflow: hidden;
-    transform: scaleY(0);
-    transform-origin: top;
-    transition: transform 0.3s ease;
     z-index: 1000;
 }
 
-.menu-buttons.show {
-    transform: scaleY(1);
-}
-
-.menu-buttons a {
+.avatar-dropdown a {
     padding: 10px 20px;
     font-size: 14px;
     color: #ccc;
@@ -81,11 +104,9 @@ body {
     transition: 0.2s;
 }
 
-.menu-buttons a:last-child {
-    border-bottom: none;
-}
+.avatar-dropdown a:last-child { border-bottom: none; }
 
-.menu-buttons a:hover {
+.avatar-dropdown a:hover {
     color: #ff4d4d;
     background: #222;
 }
@@ -108,8 +129,8 @@ body {
 }
 
 .video-card:hover {
-    transform: scale(1.02);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+    transform: scale(1.03);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
 }
 
 .thumbnail-link {
@@ -120,14 +141,13 @@ body {
     position: relative;
 }
 
-/* Thumbnail with gradient overlay for title */
 .thumbnail-container {
     position: relative;
 }
 
 .thumbnail {
     width: 100%;
-    height: 200px; /* increased from 140px to 200px */
+    height: 200px;
     object-fit: cover;
     display: block;
 }
@@ -157,7 +177,7 @@ body {
     justify-content: flex-start;
 }
 
-/* Bigger square upload button */
+/* Upload Button */
 .upload-btn {
     display: inline-block;
     font-size: 14px;
@@ -174,10 +194,41 @@ body {
     border-color: #ff4d4d;
 }
 
-.upload-btn input {
-    display: none;
+.upload-btn input { display: none; }
+
+/* ADD NEW SEMESTER CARD */
+.add-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    color: #aaa;
+    cursor: pointer;
+    transition: 0.2s;
 }
 
+.add-card:hover {
+    background: #222;
+    color: #ff4d4d;
+    transform: scale(1.05);
+}
+
+/* FOOTER */
+footer {
+    margin-top: 40px;
+    padding: 20px;
+    text-align: center;
+    font-size: 12px;
+    color: #aaa;
+    border-top: 1px solid #2a2a2a;
+}
+
+footer a { color: #ccc; text-decoration: none; margin: 0 6px; }
+footer a:hover { color: #ff4d4d; }
+
+@media(max-width:600px){
+    .search-container { display:none; }
+}
 </style>
 </head>
 <body>
@@ -186,11 +237,19 @@ body {
 <div class="header">
     <img src="IMG_0696.png" alt="Patholytica Logo" class="logo-img">
 
-    <!-- Hamburger Menu Icon -->
-    <div class="menu-icon" onclick="toggleMenu(this)">
-        <span></span>
-        <span></span>
-        <span></span>
+    <div class="search-container">
+        <input type="text" placeholder="Search semesters or topics...">
+    </div>
+
+    <div style="display:flex; align-items:center;">
+        <div class="avatar" onclick="toggleAvatarDropdown()"></div>
+
+        <!-- Hamburger Menu -->
+        <div class="menu-icon" onclick="toggleMenu(this)">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
     </div>
 
     <!-- Hidden Menu Buttons -->
@@ -202,10 +261,23 @@ body {
         <a href="admin.html">Admin Dashboard</a>
         <a href="logout.html">Logout</a>
     </div>
+
+    <!-- Avatar dropdown -->
+    <div class="avatar-dropdown" id="avatarDropdown">
+        <a href="profile.html">Profile</a>
+        <a href="settings.html">Settings</a>
+        <a href="logout.html">Logout</a>
+    </div>
 </div>
 
 <!-- VIDEO GRID -->
 <div class="grid" id="grid"></div>
+
+<!-- FOOTER -->
+<footer>
+    &copy; 2025 Patholytica. All rights reserved. 
+    <a href="#">Privacy Policy</a> | <a href="#">Terms</a>
+</footer>
 
 <script>
 const grid = document.getElementById('grid');
@@ -233,6 +305,13 @@ for (let i = 1; i <= 10; i++) {
     grid.appendChild(card);
 }
 
+// Add new semester card
+const addCard = document.createElement('div');
+addCard.className = 'video-card add-card';
+addCard.innerHTML = '+';
+addCard.onclick = () => alert('Add new semester functionality coming soon!');
+grid.appendChild(addCard);
+
 // Thumbnail upload function
 function changeThumb(input) {
     const file = input.files[0];
@@ -251,9 +330,8 @@ function toggleMenu(icon) {
     const menu = document.getElementById('menuButtons');
     menu.classList.toggle('show');
 
-    // Animate icon into X
-    icon.classList.toggle('active');
     const spans = icon.querySelectorAll('span');
+    icon.classList.toggle('active');
     if (icon.classList.contains('active')) {
         spans[0].style.transform = 'rotate(45deg) translate(5px,5px)';
         spans[1].style.opacity = '0';
@@ -264,7 +342,22 @@ function toggleMenu(icon) {
         spans[2].style.transform = 'rotate(0) translate(0,0)';
     }
 }
-</script>
 
+// Avatar dropdown
+function toggleAvatarDropdown() {
+    const dropdown = document.getElementById('avatarDropdown');
+    dropdown.style.display = dropdown.style.display === 'flex' ? 'none' : 'flex';
+    dropdown.style.flexDirection = 'column';
+}
+
+// Close dropdowns when clicking outside
+document.addEventListener('click', function(e){
+    const avatar = document.querySelector('.avatar');
+    const dropdown = document.getElementById('avatarDropdown');
+    if(!avatar.contains(e.target) && !dropdown.contains(e.target)) {
+        dropdown.style.display = 'none';
+    }
+});
+</script>
 </body>
 </html>
