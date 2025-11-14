@@ -36,7 +36,7 @@ html, body {
 /* Body with safe areas */
 body {
     background: var(--bg-color);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    font-family: Arial, sans-serif;
     transition: background 0.3s ease;
 }
 
@@ -53,8 +53,7 @@ body {
 .header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 12px 16px;
+    padding: 0 16px;
     height: 60px;
     background: #181818;
     position: relative;
@@ -64,7 +63,6 @@ body {
 .logo-img { 
     height: 32px; 
     width: auto;
-    flex-shrink: 0;
 }
 
 /* Center container for theme toggle */
@@ -72,7 +70,6 @@ body {
     flex: 1;
     display: flex;
     justify-content: center;
-    padding: 0 10px;
 }
 
 /* Hamburger menu */
@@ -84,7 +81,6 @@ body {
     justify-content: space-between;
     cursor: pointer;
     z-index: 1001;
-    flex-shrink: 0;
 }
 
 .menu-icon span {
@@ -111,7 +107,6 @@ body {
     pointer-events: none;
     transition: all 0.3s ease;
     z-index: 1000;
-    min-width: 160px;
 }
 
 .menu-buttons.show { 
@@ -121,20 +116,18 @@ body {
 }
 
 .menu-buttons a {
-    padding: 12px 20px;
+    padding: 10px 20px;
     font-size: 14px;
     color: #ccc;
     text-decoration: none;
     border-bottom: 1px solid #333;
     transition: all 0.2s ease;
-    white-space: nowrap;
 }
 
 .menu-buttons a:last-child { border-bottom: none; }
 .menu-buttons a:hover { 
     color: #ff4d4d; 
     background: #222;
-    padding-left: 24px;
 }
 
 /* THEME CONTAINER */
@@ -156,18 +149,16 @@ body {
 
 .video-card {
     background: var(--card-bg);
-    border-radius: 8px;
+    border-radius: 6px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.3);
     overflow: hidden;
     position: relative;
     transition: all 0.3s ease;
-    border: 1px solid var(--card-border);
 }
 
 .video-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 8px 16px rgba(0,0,0,0.5);
-    border-color: var(--hover-text);
 }
 
 .thumbnail-link {
@@ -200,45 +191,40 @@ body {
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 50%;
-    background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0));
+    height: 40%;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0));
     display: flex;
     align-items: flex-end;
-    padding: 12px;
+    padding: 5px 10px;
 }
 
 .title { 
-    font-size: 16px; 
-    font-weight: 600; 
+    font-size: 14px; 
+    font-weight: bold; 
     color: #fff !important;
-    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
 }
 
 .info { 
     padding: 12px; 
     display: flex; 
     justify-content: flex-start;
-    border-top: 1px solid var(--card-border);
 }
 
 /* Upload Button */
 .upload-btn {
-    display: inline-flex;
-    align-items: center;
-    font-size: 13px;
+    display: inline-block;
+    font-size: 14px;
     color: var(--text-color);
     cursor: pointer;
-    padding: 8px 14px;
+    padding: 8px 12px;
     border: 1px solid var(--card-border);
     border-radius: 6px;
     transition: all 0.3s ease;
-    background: transparent;
 }
 
 .upload-btn:hover { 
     color: var(--hover-text); 
     border-color: var(--hover-text);
-    background: var(--hover-bg);
 }
 
 .upload-btn input { display: none; }
@@ -248,37 +234,32 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 48px;
-    color: #555;
+    font-size: 36px;
+    color: #aaa;
     cursor: pointer;
     transition: all 0.3s ease;
-    border: 2px dashed var(--card-border);
-    min-height: 280px;
 }
 
 .add-card:hover { 
     background: var(--hover-bg); 
     color: var(--hover-text);
-    border-color: var(--hover-text);
-    transform: scale(1.02);
+    transform: scale(1.05);
 }
 
 /* THEME TOGGLE BUTTON */
 .theme-toggle {
-    padding: 8px 16px;
+    padding: 6px 12px;
     cursor: pointer;
     border-radius: 6px;
-    border: 1px solid #444;
-    font-size: 13px;
-    background: #252525;
+    border: 1px solid #333;
+    font-size: 14px;
+    background: #181818;
     color: #fff;
     transition: all 0.3s ease;
-    font-weight: 500;
-    white-space: nowrap;
 }
 
 body.light-theme .theme-toggle {
-    border-color: #ddd;
+    border-color: #fff;
     color: #111;
     background: #fff;
 }
@@ -287,7 +268,6 @@ body.light-theme .theme-toggle {
     background: var(--hover-bg);
     color: var(--hover-text);
     border-color: var(--hover-text);
-    transform: scale(1.05);
 }
 
 /* FOOTER */
@@ -299,33 +279,22 @@ footer {
     padding-bottom: calc(20px + env(safe-area-inset-bottom));
     text-align: center;
     font-size: 12px;
-    color: #888;
-    border-top: 1px solid var(--card-border);
-    background: var(--bg-color);
+    color: #ccc;
+    border-top: 1px solid #333;
 }
 
 footer a { 
-    color: #888; 
+    color: #ccc; 
     text-decoration: none; 
-    margin: 0 8px;
-    transition: color 0.2s ease;
+    margin: 0 6px;
 }
 
-footer a:hover { color: var(--hover-text); }
+footer a:hover { color: #ff4d4d; }
 
 /* Responsive */
 @media (max-width: 640px) {
     .grid {
         grid-template-columns: 1fr;
-    }
-    
-    .header-center {
-        padding: 0 5px;
-    }
-    
-    .theme-toggle {
-        font-size: 12px;
-        padding: 6px 12px;
     }
 }
 </style>
@@ -333,17 +302,15 @@ footer a:hover { color: var(--hover-text); }
 </head>
 <body>
 
-<!-- HEADER - Always dark -->
+<!-- HEADER -->
 
 <div class="header-wrapper">
     <div class="header">
-        <img src="https://via.placeholder.com/120x32/ff4d4d/ffffff?text=Patholytica" alt="Patholytica Logo" class="logo-img">
+        <img src="IMG_0696.png" alt="Patholytica Logo" class="logo-img">
 
 ```
     <div class="header-center">
-        <button class="theme-toggle" onclick="toggleTheme()">
-            <span id="themeIcon">🌙</span> Toggle Theme
-        </button>
+        <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
     </div>
 
     <div class="menu-icon" onclick="toggleMenu(this)">
@@ -353,12 +320,12 @@ footer a:hover { color: var(--hover-text); }
     </div>
 
     <div class="menu-buttons" id="menuButtons">
-        <a href="#login">🔐 Login</a>
-        <a href="#profile">👤 Profile</a>
-        <a href="#settings">⚙️ Settings</a>
-        <a href="#help">❓ Help</a>
-        <a href="#admin">🛡️ Admin Dashboard</a>
-        <a href="#logout">🚪 Logout</a>
+        <a href="login.html">Login</a>
+        <a href="profile.html">Profile</a>
+        <a href="settings.html">Settings</a>
+        <a href="help.html">Help</a>
+        <a href="admin.html">Admin Dashboard</a>
+        <a href="logout.html">Logout</a>
     </div>
 </div>
 ```
@@ -374,11 +341,8 @@ footer a:hover { color: var(--hover-text); }
 <!-- FOOTER -->
 
 <footer>
-    &copy; 2025 Patholytica by MedicineBank. All rights reserved. 
-    <br>
-    <a href="#privacy">Privacy Policy</a> | 
-    <a href="#terms">Terms of Service</a> | 
-    <a href="#contact">Contact</a>
+    &copy; 2025 Patholytica. All rights reserved. 
+    <a href="#">Privacy Policy</a> | <a href="#">Terms</a>
 </footer>
 
 <script>
@@ -388,9 +352,9 @@ for (let i = 1; i <= 10; i++) {
     const card = document.createElement('div');
     card.className = 'video-card';
     card.innerHTML = `
-        <a href="#semester${i}" class="thumbnail-link">
+        <a href="semester${i}.html" class="thumbnail-link">
             <div class="thumbnail-container">
-                <img class="thumbnail" src="https://picsum.photos/400/250?random=${i}" alt="Semester ${i}">
+                <img class="thumbnail" src="https://picsum.photos/400/250?random=${i}">
                 <div class="gradient-overlay">
                     <div class="title">Semester ${i}</div>
                 </div>
@@ -398,7 +362,7 @@ for (let i = 1; i <= 10; i++) {
         </a>
         <div class="info">
             <label class="upload-btn">
-                📸 Change Thumbnail
+                Change Thumbnail →
                 <input type="file" accept="image/*" onchange="changeThumb(this)">
             </label>
         </div>
@@ -415,9 +379,9 @@ addCard.onclick = () => {
     const newCard = document.createElement('div');
     newCard.className = 'video-card';
     newCard.innerHTML = `
-        <a href="#semester${semesterNum}" class="thumbnail-link">
+        <a href="semester${semesterNum}.html" class="thumbnail-link">
             <div class="thumbnail-container">
-                <img class="thumbnail" src="https://picsum.photos/400/250?random=${semesterNum + 10}" alt="Semester ${semesterNum}">
+                <img class="thumbnail" src="https://picsum.photos/400/250?random=${semesterNum + 10}">
                 <div class="gradient-overlay">
                     <div class="title">Semester ${semesterNum}</div>
                 </div>
@@ -425,7 +389,7 @@ addCard.onclick = () => {
         </a>
         <div class="info">
             <label class="upload-btn">
-                📸 Change Thumbnail
+                Change Thumbnail →
                 <input type="file" accept="image/*" onchange="changeThumb(this)">
             </label>
         </div>
@@ -455,9 +419,9 @@ function toggleMenu(icon) {
     
     const spans = icon.querySelectorAll('span');
     if (icon.classList.contains('active')) {
-        spans[0].style.transform = 'rotate(45deg) translate(6px, 6px)';
+        spans[0].style.transform = 'rotate(45deg) translate(5px,5px)';
         spans[1].style.opacity = '0';
-        spans[2].style.transform = 'rotate(-45deg) translate(6px, -6px)';
+        spans[2].style.transform = 'rotate(-45deg) translate(6px,-6px)';
     } else {
         spans[0].style.transform = 'none';
         spans[1].style.opacity = '1';
@@ -477,15 +441,12 @@ document.addEventListener('click', function(e) {
 // Theme toggle
 function toggleTheme() {
     document.body.classList.toggle('light-theme');
-    const isLight = document.body.classList.contains('light-theme');
-    localStorage.setItem('theme', isLight ? 'light' : 'dark');
-    document.getElementById('themeIcon').textContent = isLight ? '☀️' : '🌙';
+    localStorage.setItem('theme', document.body.classList.contains('light-theme') ? 'light' : 'dark');
 }
 
 // Load saved theme
 if(localStorage.getItem('theme') === 'light') {
     document.body.classList.add('light-theme');
-    document.getElementById('themeIcon').textContent = '☀️';
 }
 </script>
 
