@@ -6,176 +6,177 @@
 <title>Patholytica — by MedicineBank</title>
 
 <style>
-    body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-        background: #0f0f0f;
-        color: #fff;
-    }
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #0f0f0f;
+    color: #fff;
+}
 
-    /* HEADER */
-    .header {
-        height: 60px;
-        background: #181818;
-        display: flex;
-        align-items: center;
-        padding: 0 16px;
-        border-bottom: 1px solid #2a2a2a;
-        position: relative;
-    }
+/* HEADER */
+.header {
+    height: 60px;
+    background: #181818;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    border-bottom: 1px solid #2a2a2a;
+    position: relative;
+}
 
-    /* Logo image replacing text */
-    .logo-img {
-        height: 32px; /* roughly same as previous text height */
-        width: auto;
-    }
+/* Logo image replacing text */
+.logo-img {
+    height: 32px; /* roughly same as previous text height */
+    width: auto;
+}
 
-    /* Hamburger menu */
-    .menu-icon {
-        margin-left: auto;
-        width: 25px;
-        height: 20px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        cursor: pointer;
-        z-index: 1001;
-    }
+/* Hamburger menu */
+.menu-icon {
+    margin-left: auto;
+    margin-right: 5px; /* moved 5px to the left */
+    width: 25px;
+    height: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+    z-index: 1001;
+}
 
-    .menu-icon span {
-        display: block;
-        height: 3px;
-        background: #fff;
-        border-radius: 2px;
-        transition: 0.3s;
-    }
+.menu-icon span {
+    display: block;
+    height: 3px;
+    background: #fff;
+    border-radius: 2px;
+    transition: 0.3s;
+}
 
-    /* Menu buttons container */
-    .menu-buttons {
-        position: absolute;
-        top: 60px;
-        right: 16px;
-        background: #181818;
-        border: 1px solid #333;
-        border-radius: 6px;
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
-        transform: scaleY(0);
-        transform-origin: top;
-        transition: transform 0.3s ease;
-        z-index: 1000;
-    }
+/* Menu buttons container */
+.menu-buttons {
+    position: absolute;
+    top: 60px;
+    right: 16px;
+    background: #181818;
+    border: 1px solid #333;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.3s ease;
+    z-index: 1000;
+}
 
-    .menu-buttons.show {
-        transform: scaleY(1);
-    }
+.menu-buttons.show {
+    transform: scaleY(1);
+}
 
-    .menu-buttons a {
-        padding: 10px 20px;
-        font-size: 14px;
-        color: #ccc;
-        text-decoration: none;
-        border-bottom: 1px solid #333;
-        transition: 0.2s;
-    }
+.menu-buttons a {
+    padding: 10px 20px;
+    font-size: 14px;
+    color: #ccc;
+    text-decoration: none;
+    border-bottom: 1px solid #333;
+    transition: 0.2s;
+}
 
-    .menu-buttons a:last-child {
-        border-bottom: none;
-    }
+.menu-buttons a:last-child {
+    border-bottom: none;
+}
 
-    .menu-buttons a:hover {
-        color: #ff4d4d;
-        background: #222;
-    }
+.menu-buttons a:hover {
+    color: #ff4d4d;
+    background: #222;
+}
 
-    /* VIDEO GRID */
-    .grid {
-        padding: 20px;
-        display: grid;
-        gap: 20px;
-        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    }
+/* VIDEO GRID */
+.grid {
+    padding: 20px;
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+}
 
-    .video-card {
-        background: #181818;
-        border-radius: 6px;
-        box-shadow: 0 1px 2px rgba(0,0,0,0.3);
-        overflow: hidden;
-        position: relative;
-        transition: 0.2s;
-    }
+.video-card {
+    background: #181818;
+    border-radius: 6px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    overflow: hidden;
+    position: relative;
+    transition: 0.2s;
+}
 
-    .video-card:hover {
-        transform: scale(1.02);
-        box-shadow: 0 4px 8px rgba(0,0,0,0.5);
-    }
+.video-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+}
 
-    .thumbnail-link {
-        display: block;
-        width: 100%;
-        text-decoration: none;
-        color: inherit;
-        position: relative;
-    }
+.thumbnail-link {
+    display: block;
+    width: 100%;
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+}
 
-    /* Thumbnail with gradient overlay for title */
-    .thumbnail-container {
-        position: relative;
-    }
+/* Thumbnail with gradient overlay for title */
+.thumbnail-container {
+    position: relative;
+}
 
-    .thumbnail {
-        width: 100%;
-        height: 140px;
-        object-fit: cover;
-        display: block;
-    }
+.thumbnail {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    display: block;
+}
 
-    .gradient-overlay {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 40%;
-        background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0));
-        display: flex;
-        align-items: flex-end;
-        padding: 5px 10px;
-        box-sizing: border-box;
-    }
+.gradient-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 40%;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0));
+    display: flex;
+    align-items: flex-end;
+    padding: 5px 10px;
+    box-sizing: border-box;
+}
 
-    .title {
-        font-size: 14px;
-        font-weight: bold;
-        color: #fff;
-    }
+.title {
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+}
 
-    .info {
-        padding: 12px;
-        display: flex;
-        justify-content: flex-start;
-    }
+.info {
+    padding: 12px;
+    display: flex;
+    justify-content: flex-start;
+}
 
-    /* Bigger square upload button */
-    .upload-btn {
-        display: inline-block;
-        font-size: 14px;
-        color: #ccc;
-        cursor: pointer;
-        padding: 8px 12px;
-        border: 1px solid #333;
-        border-radius: 6px;
-        transition: 0.2s;
-    }
+/* Bigger square upload button */
+.upload-btn {
+    display: inline-block;
+    font-size: 14px;
+    color: #ccc;
+    cursor: pointer;
+    padding: 8px 12px;
+    border: 1px solid #333;
+    border-radius: 6px;
+    transition: 0.2s;
+}
 
-    .upload-btn:hover {
-        color: #ff4d4d;
-        border-color: #ff4d4d;
-    }
+.upload-btn:hover {
+    color: #ff4d4d;
+    border-color: #ff4d4d;
+}
 
-    .upload-btn input {
-        display: none;
-    }
+.upload-btn input {
+    display: none;
+}
 
 </style>
 </head>
@@ -195,7 +196,11 @@
     <!-- Hidden Menu Buttons -->
     <div class="menu-buttons" id="menuButtons">
         <a href="login.html">Login</a>
+        <a href="profile.html">Profile</a>
+        <a href="settings.html">Settings</a>
+        <a href="help.html">Help</a>
         <a href="admin.html">Admin Dashboard</a>
+        <a href="logout.html">Logout</a>
     </div>
 </div>
 
