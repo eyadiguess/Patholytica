@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -45,14 +44,15 @@ body {
     position: sticky;
     top: 0;
     background: #181818;
-    padding-top: env(safe-area-inset-top);
     border-bottom: 1px solid #fff;
     z-index: 100;
+    padding-top: env(safe-area-inset-top);
 }
 
 .header {
     display: flex;
-    align-items: center;
+    align-items: center;          /* vertical center */
+    justify-content: space-between;
     padding: 0 16px;
     height: 50px;
     background: #181818;
@@ -307,43 +307,37 @@ footer a:hover { color: var(--hover-text); }
 <body>
 
 <!-- HEADER -->
-
 <div class="header-wrapper">
     <div class="header">
         <img src="IMG_0696.png" alt="Patholytica Logo" class="logo-img">
 
-```
-    <div class="header-center">
-        <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
-    </div>
+        <div class="header-center">
+            <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
+        </div>
 
-    <div class="menu-icon" onclick="toggleMenu(this)">
-        <span></span>
-        <span></span>
-        <span></span>
-    </div>
+        <div class="menu-icon" onclick="toggleMenu(this)">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
 
-    <div class="menu-buttons" id="menuButtons">
-        <a href="login.html">🔐 Login</a>
-        <a href="profile.html">👤 Profile</a>
-        <a href="settings.html">⚙️ Settings</a>
-        <a href="help.html">❓ Help</a>
-        <a href="admin.html">🛡️ Admin Dashboard</a>
-        <a href="logout.html">🚪 Logout</a>
+        <div class="menu-buttons" id="menuButtons">
+            <a href="login.html">🔐 Login</a>
+            <a href="profile.html">👤 Profile</a>
+            <a href="settings.html">⚙️ Settings</a>
+            <a href="help.html">❓ Help</a>
+            <a href="admin.html">🛡️ Admin Dashboard</a>
+            <a href="logout.html">🚪 Logout</a>
+        </div>
     </div>
-</div>
-```
-
 </div>
 
 <!-- GRID -->
-
 <div class="theme-container">
     <div class="grid" id="grid"></div>
 </div>
 
 <!-- FOOTER -->
-
 <footer>
     &copy; 2025 Patholytica by MedicineBank. All rights reserved. 
     <br>
