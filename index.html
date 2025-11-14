@@ -52,6 +52,14 @@
         cursor: pointer;
     }
 
+    /* WELCOME MESSAGE */
+    .welcome-message {
+        text-align: center;
+        font-size: 16px;
+        margin: 20px 0 0 0;
+        color: #ffb84d;
+    }
+
     /* VIDEO GRID */
     .grid {
         padding: 20px;
@@ -71,15 +79,6 @@
     .video-card:hover {
         transform: scale(1.02);
         box-shadow: 0 4px 8px rgba(0,0,0,0.5);
-    }
-
-    .welcome {
-        font-size: 12px;
-        color: #ffb84d;
-        padding: 4px 8px;
-        text-align: center;
-        background: #222;
-        border-bottom: 1px solid #333;
     }
 
     .thumbnail {
@@ -138,12 +137,14 @@
     </div>
 </div>
 
+<!-- SITE-WIDE WELCOME MESSAGE -->
+<div class="welcome-message">Welcome to Patholytica!</div>
+
 <!-- VIDEO GRID -->
 <div class="grid">
 
-    <!-- VIDEO CARD 1 (with welcome header) -->
+    <!-- VIDEO CARD 1 -->
     <div class="video-card">
-        <div class="welcome">Welcome to Patholytica!</div>
         <img class="thumbnail" src="https://picsum.photos/400/250?random=1">
         <div class="info">
             <div class="title">Sample Video Title</div>
