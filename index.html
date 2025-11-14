@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -24,55 +25,54 @@ body.light-theme {
     --hover-text: #e74c3c;
 }
 
+* { box-sizing: border-box; }
+
 html, body {
     margin: 0;
     padding: 0;
     height: 100%;
 }
 
-/* FORCE SAFE AREA TO ALWAYS DARK */
-body::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: env(safe-area-inset-top);
-    background: #181818; /* always dark */
-    z-index: 9999;
-}
-
-/* Body background */
+/* Body with safe areas */
 body {
-    padding-top: env(safe-area-inset-top);
-    padding-left: env(safe-area-inset-left);
-    padding-right: env(safe-area-inset-right);
-    padding-bottom: env(safe-area-inset-bottom);
     background: var(--bg-color);
-    font-family: Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    transition: background 0.3s ease;
 }
 
-/* HEADER */
+/* HEADER - Always dark with safe area at top */
+.header-wrapper {
+    position: sticky;
+    top: 0;
+    background: #181818;
+    padding-top: env(safe-area-inset-top);
+    border-bottom: 1px solid #333;
+    z-index: 100;
+}
+
 .header {
     display: flex;
     align-items: center;
-    padding: 0 16px;
+    justify-content: space-between;
+    padding: 12px 16px;
     height: 60px;
     background: #181818;
-    border-bottom: 1px solid #333;
     position: relative;
-    z-index: 10;
-    box-sizing: border-box;
 }
 
 /* Logo */
-.logo-img { height: 32px; width: auto; }
+.logo-img { 
+    height: 32px; 
+    width: auto;
+    flex-shrink: 0;
+}
 
 /* Center container for theme toggle */
 .header-center {
     flex: 1;
     display: flex;
     justify-content: center;
+    padding: 0 10px;
 }
 
 /* Hamburger menu */
@@ -84,6 +84,7 @@ body {
     justify-content: space-between;
     cursor: pointer;
     z-index: 1001;
+    flex-shrink: 0;
 }
 
 .menu-icon span {
@@ -91,13 +92,13 @@ body {
     height: 3px;
     background: #fff;
     border-radius: 2px;
-    transition: 0.3s;
+    transition: all 0.3s ease;
 }
 
 /* Menu buttons */
 .menu-buttons {
     position: absolute;
-    top: 60px;
+    top: calc(100% + 1px);
     right: 16px;
     background: #181818;
     border: 1px solid #333;
@@ -105,31 +106,45 @@ body {
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    transform: scaleY(0);
-    transform-origin: top;
-    transition: transform 0.3s ease;
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+    transition: all 0.3s ease;
     z-index: 1000;
+    min-width: 160px;
 }
 
-.menu-buttons.show { transform: scaleY(1); }
+.menu-buttons.show { 
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
+}
 
 .menu-buttons a {
-    padding: 10px 20px;
+    padding: 12px 20px;
     font-size: 14px;
     color: #ccc;
     text-decoration: none;
     border-bottom: 1px solid #333;
-    transition: 0.2s;
+    transition: all 0.2s ease;
+    white-space: nowrap;
 }
 
 .menu-buttons a:last-child { border-bottom: none; }
-.menu-buttons a:hover { color: #ff4d4d; background: #222; }
+.menu-buttons a:hover { 
+    color: #ff4d4d; 
+    background: #222;
+    padding-left: 24px;
+}
 
 /* THEME CONTAINER */
 .theme-container {
     padding: 20px;
+    padding-left: calc(20px + env(safe-area-inset-left));
+    padding-right: calc(20px + env(safe-area-inset-right));
+    padding-bottom: calc(20px + env(safe-area-inset-bottom));
     background: var(--bg-color);
-    transition: background 0.3s ease;
+    min-height: calc(100vh - 60px - env(safe-area-inset-top));
 }
 
 /* GRID & CARDS */
@@ -141,16 +156,18 @@ body {
 
 .video-card {
     background: var(--card-bg);
-    border-radius: 6px;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
     overflow: hidden;
     position: relative;
-    transition: 0.2s;
+    transition: all 0.3s ease;
+    border: 1px solid var(--card-border);
 }
 
 .video-card:hover {
-    transform: scale(1.03);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+    border-color: var(--hover-text);
 }
 
 .thumbnail-link {
@@ -161,39 +178,69 @@ body {
     position: relative;
 }
 
-.thumbnail-container { position: relative; }
-.thumbnail { width: 100%; height: 200px; object-fit: cover; display: block; }
+.thumbnail-container { 
+    position: relative;
+    overflow: hidden;
+}
+
+.thumbnail { 
+    width: 100%; 
+    height: 200px; 
+    object-fit: cover; 
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.video-card:hover .thumbnail {
+    transform: scale(1.05);
+}
 
 .gradient-overlay {
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 40%;
-    background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0));
+    height: 50%;
+    background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0));
     display: flex;
     align-items: flex-end;
-    padding: 5px 10px;
-    box-sizing: border-box;
+    padding: 12px;
 }
 
-.title { font-size: 14px; font-weight: bold; color: #fff !important; }
+.title { 
+    font-size: 16px; 
+    font-weight: 600; 
+    color: #fff !important;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
 
-.info { padding: 12px; display: flex; justify-content: flex-start; }
+.info { 
+    padding: 12px; 
+    display: flex; 
+    justify-content: flex-start;
+    border-top: 1px solid var(--card-border);
+}
 
 /* Upload Button */
 .upload-btn {
-    display: inline-block;
-    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    font-size: 13px;
     color: var(--text-color);
     cursor: pointer;
-    padding: 8px 12px;
+    padding: 8px 14px;
     border: 1px solid var(--card-border);
     border-radius: 6px;
-    transition: 0.3s;
+    transition: all 0.3s ease;
+    background: transparent;
 }
 
-.upload-btn:hover { color: var(--hover-text); border-color: var(--hover-text); }
+.upload-btn:hover { 
+    color: var(--hover-text); 
+    border-color: var(--hover-text);
+    background: var(--hover-bg);
+}
+
 .upload-btn input { display: none; }
 
 /* Add card */
@@ -201,28 +248,37 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 36px;
-    color: #aaa;
+    font-size: 48px;
+    color: #555;
     cursor: pointer;
-    transition: 0.2s;
+    transition: all 0.3s ease;
+    border: 2px dashed var(--card-border);
+    min-height: 280px;
 }
 
-.add-card:hover { background: var(--hover-bg); color: var(--hover-text); transform: scale(1.05); }
+.add-card:hover { 
+    background: var(--hover-bg); 
+    color: var(--hover-text);
+    border-color: var(--hover-text);
+    transform: scale(1.02);
+}
 
 /* THEME TOGGLE BUTTON */
 .theme-toggle {
-    padding: 6px 12px;
+    padding: 8px 16px;
     cursor: pointer;
     border-radius: 6px;
-    border: 1px solid #333;
-    font-size: 14px;
-    background: #181818;
+    border: 1px solid #444;
+    font-size: 13px;
+    background: #252525;
     color: #fff;
     transition: all 0.3s ease;
+    font-weight: 500;
+    white-space: nowrap;
 }
 
 body.light-theme .theme-toggle {
-    border-color: #fff;
+    border-color: #ddd;
     color: #111;
     background: #fff;
 }
@@ -231,30 +287,63 @@ body.light-theme .theme-toggle {
     background: var(--hover-bg);
     color: var(--hover-text);
     border-color: var(--hover-text);
+    transform: scale(1.05);
 }
 
 /* FOOTER */
 footer {
     margin-top: 40px;
     padding: 20px;
+    padding-left: calc(20px + env(safe-area-inset-left));
+    padding-right: calc(20px + env(safe-area-inset-right));
+    padding-bottom: calc(20px + env(safe-area-inset-bottom));
     text-align: center;
     font-size: 12px;
-    color: #ccc;
-    border-top: 1px solid #333;
+    color: #888;
+    border-top: 1px solid var(--card-border);
+    background: var(--bg-color);
 }
 
-footer a { color: #ccc; text-decoration: none; margin: 0 6px; }
-footer a:hover { color: #ff4d4d; }
+footer a { 
+    color: #888; 
+    text-decoration: none; 
+    margin: 0 8px;
+    transition: color 0.2s ease;
+}
+
+footer a:hover { color: var(--hover-text); }
+
+/* Responsive */
+@media (max-width: 640px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .header-center {
+        padding: 0 5px;
+    }
+    
+    .theme-toggle {
+        font-size: 12px;
+        padding: 6px 12px;
+    }
+}
 </style>
+
 </head>
 <body>
 
-<!-- HEADER -->
-<div class="header">
-    <img src="IMG_0696.png" alt="Patholytica Logo" class="logo-img">
+<!-- HEADER - Always dark -->
 
+<div class="header-wrapper">
+    <div class="header">
+        <img src="https://via.placeholder.com/120x32/ff4d4d/ffffff?text=Patholytica" alt="Patholytica Logo" class="logo-img">
+
+```
     <div class="header-center">
-        <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
+        <button class="theme-toggle" onclick="toggleTheme()">
+            <span id="themeIcon">🌙</span> Toggle Theme
+        </button>
     </div>
 
     <div class="menu-icon" onclick="toggleMenu(this)">
@@ -264,24 +353,32 @@ footer a:hover { color: #ff4d4d; }
     </div>
 
     <div class="menu-buttons" id="menuButtons">
-        <a href="login.html">Login</a>
-        <a href="profile.html">Profile</a>
-        <a href="settings.html">Settings</a>
-        <a href="help.html">Help</a>
-        <a href="admin.html">Admin Dashboard</a>
-        <a href="logout.html">Logout</a>
+        <a href="#login">🔐 Login</a>
+        <a href="#profile">👤 Profile</a>
+        <a href="#settings">⚙️ Settings</a>
+        <a href="#help">❓ Help</a>
+        <a href="#admin">🛡️ Admin Dashboard</a>
+        <a href="#logout">🚪 Logout</a>
     </div>
+</div>
+```
+
 </div>
 
 <!-- GRID -->
+
 <div class="theme-container">
     <div class="grid" id="grid"></div>
 </div>
 
 <!-- FOOTER -->
+
 <footer>
-    &copy; 2025 Patholytica. All rights reserved. 
-    <a href="#">Privacy Policy</a> | <a href="#">Terms</a>
+    &copy; 2025 Patholytica by MedicineBank. All rights reserved. 
+    <br>
+    <a href="#privacy">Privacy Policy</a> | 
+    <a href="#terms">Terms of Service</a> | 
+    <a href="#contact">Contact</a>
 </footer>
 
 <script>
@@ -291,9 +388,9 @@ for (let i = 1; i <= 10; i++) {
     const card = document.createElement('div');
     card.className = 'video-card';
     card.innerHTML = `
-        <a href="semester${i}.html" class="thumbnail-link">
+        <a href="#semester${i}" class="thumbnail-link">
             <div class="thumbnail-container">
-                <img class="thumbnail" src="https://picsum.photos/400/250?random=${i}">
+                <img class="thumbnail" src="https://picsum.photos/400/250?random=${i}" alt="Semester ${i}">
                 <div class="gradient-overlay">
                     <div class="title">Semester ${i}</div>
                 </div>
@@ -301,7 +398,7 @@ for (let i = 1; i <= 10; i++) {
         </a>
         <div class="info">
             <label class="upload-btn">
-                Change Thumbnail →
+                📸 Change Thumbnail
                 <input type="file" accept="image/*" onchange="changeThumb(this)">
             </label>
         </div>
@@ -313,7 +410,28 @@ for (let i = 1; i <= 10; i++) {
 const addCard = document.createElement('div');
 addCard.className = 'video-card add-card';
 addCard.innerHTML = '+';
-addCard.onclick = () => alert('Add new semester functionality coming soon!');
+addCard.onclick = () => {
+    const semesterNum = grid.querySelectorAll('.video-card:not(.add-card)').length + 1;
+    const newCard = document.createElement('div');
+    newCard.className = 'video-card';
+    newCard.innerHTML = `
+        <a href="#semester${semesterNum}" class="thumbnail-link">
+            <div class="thumbnail-container">
+                <img class="thumbnail" src="https://picsum.photos/400/250?random=${semesterNum + 10}" alt="Semester ${semesterNum}">
+                <div class="gradient-overlay">
+                    <div class="title">Semester ${semesterNum}</div>
+                </div>
+            </div>
+        </a>
+        <div class="info">
+            <label class="upload-btn">
+                📸 Change Thumbnail
+                <input type="file" accept="image/*" onchange="changeThumb(this)">
+            </label>
+        </div>
+    `;
+    grid.insertBefore(newCard, addCard);
+};
 grid.appendChild(addCard);
 
 // Thumbnail upload
@@ -333,28 +451,41 @@ function changeThumb(input) {
 function toggleMenu(icon) {
     const menu = document.getElementById('menuButtons');
     menu.classList.toggle('show');
-    const spans = icon.querySelectorAll('span');
     icon.classList.toggle('active');
+    
+    const spans = icon.querySelectorAll('span');
     if (icon.classList.contains('active')) {
-        spans[0].style.transform = 'rotate(45deg) translate(5px,5px)';
+        spans[0].style.transform = 'rotate(45deg) translate(6px, 6px)';
         spans[1].style.opacity = '0';
-        spans[2].style.transform = 'rotate(-45deg) translate(6px,-6px)';
+        spans[2].style.transform = 'rotate(-45deg) translate(6px, -6px)';
     } else {
-        spans[0].style.transform = 'rotate(0) translate(0,0)';
+        spans[0].style.transform = 'none';
         spans[1].style.opacity = '1';
-        spans[2].style.transform = 'rotate(0) translate(0,0)';
+        spans[2].style.transform = 'none';
     }
 }
+
+// Close menu when clicking outside
+document.addEventListener('click', function(e) {
+    const menu = document.getElementById('menuButtons');
+    const icon = document.querySelector('.menu-icon');
+    if (!menu.contains(e.target) && !icon.contains(e.target) && menu.classList.contains('show')) {
+        toggleMenu(icon);
+    }
+});
 
 // Theme toggle
 function toggleTheme() {
     document.body.classList.toggle('light-theme');
-    localStorage.setItem('theme', document.body.classList.contains('light-theme') ? 'light' : 'dark');
+    const isLight = document.body.classList.contains('light-theme');
+    localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    document.getElementById('themeIcon').textContent = isLight ? '☀️' : '🌙';
 }
 
 // Load saved theme
 if(localStorage.getItem('theme') === 'light') {
     document.body.classList.add('light-theme');
+    document.getElementById('themeIcon').textContent = '☀️';
 }
 </script>
 
