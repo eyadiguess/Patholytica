@@ -30,26 +30,27 @@
         margin-right: 20px;
     }
 
-    .search-box {
-        flex: 1;
+    .header-buttons {
+        margin-left: auto;
         display: flex;
+        gap: 10px;
     }
 
-    .search-box input {
-        width: 100%;
-        padding: 8px;
-        border: 1px solid #333;
-        border-right: none;
-        background: #121212;
-        color: #eee;
-    }
-
-    .search-box button {
-        padding: 8px 16px;
-        border: 1px solid #333;
+    .header-btn {
+        font-size: 14px;
+        color: #ccc;
         background: #333;
-        color: #fff;
+        border: 1px solid #333;
+        border-radius: 4px;
+        padding: 6px 12px;
         cursor: pointer;
+        transition: 0.2s;
+        text-decoration: none;
+    }
+
+    .header-btn:hover {
+        color: #ff4d4d;
+        border-color: #ff4d4d;
     }
 
     /* WELCOME MESSAGE */
@@ -131,9 +132,11 @@
 <!-- HEADER -->
 <div class="header">
     <div class="logo">Patholytica</div>
-    <div class="search-box">
-        <input type="text" placeholder="Search">
-        <button>Search</button>
+    
+    <!-- Buttons instead of search bar -->
+    <div class="header-buttons">
+        <a href="login.html" class="header-btn">Login</a>
+        <a href="admin.html" class="header-btn">Admin Dashboard</a>
     </div>
 </div>
 
@@ -210,15 +213,6 @@ function changeThumb(input) {
     };
     reader.readAsDataURL(file);
 }
-
-// Search functionality
-document.querySelector('.search-box button').addEventListener('click', () => {
-    const query = document.querySelector('.search-box input').value.toLowerCase();
-    document.querySelectorAll('.video-card').forEach(card => {
-        const title = card.querySelector('.title').textContent.toLowerCase();
-        card.style.display = title.includes(query) ? 'block' : 'none';
-    });
-});
 </script>
 
 </body>
