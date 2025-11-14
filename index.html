@@ -110,6 +110,7 @@
         border-radius: 6px;
         box-shadow: 0 1px 2px rgba(0,0,0,0.3);
         overflow: hidden;
+        position: relative;
         transition: 0.2s;
     }
 
@@ -118,15 +119,24 @@
         box-shadow: 0 4px 8px rgba(0,0,0,0.5);
     }
 
+    .thumbnail-link {
+        display: block;
+        width: 100%;
+        text-decoration: none;
+        color: inherit;
+    }
+
     .thumbnail {
         width: 100%;
         height: 140px;
         object-fit: cover;
         background: #333;
+        display: block;
     }
 
     .info {
         padding: 12px;
+        position: relative;
     }
 
     .title {
@@ -136,10 +146,14 @@
         color: #fff;
     }
 
-    .channel {
-        font-size: 12px;
-        color: #aaa;
-        margin-bottom: 8px;
+    /* Right arrow */
+    .arrow {
+        position: absolute;
+        bottom: 12px;
+        right: 12px;
+        font-size: 18px;
+        color: #ff4d4d;
+        pointer-events: none;
     }
 
     .upload-btn {
@@ -187,60 +201,63 @@
 <div class="welcome-message">Welcome to Patholytica!</div>
 
 <!-- VIDEO GRID -->
-<div class="grid">
+<div class="grid" id="grid"></div>
 
-    <!-- Generate 10 semesters -->
-    <script>
-        const grid = document.querySelector('.grid');
-        for (let i = 1; i <= 10; i++) {
-            const card = document.createElement('div');
-            card.className = 'video-card';
-            card.innerHTML = `
-                <img class="thumbnail" src="https://picsum.photos/400/250?random=${i}">
-                <div class="info">
-                    <div class="title">Semester ${i}</div>
-                    <div class="channel">MedSchool</div>
-                    <label class="upload-btn">
-                        Change Thumbnail
-                        <input type="file" accept="image/*" onchange="changeThumb(this)">
-                    </label>
-                </div>
-            `;
-            grid.appendChild(card);
-        }
+<script>
+const grid = document.getElementById('grid');
 
-        function changeThumb(input) {
-            const file = input.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = e => {
-                const card = input.closest('.video-card');
-                const img = card.querySelector('.thumbnail');
-                img.src = e.target.result; 
-            };
-            reader.readAsDataURL(file);
-        }
+// Create 10 semester cards
+for (let i = 1; i <= 10; i++) {
+    const card = document.createElement('div');
+    card.className = 'video-card';
+    card.innerHTML = `
+        <a href="semester${i}.html" class="thumbnail-link">
+            <img class="thumbnail" src="https://picsum.photos/400/250?random=${i}">
+        </a>
+        <div class="info">
+            <div class="title">Semester ${i}</div>
+            <span class="arrow">&#9654;</span>
+            <label class="upload-btn">
+                Change Thumbnail
+                <input type="file" accept="image/*" onchange="changeThumb(this)">
+            </label>
+        </div>
+    `;
+    grid.appendChild(card);
+}
 
-        function toggleMenu(icon) {
-            const menu = document.getElementById('menuButtons');
-            menu.classList.toggle('show');
+// Thumbnail upload function
+function changeThumb(input) {
+    const file = input.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+        const card = input.closest('.video-card');
+        const img = card.querySelector('.thumbnail');
+        img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+}
 
-            // Animate icon into X
-            icon.classList.toggle('active');
-            const spans = icon.querySelectorAll('span');
-            if (icon.classList.contains('active')) {
-                spans[0].style.transform = 'rotate(45deg) translate(5px,5px)';
-                spans[1].style.opacity = '0';
-                spans[2].style.transform = 'rotate(-45deg) translate(6px,-6px)';
-            } else {
-                spans[0].style.transform = 'rotate(0) translate(0,0)';
-                spans[1].style.opacity = '1';
-                spans[2].style.transform = 'rotate(0) translate(0,0)';
-            }
-        }
-    </script>
+// Toggle menu
+function toggleMenu(icon) {
+    const menu = document.getElementById('menuButtons');
+    menu.classList.toggle('show');
 
-</div>
+    // Animate icon into X
+    icon.classList.toggle('active');
+    const spans = icon.querySelectorAll('span');
+    if (icon.classList.contains('active')) {
+        spans[0].style.transform = 'rotate(45deg) translate(5px,5px)';
+        spans[1].style.opacity = '0';
+        spans[2].style.transform = 'rotate(-45deg) translate(6px,-6px)';
+    } else {
+        spans[0].style.transform = 'rotate(0) translate(0,0)';
+        spans[1].style.opacity = '1';
+        spans[2].style.transform = 'rotate(0) translate(0,0)';
+    }
+}
+</script>
 
 </body>
 </html>
