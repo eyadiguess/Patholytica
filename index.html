@@ -22,7 +22,6 @@ body {
     padding: 0 16px;
     border-bottom: 1px solid #2a2a2a;
     position: relative;
-    justify-content: space-between;
 }
 
 /* Logo */
@@ -31,29 +30,10 @@ body {
     width: auto;
 }
 
-/* Search bar */
-.search-container {
-    flex: 1;
-    margin: 0 16px;
-    position: relative;
-}
-
-.search-container input {
-    width: 100%;
-    padding: 6px 12px;
-    border-radius: 6px;
-    border: none;
-    background: #222;
-    color: #fff;
-    font-size: 14px;
-}
-
-.search-container input::placeholder {
-    color: #aaa;
-}
-
 /* Hamburger menu */
 .menu-icon {
+    margin-left: auto;
+    margin-right: 5px;
     width: 25px;
     height: 20px;
     display: flex;
@@ -61,7 +41,6 @@ body {
     justify-content: space-between;
     cursor: pointer;
     z-index: 1001;
-    margin-right: 10px;
 }
 
 .menu-icon span {
@@ -72,30 +51,28 @@ body {
     transition: 0.3s;
 }
 
-/* User avatar */
-.avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background: #555;
-    cursor: pointer;
-    position: relative;
-}
-
-.avatar-dropdown {
+/* Menu buttons container */
+.menu-buttons {
     position: absolute;
-    right: 0;
-    top: 50px;
+    top: 60px;
+    right: 16px;
     background: #181818;
     border: 1px solid #333;
     border-radius: 6px;
-    display: none;
+    display: flex;
     flex-direction: column;
     overflow: hidden;
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.3s ease;
     z-index: 1000;
 }
 
-.avatar-dropdown a {
+.menu-buttons.show {
+    transform: scaleY(1);
+}
+
+.menu-buttons a {
     padding: 10px 20px;
     font-size: 14px;
     color: #ccc;
@@ -104,9 +81,11 @@ body {
     transition: 0.2s;
 }
 
-.avatar-dropdown a:last-child { border-bottom: none; }
+.menu-buttons a:last-child {
+    border-bottom: none;
+}
 
-.avatar-dropdown a:hover {
+.menu-buttons a:hover {
     color: #ff4d4d;
     background: #222;
 }
@@ -226,9 +205,6 @@ footer {
 footer a { color: #ccc; text-decoration: none; margin: 0 6px; }
 footer a:hover { color: #ff4d4d; }
 
-@media(max-width:600px){
-    .search-container { display:none; }
-}
 </style>
 </head>
 <body>
@@ -237,19 +213,11 @@ footer a:hover { color: #ff4d4d; }
 <div class="header">
     <img src="IMG_0696.png" alt="Patholytica Logo" class="logo-img">
 
-    <div class="search-container">
-        <input type="text" placeholder="Search semesters or topics...">
-    </div>
-
-    <div style="display:flex; align-items:center;">
-        <div class="avatar" onclick="toggleAvatarDropdown()"></div>
-
-        <!-- Hamburger Menu -->
-        <div class="menu-icon" onclick="toggleMenu(this)">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
+    <!-- Hamburger Menu Icon -->
+    <div class="menu-icon" onclick="toggleMenu(this)">
+        <span></span>
+        <span></span>
+        <span></span>
     </div>
 
     <!-- Hidden Menu Buttons -->
@@ -259,13 +227,6 @@ footer a:hover { color: #ff4d4d; }
         <a href="settings.html">Settings</a>
         <a href="help.html">Help</a>
         <a href="admin.html">Admin Dashboard</a>
-        <a href="logout.html">Logout</a>
-    </div>
-
-    <!-- Avatar dropdown -->
-    <div class="avatar-dropdown" id="avatarDropdown">
-        <a href="profile.html">Profile</a>
-        <a href="settings.html">Settings</a>
         <a href="logout.html">Logout</a>
     </div>
 </div>
@@ -342,22 +303,7 @@ function toggleMenu(icon) {
         spans[2].style.transform = 'rotate(0) translate(0,0)';
     }
 }
-
-// Avatar dropdown
-function toggleAvatarDropdown() {
-    const dropdown = document.getElementById('avatarDropdown');
-    dropdown.style.display = dropdown.style.display === 'flex' ? 'none' : 'flex';
-    dropdown.style.flexDirection = 'column';
-}
-
-// Close dropdowns when clicking outside
-document.addEventListener('click', function(e){
-    const avatar = document.querySelector('.avatar');
-    const dropdown = document.getElementById('avatarDropdown');
-    if(!avatar.contains(e.target) && !dropdown.contains(e.target)) {
-        dropdown.style.display = 'none';
-    }
-});
 </script>
+
 </body>
 </html>
