@@ -45,7 +45,7 @@ body { background: var(--bg-color); color:var(--text-color); transition: backgro
 .splash.playing img{ transform: translateY(-110px) scale(0.9); }
 
 /* HEADER */
-.header-wrapper { position: sticky; top: 0; background: var(--header-bg); color:var(--header-text); z-index: 100; box-shadow: 0 2px 6px rgba(0,0,0,0.12); }
+.header-wrapper { position: sticky; top: 0; background: var(--header-bg); color:var(--header-text); z-index: 100; box-shadow: none }
 .header { display:flex; align-items:center; justify-content:space-between; padding: env(safe-area-inset-top) 20px; height:72px; gap:12px; }
 .header-left{ display:flex; align-items:center; gap:10px; }
 .logo-img { height:36px; width:auto; }
@@ -137,7 +137,8 @@ body.light-theme #splashLogo{
   <div class="header">
     <div class="header-left">
       <img src="IMG_0696.png" class="logo-img" alt="Patholytica Logo">
-      <div class="site-title">Patholytica</div>
+    </div>
+
     </div>
 
     <div class="header-right">
@@ -196,11 +197,11 @@ for (let i=1; i<=10; i++) {
       <div class="thumbnail-container">
         <img class="thumbnail" src="https://picsum.photos/400/250?random=${i}" alt="Semester ${i}">
         <div class="gradient-overlay"><div class="title">Semester ${i}</div></div>
-        <label class="upload-action">
-          <span class="upload-btn">Change ▶<input type="file" accept="image/*" onchange="changeThumb(this)"></span>
-        </label>
       </div>
     </a>
+    <label class="upload-action">
+      <span class="upload-btn">Change ▶<input type="file" accept="image/*" onchange="changeThumb(this)"></span>
+    </label>
     <div class="info">
       <!-- metadata or description could go here -->
     </div>
@@ -220,11 +221,11 @@ addCard.onclick = ()=>{
       <div class="thumbnail-container">
         <img class="thumbnail" src="https://picsum.photos/400/250?random=${semesterNum+10}" alt="Semester ${semesterNum}">
         <div class="gradient-overlay"><div class="title">Semester ${semesterNum}</div></div>
-        <label class="upload-action">
-          <span class="upload-btn">Change ▶<input type="file" accept="image/*" onchange="changeThumb(this)"></span>
-        </label>
       </div>
     </a>
+    <label class="upload-action">
+      <span class="upload-btn">Change ▶<input type="file" accept="image/*" onchange="changeThumb(this)"></span>
+    </label>
     <div class="info"></div>
   `;
   grid.insertBefore(newCard, addCard);
