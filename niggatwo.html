@@ -80,7 +80,37 @@ footer { margin-top:40px; padding:20px calc(20px + env(safe-area-inset-left)) ca
 footer a { color:#888; text-decoration:none; margin:0 8px; transition:color 0.15s ease; }
 footer a:hover { color:var(--accent); }
 
-@media (max-width:760px){ .grid{ grid-template-columns:1fr; } .header{ padding-left:12px; padding-right:12px; } .menu-buttons{ right:12px; } }
+@media (max-width:760px){
+  /* Mobile: single column grid, tighter padding */
+  .grid{ grid-template-columns:1fr; gap:12px; }
+  .theme-container{ padding:12px 12px calc(12px + env(safe-area-inset-bottom)) 12px; }
+  .header{ padding-left:12px; padding-right:12px; height:64px; }
+  .menu-buttons{ right:12px; }
+
+  /* Header layout optimized: hide center title, keep logo and controls visible */
+  .header-center{ display:none !important; }
+  .logo-img{ height:32px; }
+  .theme-toggle{ width:38px; height:38px; }
+
+  /* Make thumbnails use a fluid aspect ratio so cards fill width nicely */
+  .thumbnail{ height:auto; aspect-ratio:16/9; }
+  .add-card{ min-height:140px; font-size:36px; }
+}
+
+/* Ensure logo and splash are visible in light mode even if the image is white */
+body.light-theme .logo-img,
+body.light-theme #splashLogo{
+  /* invert/contrast to make white logos visible on light backgrounds; tweak if logo already colored */
+  filter: invert(0.95) brightness(0.9) saturate(0.6);
+}
+
+/* Make header fill edge-to-edge on very small devices */
+@media (max-width:420px){
+  .header{ padding-left:10px; padding-right:10px; height:60px; }
+  .logo-img{ height:28px; }
+  .theme-container{ padding:10px; }
+}
+.header{ padding-left:12px; padding-right:12px; } .menu-buttons{ right:12px; } }
 
 </style>
 </head>
