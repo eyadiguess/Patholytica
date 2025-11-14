@@ -49,7 +49,15 @@ body { background: var(--bg-color); color:var(--text-color); transition: backgro
 .header { display:flex; align-items:center; justify-content:space-between; padding: env(safe-area-inset-top) 20px; height:72px; gap:12px; }
 .header-left{ display:flex; align-items:center; gap:10px; }
 .logo-img { height:36px; width:auto; }
-.site-title { font-weight:700; color:var(--header-text); font-size:18px; }
+.site-title {
+      font-weight:700;
+      color:var(--header-text) !important;
+      font-size:18px;
+      line-height:1;
+      -webkit-font-smoothing:antialiased;
+      text-shadow: 0 1px 0 rgba(0,0,0,0.08);
+    }
+    body.light-theme .site-title { text-shadow: 0 1px 0 rgba(255,255,255,0.06); }
 .header-right{ display:flex; align-items:center; gap:12px; }
 
 .menu-icon { width:34px; height:28px; display:flex; flex-direction:column; justify-content:space-between; cursor:pointer; z-index:1001; }
