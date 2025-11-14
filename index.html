@@ -24,10 +24,10 @@
         position: relative;
     }
 
-    .logo {
-        font-size: 20px;
-        font-weight: bold;
-        color: #ff4d4d;
+    /* Logo image replacing text */
+    .logo-img {
+        height: 32px; /* roughly same as previous text height */
+        width: auto;
     }
 
     /* Hamburger menu */
@@ -87,14 +87,6 @@
     .menu-buttons a:hover {
         color: #ff4d4d;
         background: #222;
-    }
-
-    /* WELCOME IMAGE */
-    .welcome-message img {
-        display: block;
-        margin: 20px auto;
-        max-width: 90%;
-        height: auto;
     }
 
     /* VIDEO GRID */
@@ -191,7 +183,7 @@
 
 <!-- HEADER -->
 <div class="header">
-    <div class="logo">Patholytica</div>
+    <img src="IMG_0696.png" alt="Patholytica Logo" class="logo-img">
 
     <!-- Hamburger Menu Icon -->
     <div class="menu-icon" onclick="toggleMenu(this)">
@@ -205,11 +197,6 @@
         <a href="login.html">Login</a>
         <a href="admin.html">Admin Dashboard</a>
     </div>
-</div>
-
-<!-- SITE-WIDE WELCOME IMAGE -->
-<div class="welcome-message">
-    <img src="IMG_0694.jpeg" alt="Welcome to Patholytica">
 </div>
 
 <!-- VIDEO GRID -->
@@ -246,7 +233,7 @@ function changeThumb(input) {
     const file = input.files[0];
     if (!file) return;
     const reader = new FileReader();
-    reader.onload = e => {
+    reader.onload = function(e) {
         const card = input.closest('.video-card');
         const img = card.querySelector('.thumbnail');
         img.src = e.target.result;
