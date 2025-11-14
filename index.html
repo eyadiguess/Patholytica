@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Patholytica — by MedicineBank</title>
 
 <style>
@@ -24,11 +24,15 @@ body.light-theme {
     --hover-text: #e74c3c;
 }
 
+/* Safe area adjustments for iPhone notch */
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
+    padding-top: env(safe-area-inset-top);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    padding-bottom: env(safe-area-inset-bottom);
     background: var(--bg-color);
-    color: var(--text-color);
+    font-family: Arial, sans-serif;
 }
 
 /* HEADER */
@@ -36,10 +40,12 @@ body {
     display: flex;
     align-items: center;
     padding: 0 16px;
-    height: 60px;
+    padding-top: env(safe-area-inset-top);
+    height: calc(60px + env(safe-area-inset-top));
     background: #181818;
     border-bottom: 1px solid #333;
     position: relative;
+    box-sizing: border-box;
 }
 
 /* Logo */
@@ -74,7 +80,7 @@ body {
 /* Menu buttons */
 .menu-buttons {
     position: absolute;
-    top: 60px;
+    top: calc(60px + env(safe-area-inset-top));
     right: 16px;
     background: #181818;
     border: 1px solid #333;
@@ -222,7 +228,6 @@ footer {
 
 footer a { color: #ccc; text-decoration: none; margin: 0 6px; }
 footer a:hover { color: #ff4d4d; }
-
 </style>
 </head>
 <body>
