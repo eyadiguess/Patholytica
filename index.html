@@ -189,93 +189,58 @@
 <!-- VIDEO GRID -->
 <div class="grid">
 
-    <!-- VIDEO CARD 1 -->
-    <div class="video-card">
-        <img class="thumbnail" src="https://picsum.photos/400/250?random=1">
-        <div class="info">
-            <div class="title">Sample Video Title</div>
-            <div class="channel">Channel Name</div>
-            <label class="upload-btn">
-                Change Thumbnail
-                <input type="file" accept="image/*" onchange="changeThumb(this)">
-            </label>
-        </div>
-    </div>
+    <!-- Generate 10 semesters -->
+    <script>
+        const grid = document.querySelector('.grid');
+        for (let i = 1; i <= 10; i++) {
+            const card = document.createElement('div');
+            card.className = 'video-card';
+            card.innerHTML = `
+                <img class="thumbnail" src="https://picsum.photos/400/250?random=${i}">
+                <div class="info">
+                    <div class="title">Semester ${i}</div>
+                    <div class="channel">MedSchool</div>
+                    <label class="upload-btn">
+                        Change Thumbnail
+                        <input type="file" accept="image/*" onchange="changeThumb(this)">
+                    </label>
+                </div>
+            `;
+            grid.appendChild(card);
+        }
 
-    <!-- VIDEO CARD 2 -->
-    <div class="video-card">
-        <img class="thumbnail" src="https://picsum.photos/400/250?random=2">
-        <div class="info">
-            <div class="title">Another Video</div>
-            <div class="channel">Uploader</div>
-            <label class="upload-btn">
-                Change Thumbnail
-                <input type="file" accept="image/*" onchange="changeThumb(this)">
-            </label>
-        </div>
-    </div>
+        function changeThumb(input) {
+            const file = input.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = e => {
+                const card = input.closest('.video-card');
+                const img = card.querySelector('.thumbnail');
+                img.src = e.target.result; 
+            };
+            reader.readAsDataURL(file);
+        }
 
-    <!-- VIDEO CARD 3 -->
-    <div class="video-card">
-        <img class="thumbnail" src="https://picsum.photos/400/250?random=3">
-        <div class="info">
-            <div class="title">Educational Clip</div>
-            <div class="channel">MedSchool</div>
-            <label class="upload-btn">
-                Change Thumbnail
-                <input type="file" accept="image/*" onchange="changeThumb(this)">
-            </label>
-        </div>
-    </div>
+        function toggleMenu(icon) {
+            const menu = document.getElementById('menuButtons');
+            menu.classList.toggle('show');
 
-    <!-- VIDEO CARD 4 -->
-    <div class="video-card">
-        <img class="thumbnail" src="https://picsum.photos/400/250?random=4">
-        <div class="info">
-            <div class="title">Funny Moments</div>
-            <div class="channel">LaughHub</div>
-            <label class="upload-btn">
-                Change Thumbnail
-                <input type="file" accept="image/*" onchange="changeThumb(this)">
-            </label>
-        </div>
-    </div>
+            // Animate icon into X
+            icon.classList.toggle('active');
+            const spans = icon.querySelectorAll('span');
+            if (icon.classList.contains('active')) {
+                spans[0].style.transform = 'rotate(45deg) translate(5px,5px)';
+                spans[1].style.opacity = '0';
+                spans[2].style.transform = 'rotate(-45deg) translate(6px,-6px)';
+            } else {
+                spans[0].style.transform = 'rotate(0) translate(0,0)';
+                spans[1].style.opacity = '1';
+                spans[2].style.transform = 'rotate(0) translate(0,0)';
+            }
+        }
+    </script>
 
 </div>
-
-<script>
-function changeThumb(input) {
-    const file = input.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = e => {
-        const card = input.closest('.video-card');
-        const img = card.querySelector('.thumbnail');
-        img.src = e.target.result; 
-    };
-    reader.readAsDataURL(file);
-}
-
-// Toggle menu
-function toggleMenu(icon) {
-    const menu = document.getElementById('menuButtons');
-    menu.classList.toggle('show');
-
-    // Animate icon into X
-    icon.classList.toggle('active');
-    const spans = icon.querySelectorAll('span');
-    if (icon.classList.contains('active')) {
-        spans[0].style.transform = 'rotate(45deg) translate(5px,5px)';
-        spans[1].style.opacity = '0';
-        spans[2].style.transform = 'rotate(-45deg) translate(6px,-6px)';
-    } else {
-        spans[0].style.transform = 'rotate(0) translate(0,0)';
-        spans[1].style.opacity = '1';
-        spans[2].style.transform = 'rotate(0) translate(0,0)';
-    }
-}
-</script>
 
 </body>
 </html>
