@@ -6,22 +6,30 @@
 <title>Patholytica — by MedicineBank</title>
 <style>
 :root {
-  --bg-color: #0f0f0f;
-  --text-color: #fff;
+  --bg-color: #0f0f0f;            /* page background (dark) */
+  --text-color: #fff;            /* page text for dark */
   --card-bg: #181818;
   --card-border: #333;
   --hover-bg: #222;
   --hover-text: #ff4d4d;
   --accent: #9146FF; /* purple accent */
+
+  /* header (opposite of page) defaults for dark page */
+  --header-bg: #ffffff;
+  --header-text: #111111;
 }
 
 body.light-theme {
   --bg-color: #f5f5f5;
-  --text-color: #111;
-  --card-bg: #fff;
+  --text-color: #111111;
+  --card-bg: #ffffff;
   --card-border: #ccc;
   --hover-bg: #eee;
   --hover-text: #e74c3c;
+
+  /* when page is light, header should be dark */
+  --header-bg: #0f0f0f;
+  --header-text: #ffffff;
 }
 
 * { box-sizing: border-box; }
@@ -29,26 +37,23 @@ html, body { margin:0; padding:0; height:100%; font-family: Arial, sans-serif; }
 body { background: var(--bg-color); color:var(--text-color); transition: background 0.25s ease, color 0.25s ease; }
 
 /* LOADER / WELCOME ANIMATION */
-.splash {
-  position:fixed; inset:0; background:#000; z-index:9999; display:flex; align-items:center; justify-content:center; overflow:hidden;
-}
-.splash .mask {
-  position:absolute; inset:0; background:#000; clip-path:circle(0% at 50% 50%); -webkit-clip-path:circle(0% at 50% 50%);
-  transition:clip-path 1s ease-in-out, -webkit-clip-path 1s ease-in-out;
-}
+.splash { position:fixed; inset:0; background:#000; z-index:9999; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+.splash .mask { position:absolute; inset:0; background:#000; clip-path:circle(0% at 50% 50%); -webkit-clip-path:circle(0% at 50% 50%); transition:clip-path 1s ease-in-out, -webkit-clip-path 1s ease-in-out; }
 .splash.playing .mask { clip-path:circle(150% at 50% 50%); -webkit-clip-path:circle(150% at 50% 50%); }
-.splash .logo-wrap{position:relative; z-index:2; display:flex; align-items:center; justify-content:center; flex-direction:column;}
-.splash img{width:96px; height:96px; object-fit:contain; transform-origin:center; transition:transform 1s ease-in-out;}
+.splash .logo-wrap{ position:relative; z-index:2; display:flex; align-items:center; justify-content:center; flex-direction:column; }
+.splash img{ width:96px; height:96px; object-fit:contain; transform-origin:center; transition:transform 1s ease-in-out; }
 .splash.playing img{ transform: translateY(-110px) scale(0.9); }
 
 /* HEADER */
-.header-wrapper { position: sticky; top: 0; background: var(--card-bg); z-index: 100; box-shadow: 0 2px 6px rgba(0,0,0,0.35); }
-.header { display:flex; align-items:center; justify-content:space-between; padding: env(safe-area-inset-top) 20px; height:72px; }
+.header-wrapper { position: sticky; top: 0; background: var(--header-bg); color:var(--header-text); z-index: 100; box-shadow: 0 2px 6px rgba(0,0,0,0.12); }
+.header { display:flex; align-items:center; justify-content:space-between; padding: env(safe-area-inset-top) 20px; height:72px; gap:12px; }
+.header-left{ display:flex; align-items:center; gap:10px; }
 .logo-img { height:36px; width:auto; }
-.header-center { flex:1; display:flex; justify-content:center; }
+.site-title { font-weight:700; color:var(--header-text); font-size:18px; }
+.header-right{ display:flex; align-items:center; gap:12px; }
 
 .menu-icon { width:34px; height:28px; display:flex; flex-direction:column; justify-content:space-between; cursor:pointer; z-index:1001; }
-.menu-icon span { display:block; height:3px; background:var(--text-color); border-radius:2px; transition: all 0.25s ease; }
+.menu-icon span { display:block; height:3px; background:var(--header-text); border-radius:2px; transition: all 0.25s ease; }
 
 /* Menu buttons */
 .menu-buttons { position:absolute; top: calc(100% + 8px); right:20px; background: var(--card-bg); border:1px solid var(--card-border); border-radius:8px; display:flex; flex-direction:column; overflow:hidden; opacity:0; transform:translateY(-6px); pointer-events:none; transition:all 0.2s ease; z-index:1000; }
@@ -58,7 +63,7 @@ body { background: var(--bg-color); color:var(--text-color); transition: backgro
 .menu-buttons a:hover{ color:var(--accent); background:var(--hover-bg); padding-left:26px; }
 
 /* Theme toggle: icon-only */
-.theme-toggle { background:transparent; border:0; width:40px; height:40px; display:inline-flex; align-items:center; justify-content:center; border-radius:8px; cursor:pointer; color:var(--text-color); }
+.theme-toggle { background:transparent; border:0; width:40px; height:40px; display:inline-flex; align-items:center; justify-content:center; border-radius:8px; cursor:pointer; color:var(--header-text); }
 .theme-toggle svg{ width:20px; height:20px; }
 .theme-toggle:focus{ outline:2px solid rgba(145,70,255,0.18); }
 
@@ -67,14 +72,18 @@ body { background: var(--bg-color); color:var(--text-color); transition: backgro
 .grid { display:grid; gap:20px; grid-template-columns: repeat(auto-fill, minmax(250px,1fr)); }
 .video-card { background:var(--card-bg); border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.3); overflow:hidden; position:relative; transition:all 0.25s ease; }
 .video-card:hover { transform:translateY(-4px); box-shadow:0 8px 16px rgba(0,0,0,0.45); }
+.thumbnail-container{ position:relative; }
 .thumbnail { width:100%; height:200px; object-fit:cover; display:block; }
-.gradient-overlay {
-  position:absolute; bottom:0; left:0; width:100%; height:40%; background:linear-gradient(to top, rgba(0,0,0,0.75), rgba(0,0,0,0)); display:flex; align-items:flex-end; padding:8px 10px; z-index:1; pointer-events:none;
-}
+.gradient-overlay { position:absolute; bottom:0; left:0; width:100%; height:40%; background:linear-gradient(to top, rgba(0,0,0,0.75), rgba(0,0,0,0)); display:flex; align-items:flex-end; padding:8px 10px; z-index:1; pointer-events:none; }
 .title { font-size:14px; font-weight:700; color:#fff; }
-.info { padding:12px; display:flex; justify-content:flex-start; position:relative; z-index:2; margin-top:8px; }
-.upload-btn { display:inline-block; font-size:14px; color:var(--text-color); cursor:pointer; padding:8px 12px; border:1px solid var(--card-border); border-radius:6px; transition:all 0.2s ease; background:rgba(0,0,0,0.03); z-index:3; }
+.info { padding:12px; display:flex; justify-content:flex-start; }
+
+/* Upload button moved into thumbnail and brought to front */
+.upload-action { position:absolute; right:10px; bottom:10px; z-index:6; }
+.upload-btn { display:inline-flex; align-items:center; gap:8px; font-size:13px; color:var(--text-color); cursor:pointer; padding:8px 10px; border:1px solid var(--card-border); border-radius:6px; transition:all 0.18s ease; background: rgba(0,0,0,0.45); backdrop-filter: blur(4px); }
 .upload-btn input { display:none; }
+.upload-btn:hover{ transform:translateY(-3px); border-color:var(--accent); color:var(--accent); }
+
 .add-card { display:flex; align-items:center; justify-content:center; font-size:40px; color:#aaa; cursor:pointer; min-height:200px; }
 
 /* FOOTER */
@@ -89,8 +98,6 @@ footer a:hover { color:var(--accent); }
   .header{ padding-left:12px; padding-right:12px; height:64px; }
   .menu-buttons{ right:12px; }
 
-  /* Header layout optimized: hide center title, keep logo and controls visible */
-  .header-center{ display:none !important; }
   .logo-img{ height:32px; }
   .theme-toggle{ width:38px; height:38px; }
 
@@ -102,7 +109,7 @@ footer a:hover { color:var(--accent); }
 /* Ensure logo and splash are visible in light mode even if the image is white */
 body.light-theme .logo-img,
 body.light-theme #splashLogo{
-  /* invert/contrast to make white logos visible on light backgrounds; tweak if logo already colored */
+  /* fallback inversion for single-colour white logos; replace with true colored SVG if available */
   filter: invert(0.95) brightness(0.9) saturate(0.6);
 }
 
@@ -112,7 +119,6 @@ body.light-theme #splashLogo{
   .logo-img{ height:28px; }
   .theme-container{ padding:10px; }
 }
-.header{ padding-left:12px; padding-right:12px; } .menu-buttons{ right:12px; } }
 
 </style>
 </head>
@@ -129,18 +135,15 @@ body.light-theme #splashLogo{
 
 <div class="header-wrapper">
   <div class="header">
-    <img src="IMG_0696.png" class="logo-img" alt="Patholytica Logo">
-
-    
+    <div class="header-left">
+      <img src="IMG_0696.png" class="logo-img" alt="Patholytica Logo">
+      <div class="site-title">Patholytica</div>
     </div>
 
-    <div style="display:flex;align-items:center;gap:12px;">
-      <!-- theme toggle: icon only -->
+    <div class="header-right">
+      <!-- theme toggle: icon-only -->
       <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
-        <!-- moon / sun SVGs will be swapped by JS -->
-        <svg id="iconSvg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" fill="currentColor" />
-        </svg>
+        <svg id="iconSvg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"></svg>
       </button>
 
       <div class="menu-icon" onclick="toggleMenu(this)" aria-label="Open menu" role="button" tabindex="0">
@@ -175,21 +178,15 @@ body.light-theme #splashLogo{
 // Splash animation: play on load, then remove after 1s
 (function(){
   const splash = document.getElementById('splash');
-  const mask = document.getElementById('splashMask');
   const logo = document.getElementById('splashLogo');
-
-  // ensure image is loaded before animating
   function play(){
-    // add class that expands mask and moves logo up
     splash.classList.add('playing');
-    // after animation (1s) hide splash
     setTimeout(()=>{ splash.style.pointerEvents='none'; splash.style.opacity='0'; splash.style.transition='opacity 0.35s ease'; setTimeout(()=>splash.remove(),400); }, 1000);
   }
-
   if(logo.complete) play(); else logo.onload = play;
 })();
 
-// Grid setup
+// Grid setup (upload button moved into thumbnail container so it floats above gradient)
 const grid = document.getElementById('grid');
 for (let i=1; i<=10; i++) {
   const card = document.createElement('div');
@@ -199,10 +196,13 @@ for (let i=1; i<=10; i++) {
       <div class="thumbnail-container">
         <img class="thumbnail" src="https://picsum.photos/400/250?random=${i}" alt="Semester ${i}">
         <div class="gradient-overlay"><div class="title">Semester ${i}</div></div>
+        <label class="upload-action">
+          <span class="upload-btn">Change ▶<input type="file" accept="image/*" onchange="changeThumb(this)"></span>
+        </label>
       </div>
     </a>
     <div class="info">
-      <label class="upload-btn">Change Thumbnail →<input type="file" accept="image/*" onchange="changeThumb(this)"></label>
+      <!-- metadata or description could go here -->
     </div>
   `;
   grid.appendChild(card);
@@ -220,11 +220,12 @@ addCard.onclick = ()=>{
       <div class="thumbnail-container">
         <img class="thumbnail" src="https://picsum.photos/400/250?random=${semesterNum+10}" alt="Semester ${semesterNum}">
         <div class="gradient-overlay"><div class="title">Semester ${semesterNum}</div></div>
+        <label class="upload-action">
+          <span class="upload-btn">Change ▶<input type="file" accept="image/*" onchange="changeThumb(this)"></span>
+        </label>
       </div>
     </a>
-    <div class="info">
-      <label class="upload-btn">Change Thumbnail →<input type="file" accept="image/*" onchange="changeThumb(this)"></label>
-    </div>
+    <div class="info"></div>
   `;
   grid.insertBefore(newCard, addCard);
 };
@@ -234,7 +235,7 @@ grid.appendChild(addCard);
 function changeThumb(input){
   const file=input.files[0]; if(!file) return;
   const reader=new FileReader();
-  reader.onload=e=>{ input.closest('.video-card').querySelector('.thumbnail').src=e.target.result; }
+  reader.onload=e=>{ input.closest('.thumbnail-container').querySelector('.thumbnail').src=e.target.result; }
   reader.readAsDataURL(file);
 }
 
@@ -256,39 +257,29 @@ document.addEventListener('click', e=>{
   if(!menu.contains(e.target)&&!icon.contains(e.target)&&menu.classList.contains('show')) toggleMenu(icon);
 });
 
-// Theme toggle (icon-only)
+// Theme toggle (icon-only) and header color inversion
 const themeBtn = document.getElementById('themeToggle');
 const iconSvg = document.getElementById('iconSvg');
 function setIcon(isLight){
-  // clearer sun and moon icons drawn with simple shapes and strokes for crispness
   if(isLight){
-    // sun (stroke-based for better visibility)
     iconSvg.innerHTML = `
       <g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="12" cy="12" r="4"></circle>
         <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
       </g>`;
   } else {
-    // moon (filled, high-contrast)
     iconSvg.innerHTML = `<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" fill="currentColor" />`;
   }
 }
-
 function applyTheme(isLight){
   if(isLight) document.body.classList.add('light-theme'); else document.body.classList.remove('light-theme');
   setIcon(isLight);
+  // when theme changes, header colors are controlled via CSS variables (see :root and .light-theme)
 }
-
-// init from localStorage or prefer dark
 const saved = localStorage.getItem('theme');
 const isLight = saved ? saved === 'light' : false;
 applyTheme(isLight);
-
-themeBtn.addEventListener('click', ()=>{
-  const nowLight = !document.body.classList.contains('light-theme');
-  applyTheme(nowLight);
-  localStorage.setItem('theme', nowLight ? 'light' : 'dark');
-});
+themeBtn.addEventListener('click', ()=>{ const nowLight = !document.body.classList.contains('light-theme'); applyTheme(nowLight); localStorage.setItem('theme', nowLight ? 'light' : 'dark'); });
 
 </script>
 </body>
