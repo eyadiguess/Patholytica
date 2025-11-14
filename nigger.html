@@ -11,7 +11,7 @@
   <style>
     html, body { max-width:100%; overflow-x:hidden; }
     :root{
-      --blue:#0A66C2; /* LinkedIn‑style blue */
+      --blue:#9146FF; /* LinkedIn‑style blue */
       --light:#ffffff;
       --bg:#f5f7fa;
       --text:#1a1a1a;
@@ -19,6 +19,14 @@
       --card:#ffffff;
       --radius:12px;
       font-family:'Inter', sans-serif;
+    }
+
+    /* Dark mode overrides (body.dark) */
+    body.dark {
+      --bg:#0b0f14;
+      --card:#0f1720;
+      --text:#e6eef6;
+      --sub:#9aa6b2;
     }
 
     body{
@@ -204,7 +212,10 @@
       <a href="#">Articles</a>
       <a href="#">Community</a>
       <a href="#">About</a>
-    </nav>
+      <div style="display:flex;align-items:center;gap:12px">
+      <button id="themeToggle" aria-label="Toggle dark mode" title="Toggle dark mode" style="background:transparent;border:1px solid rgba(255,255,255,0.12);color:inherit;padding:6px 10px;border-radius:8px;cursor:pointer;font-weight:600">🌙</button>
+    </div>
+  </nav>
   </header>
 
 
@@ -267,5 +278,31 @@
     <span>© 2025 Patholytica — Educational Medical Platform</span>
   </footer>
   <div style="height:400px"></div>
+  <script>
+    // Theme toggle: stores preference in localStorage
+    (function(){
+      const btn = document.getElementById('themeToggle');
+      const root = document.body;
+      const preferDark = localStorage.getItem('patholytica-theme') === 'dark';
+      function apply(dark){
+        if(dark){
+          root.classList.add('dark');
+          btn.textContent = '☀️';
+          btn.title = 'Switch to light mode';
+        } else {
+          root.classList.remove('dark');
+          btn.textContent = '🌙';
+          btn.title = 'Switch to dark mode';
+        }
+      }
+      apply(preferDark);
+      btn.addEventListener('click', ()=>{
+        const isDark = root.classList.toggle('dark');
+        localStorage.setItem('patholytica-theme', isDark ? 'dark' : 'light');
+        apply(isDark);
+      });
+    })();
+  </script>
 </body>
 </html>
+
