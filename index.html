@@ -1,383 +1,233 @@
-import React, { useState, useRef } from ‘react’;
-import { Heart, Bookmark, MessageCircle, Share2, FileText, Image, Mic, X, Plus, MoreVertical } from ‘lucide-react’;
-
-const EducationalSocialFeed = () => {
-const [theme, setTheme] = useState(‘dark’);
-const [menuOpen, setMenuOpen] = useState(false);
-const [posts, setPosts] = useState([
-{
-id: 1,
-author: { name: ‘Dr. Sarah Chen’, avatar: ‘https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah’, role: ‘Professor’ },
-timestamp: ‘2 hours ago’,
-content: ‘Understanding cardiac physiology is crucial. Here's a comprehensive guide on the electrical conduction system of the heart.’,
-media: { type: ‘image’, url: ‘https://picsum.photos/600/400?random=1’ },
-attachments: [{ type: ‘pdf’, name: ‘cardiac_conduction.pdf’, size: ‘2.4 MB’ }],
-likes: 234,
-comments: 45,
-saved: false,
-liked: false,
-tags: [‘Cardiology’, ‘Physiology’]
-},
-{
-id: 2,
-author: { name: ‘Dr. James Wilson’, avatar: ‘https://api.dicebear.com/7.x/avataaars/svg?seed=James’, role: ‘Researcher’ },
-timestamp: ‘5 hours ago’,
-content: ‘New findings in neuroplasticity research! Listen to my summary of the latest journal publication.’,
-media: { type: ‘audio’, url: ‘audio.mp3’, duration: ‘5:32’ },
-attachments: [],
-likes: 189,
-comments: 28,
-saved: false,
-liked: false,
-tags: [‘Neuroscience’, ‘Research’]
-},
-{
-id: 3,
-author: { name: ‘Dr. Maya Patel’, avatar: ‘https://api.dicebear.com/7.x/avataaars/svg?seed=Maya’, role: ‘Medical Student’ },
-timestamp: ‘1 day ago’,
-content: ‘Quick study tips for anatomy finals! Breaking down the brachial plexus in a way that actually makes sense.’,
-media: { type: ‘image’, url: ‘https://picsum.photos/600/400?random=2’ },
-attachments: [
-{ type: ‘pdf’, name: ‘brachial_plexus_notes.pdf’, size: ‘1.8 MB’ },
-{ type: ‘pdf’, name: ‘practice_questions.pdf’, size: ‘890 KB’ }
-],
-likes: 567,
-comments: 93,
-saved: false,
-liked: false,
-tags: [‘Anatomy’, ‘Study Tips’]
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Patholytica — by MedicineBank</title>
+<style>
+:root {
+  --bg-color: #0f0f0f;
+  --text-color: #fff;
+  --card-bg: #181818;
+  --card-border: #333;
+  --hover-bg: #222;
+  --hover-text: #ff4d4d;
 }
-]);
-const [newPostModal, setNewPostModal] = useState(false);
-const [newPost, setNewPost] = useState({ content: ‘’, media: null, attachments: [] });
-const fileInputRef = useRef(null);
-const audioInputRef = useRef(null);
-const pdfInputRef = useRef(null);
 
-const toggleTheme = () => setTheme(theme === ‘dark’ ? ‘light’ : ‘dark’);
+body.light-theme {
+  --bg-color: #f5f5f5;
+  --text-color: #111;
+  --card-bg: #fff;
+  --card-border: #ccc;
+  --hover-bg: #eee;
+  --hover-text: #e74c3c;
+}
 
-const handleLike = (postId) => {
-setPosts(posts.map(post =>
-post.id === postId
-? { …post, liked: !post.liked, likes: post.liked ? post.likes - 1 : post.likes + 1 }
-: post
-));
+* { box-sizing: border-box; }
+html, body { margin:0; padding:0; height:100%; font-family: Arial, sans-serif; }
+
+body { background: var(--bg-color); transition: background 0.3s ease; }
+
+/* HEADER */
+.header-wrapper {
+  position: sticky;
+  top: 0;
+  background: #181818;
+  z-index: 100;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: env(safe-area-inset-top) 16px 0 16px;
+  height: 50px;
+}
+
+.logo-img { height: 28px; width: auto; }
+
+.header-center { flex: 1; display: flex; justify-content: center; }
+
+.menu-icon {
+  width: 25px; height: 20px; display: flex; flex-direction: column; justify-content: space-between;
+  cursor: pointer; z-index: 1001;
+}
+.menu-icon span { display:block; height:3px; background:#fff; border-radius:2px; transition: all 0.3s ease; }
+
+/* Menu buttons */
+.menu-buttons {
+  position: absolute; top: calc(100% + 1px); right: 16px;
+  background: #181818; border:1px solid #333; border-radius:6px;
+  display:flex; flex-direction:column; overflow:hidden; opacity:0;
+  transform:translateY(-10px); pointer-events:none; transition:all 0.3s ease; z-index:1000;
+}
+.menu-buttons.show { opacity:1; transform:translateY(0); pointer-events:all; }
+.menu-buttons a { padding:12px 20px; font-size:14px; color:#ccc; text-decoration:none; border-bottom:1px solid #333; white-space:nowrap; transition: all 0.2s ease; }
+.menu-buttons a:last-child { border-bottom:none; }
+.menu-buttons a:hover { color:var(--hover-text); background:var(--hover-bg); padding-left:24px; }
+
+/* Theme toggle */
+.theme-toggle {
+  padding:4px 10px; border-radius:4px; border:1px solid #333; font-size:12px;
+  background:#181818; color:#fff; cursor:pointer; transition: all 0.3s ease;
+}
+body.light-theme .theme-toggle { border-color:#fff; background:#fff; color:#111; }
+.theme-toggle:hover { background:var(--hover-bg); color:var(--hover-text); border-color:var(--hover-text); }
+
+/* GRID */
+.theme-container {
+  padding:20px calc(20px + env(safe-area-inset-left)) calc(20px + env(safe-area-inset-bottom)) calc(20px + env(safe-area-inset-right));
+  min-height: calc(100vh - 50px - env(safe-area-inset-top)); background: var(--bg-color);
+}
+.grid { display:grid; gap:20px; grid-template-columns: repeat(auto-fill, minmax(250px,1fr)); }
+
+.video-card { background:var(--card-bg); border-radius:6px; box-shadow:0 2px 8px rgba(0,0,0,0.3); overflow:hidden; position:relative; transition:all 0.3s ease; }
+.video-card:hover { transform:translateY(-4px); box-shadow:0 8px 16px rgba(0,0,0,0.5); }
+
+.thumbnail-link { display:block; width:100%; text-decoration:none; color:inherit; position:relative; }
+.thumbnail-container { position:relative; overflow:hidden; }
+.thumbnail { width:100%; height:200px; object-fit:cover; display:block; transition:transform 0.3s ease; }
+.video-card:hover .thumbnail { transform:scale(1.05); }
+
+.gradient-overlay {
+  position:absolute; bottom:0; left:0; width:100%; height:40%;
+  background:linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0));
+  display:flex; align-items:flex-end; padding:5px 10px;
+}
+.title { font-size:14px; font-weight:bold; color:#fff !important; }
+
+.info { padding:12px; display:flex; justify-content:flex-start; }
+
+.upload-btn { display:inline-block; font-size:14px; color:var(--text-color); cursor:pointer; padding:8px 12px; border:1px solid var(--card-border); border-radius:6px; transition:all 0.3s ease; }
+.upload-btn:hover { color:var(--hover-text); border-color:var(--hover-text); }
+.upload-btn input { display:none; }
+
+.add-card { display:flex; align-items:center; justify-content:center; font-size:36px; color:#aaa; cursor:pointer; transition:all 0.3s ease; }
+.add-card:hover { background:var(--hover-bg); color:var(--hover-text); transform:scale(1.05); }
+
+/* FOOTER */
+footer {
+  margin-top:40px; padding:20px calc(20px + env(safe-area-inset-left)) calc(20px + env(safe-area-inset-bottom)) calc(20px + env(safe-area-inset-right));
+  text-align:center; font-size:12px; color:#888; border-top:1px solid var(--card-border); background:var(--bg-color);
+}
+footer a { color:#888; text-decoration:none; margin:0 8px; transition:color 0.2s ease; }
+footer a:hover { color:var(--hover-text); }
+
+@media (max-width:640px) { .grid { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+
+<div class="header-wrapper">
+  <div class="header">
+    <img src="IMG_0696.png" class="logo-img" alt="Patholytica Logo">
+    <div class="header-center">
+      <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
+    </div>
+    <div class="menu-icon" onclick="toggleMenu(this)">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <div class="menu-buttons" id="menuButtons">
+      <a href="login.html">🔐 Login</a>
+      <a href="profile.html">👤 Profile</a>
+      <a href="settings.html">⚙️ Settings</a>
+      <a href="help.html">❓ Help</a>
+      <a href="admin.html">🛡️ Admin Dashboard</a>
+      <a href="logout.html">🚪 Logout</a>
+    </div>
+  </div>
+</div>
+
+<div class="theme-container">
+  <div class="grid" id="grid"></div>
+</div>
+
+<footer>
+  &copy; 2025 Patholytica by MedicineBank. All rights reserved.
+  <br>
+  <a href="#">Privacy Policy</a> |
+  <a href="#">Terms of Service</a> |
+  <a href="#">Contact</a>
+</footer>
+
+<script>
+// Grid setup
+const grid = document.getElementById('grid');
+for (let i=1; i<=10; i++) {
+  const card = document.createElement('div');
+  card.className = 'video-card';
+  card.innerHTML = `
+    <a href="semester${i}.html" class="thumbnail-link">
+      <div class="thumbnail-container">
+        <img class="thumbnail" src="https://picsum.photos/400/250?random=${i}">
+        <div class="gradient-overlay"><div class="title">Semester ${i}</div></div>
+      </div>
+    </a>
+    <div class="info">
+      <label class="upload-btn">Change Thumbnail →<input type="file" accept="image/*" onchange="changeThumb(this)"></label>
+    </div>
+  `;
+  grid.appendChild(card);
+}
+
+// Add card
+const addCard = document.createElement('div');
+addCard.className='video-card add-card';
+addCard.innerHTML='+';
+addCard.onclick = ()=>{
+  const semesterNum = grid.querySelectorAll('.video-card:not(.add-card)').length+1;
+  const newCard = document.createElement('div');
+  newCard.className='video-card';
+  newCard.innerHTML=`
+    <a href="semester${semesterNum}.html" class="thumbnail-link">
+      <div class="thumbnail-container">
+        <img class="thumbnail" src="https://picsum.photos/400/250?random=${semesterNum+10}">
+        <div class="gradient-overlay"><div class="title">Semester ${semesterNum}</div></div>
+      </div>
+    </a>
+    <div class="info">
+      <label class="upload-btn">Change Thumbnail →<input type="file" accept="image/*" onchange="changeThumb(this)"></label>
+    </div>
+  `;
+  grid.insertBefore(newCard, addCard);
 };
+grid.appendChild(addCard);
 
-const handleSave = (postId) => {
-setPosts(posts.map(post =>
-post.id === postId
-? { …post, saved: !post.saved }
-: post
-));
-};
+// Thumbnail upload
+function changeThumb(input){
+  const file=input.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=e=>{ input.closest('.video-card').querySelector('.thumbnail').src=e.target.result; }
+  reader.readAsDataURL(file);
+}
 
-const handleMediaUpload = (e, type) => {
-const file = e.target.files[0];
-if (!file) return;
+// Hamburger toggle
+function toggleMenu(icon){
+  const menu=document.getElementById('menuButtons');
+  menu.classList.toggle('show'); icon.classList.toggle('active');
+  const spans=icon.querySelectorAll('span');
+  if(icon.classList.contains('active')){
+    spans[0].style.transform='rotate(45deg) translate(5px,5px)';
+    spans[1].style.opacity='0';
+    spans[2].style.transform='rotate(-45deg) translate(6px,-6px)';
+  } else { spans[0].style.transform='none'; spans[1].style.opacity='1'; spans[2].style.transform='none'; }
+}
 
-```
-const reader = new FileReader();
-reader.onload = (event) => {
-  if (type === 'image') {
-    setNewPost({ ...newPost, media: { type: 'image', url: event.target.result } });
-  } else if (type === 'audio') {
-    setNewPost({ ...newPost, media: { type: 'audio', url: event.target.result, duration: '0:00' } });
-  }
-};
-reader.readAsDataURL(file);
-```
-
-};
-
-const handlePdfUpload = (e) => {
-const files = Array.from(e.target.files);
-const newAttachments = files.map(file => ({
-type: ‘pdf’,
-name: file.name,
-size: `${(file.size / 1024 / 1024).toFixed(1)} MB`
-}));
-setNewPost({ …newPost, attachments: […newPost.attachments, …newAttachments] });
-};
-
-const removeAttachment = (index) => {
-setNewPost({
-…newPost,
-attachments: newPost.attachments.filter((_, i) => i !== index)
+// Close menu
+document.addEventListener('click', e=>{
+  const menu=document.getElementById('menuButtons');
+  const icon=document.querySelector('.menu-icon');
+  if(!menu.contains(e.target)&&!icon.contains(e.target)&&menu.classList.contains('show')) toggleMenu(icon);
 });
-};
 
-const createPost = () => {
-if (!newPost.content.trim()) return;
-
-```
-const post = {
-  id: posts.length + 1,
-  author: { name: 'You', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=You', role: 'Student' },
-  timestamp: 'Just now',
-  content: newPost.content,
-  media: newPost.media,
-  attachments: newPost.attachments,
-  likes: 0,
-  comments: 0,
-  saved: false,
-  liked: false,
-  tags: []
-};
-
-setPosts([post, ...posts]);
-setNewPost({ content: '', media: null, attachments: [] });
-setNewPostModal(false);
-```
-
-};
-
-const bgColor = theme === ‘dark’ ? ‘#0f0f0f’ : ‘#f5f5f5’;
-const cardBg = theme === ‘dark’ ? ‘#181818’ : ‘#fff’;
-const textColor = theme === ‘dark’ ? ‘#fff’ : ‘#111’;
-const mutedColor = theme === ‘dark’ ? ‘#888’ : ‘#666’;
-const borderColor = theme === ‘dark’ ? ‘#333’ : ‘#ddd’;
-const hoverBg = theme === ‘dark’ ? ‘#222’ : ‘#f0f0f0’;
-
-return (
-<div style={{ minHeight: ‘100vh’, backgroundColor: bgColor, color: textColor, fontFamily: ‘Arial, sans-serif’ }}>
-{/* Header */}
-<div style={{ position: ‘sticky’, top: 0, backgroundColor: cardBg, borderBottom: `1px solid ${borderColor}`, zIndex: 100 }}>
-<div style={{ display: ‘flex’, alignItems: ‘center’, justifyContent: ‘space-between’, padding: ‘12px 20px’, maxWidth: ‘1200px’, margin: ‘0 auto’ }}>
-<div style={{ display: ‘flex’, alignItems: ‘center’, gap: ‘12px’ }}>
-<div style={{ width: ‘40px’, height: ‘40px’, background: ‘linear-gradient(135deg, #667eea 0%, #764ba2 100%)’, borderRadius: ‘8px’, display: ‘flex’, alignItems: ‘center’, justifyContent: ‘center’, fontWeight: ‘bold’, fontSize: ‘20px’ }}>P</div>
-<span style={{ fontSize: ‘20px’, fontWeight: ‘bold’ }}>Patholytica</span>
-</div>
-
-```
-      <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-        <button onClick={toggleTheme} style={{ padding: '8px 16px', borderRadius: '6px', border: `1px solid ${borderColor}`, background: cardBg, color: textColor, cursor: 'pointer' }}>
-          {theme === 'dark' ? '☀️' : '🌙'}
-        </button>
-        <div style={{ position: 'relative' }}>
-          <button onClick={() => setMenuOpen(!menuOpen)} style={{ padding: '8px', background: 'transparent', border: 'none', cursor: 'pointer', color: textColor }}>
-            <MoreVertical size={24} />
-          </button>
-          {menuOpen && (
-            <div style={{ position: 'absolute', top: '100%', right: 0, marginTop: '8px', background: cardBg, border: `1px solid ${borderColor}`, borderRadius: '8px', minWidth: '200px', boxShadow: '0 4px 12px rgba(0,0,0,0.3)' }}>
-              {['Profile', 'Settings', 'Help', 'Logout'].map(item => (
-                <div key={item} style={{ padding: '12px 16px', cursor: 'pointer', borderBottom: `1px solid ${borderColor}`, transition: 'all 0.2s' }} onMouseOver={(e) => e.currentTarget.style.background = hoverBg} onMouseOut={(e) => e.currentTarget.style.background = 'transparent'}>
-                  {item}
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
-  </div>
-
-  {/* Main Content */}
-  <div style={{ maxWidth: '800px', margin: '0 auto', padding: '20px' }}>
-    {/* Create Post Button */}
-    <button onClick={() => setNewPostModal(true)} style={{ width: '100%', padding: '16px', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', color: '#fff', border: 'none', borderRadius: '12px', fontSize: '16px', fontWeight: 'bold', cursor: 'pointer', marginBottom: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
-      <Plus size={20} /> Create Educational Post
-    </button>
-
-    {/* Posts Feed */}
-    {posts.map(post => (
-      <div key={post.id} style={{ background: cardBg, borderRadius: '12px', marginBottom: '20px', border: `1px solid ${borderColor}`, overflow: 'hidden' }}>
-        {/* Post Header */}
-        <div style={{ padding: '16px', display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <img src={post.author.avatar} alt={post.author.name} style={{ width: '48px', height: '48px', borderRadius: '50%' }} />
-          <div style={{ flex: 1 }}>
-            <div style={{ fontWeight: 'bold', fontSize: '15px' }}>{post.author.name}</div>
-            <div style={{ fontSize: '13px', color: mutedColor }}>{post.author.role} • {post.timestamp}</div>
-          </div>
-        </div>
-
-        {/* Post Content */}
-        <div style={{ padding: '0 16px 16px' }}>
-          <p style={{ margin: '0 0 12px', lineHeight: '1.5' }}>{post.content}</p>
-          
-          {/* Tags */}
-          {post.tags && post.tags.length > 0 && (
-            <div style={{ display: 'flex', gap: '8px', marginBottom: '12px', flexWrap: 'wrap' }}>
-              {post.tags.map(tag => (
-                <span key={tag} style={{ padding: '4px 12px', background: theme === 'dark' ? '#2a2a2a' : '#e8e8e8', borderRadius: '16px', fontSize: '12px', color: mutedColor }}>
-                  #{tag}
-                </span>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Media */}
-        {post.media && (
-          <div>
-            {post.media.type === 'image' && (
-              <img src={post.media.url} alt="Post media" style={{ width: '100%', display: 'block' }} />
-            )}
-            {post.media.type === 'audio' && (
-              <div style={{ padding: '0 16px 16px' }}>
-                <div style={{ background: theme === 'dark' ? '#2a2a2a' : '#f0f0f0', borderRadius: '12px', padding: '16px', display: 'flex', alignItems: 'center', gap: '12px' }}>
-                  <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <Mic size={24} color="#fff" />
-                  </div>
-                  <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: '14px', fontWeight: 'bold', marginBottom: '4px' }}>Voice Recording</div>
-                    <div style={{ fontSize: '13px', color: mutedColor }}>Duration: {post.media.duration}</div>
-                  </div>
-                  <button style={{ padding: '8px 16px', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', color: '#fff', border: 'none', borderRadius: '6px', cursor: 'pointer', fontSize: '14px' }}>
-                    Play
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* Attachments */}
-        {post.attachments && post.attachments.length > 0 && (
-          <div style={{ padding: '0 16px 16px' }}>
-            {post.attachments.map((attachment, idx) => (
-              <div key={idx} style={{ background: theme === 'dark' ? '#2a2a2a' : '#f0f0f0', borderRadius: '8px', padding: '12px', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <FileText size={24} color="#667eea" />
-                <div style={{ flex: 1 }}>
-                  <div style={{ fontSize: '14px', fontWeight: '500' }}>{attachment.name}</div>
-                  <div style={{ fontSize: '12px', color: mutedColor }}>{attachment.size}</div>
-                </div>
-                <button style={{ padding: '6px 12px', background: 'transparent', border: `1px solid ${borderColor}`, borderRadius: '6px', cursor: 'pointer', color: textColor, fontSize: '13px' }}>
-                  Download
-                </button>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* Post Actions */}
-        <div style={{ padding: '12px 16px', borderTop: `1px solid ${borderColor}`, display: 'flex', justifyContent: 'space-around' }}>
-          <button onClick={() => handleLike(post.id)} style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'transparent', border: 'none', color: post.liked ? '#ff4d4d' : textColor, cursor: 'pointer', fontSize: '14px', padding: '8px 16px', borderRadius: '6px', transition: 'all 0.2s' }} onMouseOver={(e) => e.currentTarget.style.background = hoverBg} onMouseOut={(e) => e.currentTarget.style.background = 'transparent'}>
-            <Heart size={20} fill={post.liked ? '#ff4d4d' : 'none'} />
-            <span>{post.likes}</span>
-          </button>
-          <button style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'transparent', border: 'none', color: textColor, cursor: 'pointer', fontSize: '14px', padding: '8px 16px', borderRadius: '6px' }} onMouseOver={(e) => e.currentTarget.style.background = hoverBg} onMouseOut={(e) => e.currentTarget.style.background = 'transparent'}>
-            <MessageCircle size={20} />
-            <span>{post.comments}</span>
-          </button>
-          <button onClick={() => handleSave(post.id)} style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'transparent', border: 'none', color: post.saved ? '#4CAF50' : textColor, cursor: 'pointer', fontSize: '14px', padding: '8px 16px', borderRadius: '6px' }} onMouseOver={(e) => e.currentTarget.style.background = hoverBg} onMouseOut={(e) => e.currentTarget.style.background = 'transparent'}>
-            <Bookmark size={20} fill={post.saved ? '#4CAF50' : 'none'} />
-            <span>{post.saved ? 'Saved' : 'Save'}</span>
-          </button>
-          <button style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'transparent', border: 'none', color: textColor, cursor: 'pointer', fontSize: '14px', padding: '8px 16px', borderRadius: '6px' }} onMouseOver={(e) => e.currentTarget.style.background = hoverBg} onMouseOut={(e) => e.currentTarget.style.background = 'transparent'}>
-            <Share2 size={20} />
-          </button>
-        </div>
-      </div>
-    ))}
-  </div>
-
-  {/* Create Post Modal */}
-  {newPostModal && (
-    <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: '20px' }} onClick={(e) => e.target === e.currentTarget && setNewPostModal(false)}>
-      <div style={{ background: cardBg, borderRadius: '16px', maxWidth: '600px', width: '100%', maxHeight: '90vh', overflow: 'auto' }}>
-        {/* Modal Header */}
-        <div style={{ padding: '20px', borderBottom: `1px solid ${borderColor}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <h2 style={{ margin: 0, fontSize: '20px' }}>Create Educational Post</h2>
-          <button onClick={() => setNewPostModal(false)} style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: textColor }}>
-            <X size={24} />
-          </button>
-        </div>
-
-        {/* Modal Body */}
-        <div style={{ padding: '20px' }}>
-          <textarea
-            value={newPost.content}
-            onChange={(e) => setNewPost({ ...newPost, content: e.target.value })}
-            placeholder="Share your knowledge... What would you like to teach today?"
-            style={{ width: '100%', minHeight: '120px', padding: '12px', background: theme === 'dark' ? '#2a2a2a' : '#f9f9f9', border: `1px solid ${borderColor}`, borderRadius: '8px', color: textColor, fontSize: '15px', fontFamily: 'inherit', resize: 'vertical' }}
-          />
-
-          {/* Media Preview */}
-          {newPost.media && (
-            <div style={{ marginTop: '16px', position: 'relative' }}>
-              {newPost.media.type === 'image' && (
-                <div style={{ position: 'relative' }}>
-                  <img src={newPost.media.url} alt="Preview" style={{ width: '100%', borderRadius: '8px' }} />
-                  <button onClick={() => setNewPost({ ...newPost, media: null })} style={{ position: 'absolute', top: '8px', right: '8px', background: '#000', border: 'none', borderRadius: '50%', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
-                    <X size={20} color="#fff" />
-                  </button>
-                </div>
-              )}
-              {newPost.media.type === 'audio' && (
-                <div style={{ background: theme === 'dark' ? '#2a2a2a' : '#f0f0f0', borderRadius: '8px', padding: '16px', display: 'flex', alignItems: 'center', gap: '12px' }}>
-                  <Mic size={24} color="#667eea" />
-                  <span style={{ flex: 1 }}>Voice recording attached</span>
-                  <button onClick={() => setNewPost({ ...newPost, media: null })} style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: textColor }}>
-                    <X size={20} />
-                  </button>
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* Attachments Preview */}
-          {newPost.attachments.length > 0 && (
-            <div style={{ marginTop: '16px' }}>
-              {newPost.attachments.map((att, idx) => (
-                <div key={idx} style={{ background: theme === 'dark' ? '#2a2a2a' : '#f0f0f0', borderRadius: '8px', padding: '12px', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '12px' }}>
-                  <FileText size={20} color="#667eea" />
-                  <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: '14px' }}>{att.name}</div>
-                    <div style={{ fontSize: '12px', color: mutedColor }}>{att.size}</div>
-                  </div>
-                  <button onClick={() => removeAttachment(idx)} style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: textColor }}>
-                    <X size={20} />
-                  </button>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {/* Upload Buttons */}
-          <div style={{ marginTop: '16px', display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-            <input ref={fileInputRef} type="file" accept="image/*" onChange={(e) => handleMediaUpload(e, 'image')} style={{ display: 'none' }} />
-            <button onClick={() => fileInputRef.current?.click()} style={{ padding: '10px 16px', background: theme === 'dark' ? '#2a2a2a' : '#f0f0f0', border: `1px solid ${borderColor}`, borderRadius: '8px', cursor: 'pointer', color: textColor, display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px' }}>
-              <Image size={18} /> Add Image
-            </button>
-            
-            <input ref={audioInputRef} type="file" accept="audio/*" onChange={(e) => handleMediaUpload(e, 'audio')} style={{ display: 'none' }} />
-            <button onClick={() => audioInputRef.current?.click()} style={{ padding: '10px 16px', background: theme === 'dark' ? '#2a2a2a' : '#f0f0f0', border: `1px solid ${borderColor}`, borderRadius: '8px', cursor: 'pointer', color: textColor, display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px' }}>
-              <Mic size={18} /> Add Audio
-            </button>
-            
-            <input ref={pdfInputRef} type="file" accept=".pdf" multiple onChange={handlePdfUpload} style={{ display: 'none' }} />
-            <button onClick={() => pdfInputRef.current?.click()} style={{ padding: '10px 16px', background: theme === 'dark' ? '#2a2a2a' : '#f0f0f0', border: `1px solid ${borderColor}`, borderRadius: '8px', cursor: 'pointer', color: textColor, display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px' }}>
-              <FileText size={18} /> Add PDF
-            </button>
-          </div>
-        </div>
-
-        {/* Modal Footer */}
-        <div style={{ padding: '20px', borderTop: `1px solid ${borderColor}`, display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
-          <button onClick={() => setNewPostModal(false)} style={{ padding: '10px 24px', background: 'transparent', border: `1px solid ${borderColor}`, borderRadius: '8px', cursor: 'pointer', color: textColor, fontSize: '14px' }}>
-            Cancel
-          </button>
-          <button onClick={createPost} disabled={!newPost.content.trim()} style={{ padding: '10px 24px', background: newPost.content.trim() ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : mutedColor, color: '#fff', border: 'none', borderRadius: '8px', cursor: newPost.content.trim() ? 'pointer' : 'not-allowed', fontSize: '14px', fontWeight: 'bold' }}>
-            Post
-          </button>
-        </div>
-      </div>
-    </div>
-  )}
-
-  {/* Footer */}
-  <footer style={{ marginTop: '40px', padding: '20px', textAlign: 'center', fontSize: '13px', color: mutedColor, borderTop: `1px solid ${borderColor}` }}>
-    © 2025 Patholytica by MedicineBank. All rights reserved.
-    <br />
-    <a href="#" style={{ color: mutedColor, textDecoration: 'none', margin: '0 8px' }}>Privacy Policy</a> |
-    <a href="#" style={{ color: mutedColor, textDecoration: 'none', margin: '0 8px' }}>Terms of Service</a> |
-    <a href="#" style={{ color: mutedColor, textDecoration: 'none', margin: '0 8px' }}>Contact</a>
-  </footer>
-</div>
-```
-
-);
-};
-
-export default EducationalSocialFeed;
+// Theme toggle
+function toggleTheme(){
+  document.body.classList.toggle('light-theme');
+  localStorage.setItem('theme',document.body.classList.contains('light-theme')?'light':'dark');
+}
+if(localStorage.getItem('theme')==='light') document.body.classList.add('light-theme');
+</script>
+</body>
+</html>
