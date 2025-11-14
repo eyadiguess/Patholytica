@@ -1,461 +1,233 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Patholytica — by MedicineBank</title>
-
 <style>
 :root {
-    --bg-color: #0f0f0f;
-    --text-color: #fff;
-    --card-bg: #181818;
-    --card-border: #333;
-    --hover-bg: #222;
-    --hover-text: #ff4d4d;
+  --bg-color: #0f0f0f;
+  --text-color: #fff;
+  --card-bg: #181818;
+  --card-border: #333;
+  --hover-bg: #222;
+  --hover-text: #ff4d4d;
 }
 
 body.light-theme {
-    --bg-color: #f5f5f5;
-    --text-color: #111;
-    --card-bg: #fff;
-    --card-border: #ccc;
-    --hover-bg: #eee;
-    --hover-text: #e74c3c;
+  --bg-color: #f5f5f5;
+  --text-color: #111;
+  --card-bg: #fff;
+  --card-border: #ccc;
+  --hover-bg: #eee;
+  --hover-text: #e74c3c;
 }
 
 * { box-sizing: border-box; }
+html, body { margin:0; padding:0; height:100%; font-family: Arial, sans-serif; }
 
-html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-}
+body { background: var(--bg-color); transition: background 0.3s ease; }
 
-/* Body with safe areas */
-body {
-    background: var(--bg-color);
-    font-family: Arial, sans-serif;
-    transition: background 0.3s ease;
-}
-
-/* HEADER - Always dark with safe area at top */
+/* HEADER */
 .header-wrapper {
-    position: sticky;
-    top: 0;
-    background: #181818;
-    padding-top: env(safe-area-inset-top);
-    border-bottom: 1px solid #fff;
-    z-index: 100;
+  position: sticky;
+  top: 0;
+  background: #181818;
+  z-index: 100;
 }
 
 .header {
-    display: flex;
-    align-items: center;
-    padding: 0 16px;
-    height: 50px;
-    background: #181818;
-    position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: env(safe-area-inset-top) 16px 0 16px;
+  height: 50px;
 }
 
-/* Logo */
-.logo-img { 
-    height: 28px; 
-    width: auto;
-}
+.logo-img { height: 28px; width: auto; }
 
-/* Center container for theme toggle */
-.header-center {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-}
+.header-center { flex: 1; display: flex; justify-content: center; }
 
-/* Hamburger menu */
 .menu-icon {
-    width: 25px;
-    height: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    cursor: pointer;
-    z-index: 1001;
+  width: 25px; height: 20px; display: flex; flex-direction: column; justify-content: space-between;
+  cursor: pointer; z-index: 1001;
 }
-
-.menu-icon span {
-    display: block;
-    height: 3px;
-    background: #fff;
-    border-radius: 2px;
-    transition: all 0.3s ease;
-}
+.menu-icon span { display:block; height:3px; background:#fff; border-radius:2px; transition: all 0.3s ease; }
 
 /* Menu buttons */
 .menu-buttons {
-    position: absolute;
-    top: calc(100% + 1px);
-    right: 16px;
-    background: #181818;
-    border: 1px solid #333;
-    border-radius: 6px;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    opacity: 0;
-    transform: translateY(-10px);
-    pointer-events: none;
-    transition: all 0.3s ease;
-    z-index: 1000;
+  position: absolute; top: calc(100% + 1px); right: 16px;
+  background: #181818; border:1px solid #333; border-radius:6px;
+  display:flex; flex-direction:column; overflow:hidden; opacity:0;
+  transform:translateY(-10px); pointer-events:none; transition:all 0.3s ease; z-index:1000;
 }
+.menu-buttons.show { opacity:1; transform:translateY(0); pointer-events:all; }
+.menu-buttons a { padding:12px 20px; font-size:14px; color:#ccc; text-decoration:none; border-bottom:1px solid #333; white-space:nowrap; transition: all 0.2s ease; }
+.menu-buttons a:last-child { border-bottom:none; }
+.menu-buttons a:hover { color:var(--hover-text); background:var(--hover-bg); padding-left:24px; }
 
-.menu-buttons.show { 
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: all;
+/* Theme toggle */
+.theme-toggle {
+  padding:4px 10px; border-radius:4px; border:1px solid #333; font-size:12px;
+  background:#181818; color:#fff; cursor:pointer; transition: all 0.3s ease;
 }
+body.light-theme .theme-toggle { border-color:#fff; background:#fff; color:#111; }
+.theme-toggle:hover { background:var(--hover-bg); color:var(--hover-text); border-color:var(--hover-text); }
 
-.menu-buttons a {
-    padding: 12px 20px;
-    font-size: 14px;
-    color: #ccc;
-    text-decoration: none;
-    border-bottom: 1px solid #333;
-    transition: all 0.2s ease;
-    white-space: nowrap;
-}
-
-.menu-buttons a:last-child { border-bottom: none; }
-.menu-buttons a:hover { 
-    color: #ff4d4d; 
-    background: #222;
-    padding-left: 24px;
-}
-
-/* THEME CONTAINER */
+/* GRID */
 .theme-container {
-    padding: 20px;
-    padding-left: calc(20px + env(safe-area-inset-left));
-    padding-right: calc(20px + env(safe-area-inset-right));
-    padding-bottom: calc(20px + env(safe-area-inset-bottom));
-    background: var(--bg-color);
-    min-height: calc(100vh - 50px - env(safe-area-inset-top));
+  padding:20px calc(20px + env(safe-area-inset-left)) calc(20px + env(safe-area-inset-bottom)) calc(20px + env(safe-area-inset-right));
+  min-height: calc(100vh - 50px - env(safe-area-inset-top)); background: var(--bg-color);
 }
+.grid { display:grid; gap:20px; grid-template-columns: repeat(auto-fill, minmax(250px,1fr)); }
 
-/* GRID & CARDS */
-.grid {
-    display: grid;
-    gap: 20px;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-}
+.video-card { background:var(--card-bg); border-radius:6px; box-shadow:0 2px 8px rgba(0,0,0,0.3); overflow:hidden; position:relative; transition:all 0.3s ease; }
+.video-card:hover { transform:translateY(-4px); box-shadow:0 8px 16px rgba(0,0,0,0.5); }
 
-.video-card {
-    background: var(--card-bg);
-    border-radius: 6px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-    overflow: hidden;
-    position: relative;
-    transition: all 0.3s ease;
-}
-
-.video-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 16px rgba(0,0,0,0.5);
-}
-
-.thumbnail-link {
-    display: block;
-    width: 100%;
-    text-decoration: none;
-    color: inherit;
-    position: relative;
-}
-
-.thumbnail-container { 
-    position: relative;
-    overflow: hidden;
-}
-
-.thumbnail { 
-    width: 100%; 
-    height: 200px; 
-    object-fit: cover; 
-    display: block;
-    transition: transform 0.3s ease;
-}
-
-.video-card:hover .thumbnail {
-    transform: scale(1.05);
-}
+.thumbnail-link { display:block; width:100%; text-decoration:none; color:inherit; position:relative; }
+.thumbnail-container { position:relative; overflow:hidden; }
+.thumbnail { width:100%; height:200px; object-fit:cover; display:block; transition:transform 0.3s ease; }
+.video-card:hover .thumbnail { transform:scale(1.05); }
 
 .gradient-overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 40%;
-    background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0));
-    display: flex;
-    align-items: flex-end;
-    padding: 5px 10px;
+  position:absolute; bottom:0; left:0; width:100%; height:40%;
+  background:linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0));
+  display:flex; align-items:flex-end; padding:5px 10px;
 }
+.title { font-size:14px; font-weight:bold; color:#fff !important; }
 
-.title { 
-    font-size: 14px; 
-    font-weight: bold; 
-    color: #fff !important;
-}
+.info { padding:12px; display:flex; justify-content:flex-start; }
 
-.info { 
-    padding: 12px; 
-    display: flex; 
-    justify-content: flex-start;
-}
+.upload-btn { display:inline-block; font-size:14px; color:var(--text-color); cursor:pointer; padding:8px 12px; border:1px solid var(--card-border); border-radius:6px; transition:all 0.3s ease; }
+.upload-btn:hover { color:var(--hover-text); border-color:var(--hover-text); }
+.upload-btn input { display:none; }
 
-/* Upload Button */
-.upload-btn {
-    display: inline-block;
-    font-size: 14px;
-    color: var(--text-color);
-    cursor: pointer;
-    padding: 8px 12px;
-    border: 1px solid var(--card-border);
-    border-radius: 6px;
-    transition: all 0.3s ease;
-}
-
-.upload-btn:hover { 
-    color: var(--hover-text); 
-    border-color: var(--hover-text);
-}
-
-.upload-btn input { display: none; }
-
-/* Add card */
-.add-card {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 36px;
-    color: #aaa;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.add-card:hover { 
-    background: var(--hover-bg); 
-    color: var(--hover-text);
-    transform: scale(1.05);
-}
-
-/* THEME TOGGLE BUTTON */
-.theme-toggle {
-    padding: 4px 10px;
-    cursor: pointer;
-    border-radius: 4px;
-    border: 1px solid #333;
-    font-size: 12px;
-    background: #181818;
-    color: #fff;
-    transition: all 0.3s ease;
-}
-
-body.light-theme .theme-toggle {
-    border-color: #fff;
-    color: #111;
-    background: #fff;
-}
-
-.theme-toggle:hover {
-    background: var(--hover-bg);
-    color: var(--hover-text);
-    border-color: var(--hover-text);
-}
+.add-card { display:flex; align-items:center; justify-content:center; font-size:36px; color:#aaa; cursor:pointer; transition:all 0.3s ease; }
+.add-card:hover { background:var(--hover-bg); color:var(--hover-text); transform:scale(1.05); }
 
 /* FOOTER */
 footer {
-    margin-top: 40px;
-    padding: 20px;
-    padding-left: calc(20px + env(safe-area-inset-left));
-    padding-right: calc(20px + env(safe-area-inset-right));
-    padding-bottom: calc(20px + env(safe-area-inset-bottom));
-    text-align: center;
-    font-size: 12px;
-    color: #888;
-    border-top: 1px solid var(--card-border);
-    background: var(--bg-color);
+  margin-top:40px; padding:20px calc(20px + env(safe-area-inset-left)) calc(20px + env(safe-area-inset-bottom)) calc(20px + env(safe-area-inset-right));
+  text-align:center; font-size:12px; color:#888; border-top:1px solid var(--card-border); background:var(--bg-color);
 }
+footer a { color:#888; text-decoration:none; margin:0 8px; transition:color 0.2s ease; }
+footer a:hover { color:var(--hover-text); }
 
-footer a { 
-    color: #888; 
-    text-decoration: none; 
-    margin: 0 8px;
-    transition: color 0.2s ease;
-}
-
-footer a:hover { color: var(--hover-text); }
-
-/* Responsive */
-@media (max-width: 640px) {
-    .grid {
-        grid-template-columns: 1fr;
-    }
-}
+@media (max-width:640px) { .grid { grid-template-columns:1fr; } }
 </style>
-
 </head>
 <body>
 
-<!-- HEADER -->
-
 <div class="header-wrapper">
-    <div class="header">
-        <img src="IMG_0696.png" alt="Patholytica Logo" class="logo-img">
-
-```
+  <div class="header">
+    <img src="IMG_0696.png" class="logo-img" alt="Patholytica Logo">
     <div class="header-center">
-        <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
+      <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
     </div>
-
     <div class="menu-icon" onclick="toggleMenu(this)">
-        <span></span>
-        <span></span>
-        <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
     </div>
-
     <div class="menu-buttons" id="menuButtons">
-        <a href="login.html">🔐 Login</a>
-        <a href="profile.html">👤 Profile</a>
-        <a href="settings.html">⚙️ Settings</a>
-        <a href="help.html">❓ Help</a>
-        <a href="admin.html">🛡️ Admin Dashboard</a>
-        <a href="logout.html">🚪 Logout</a>
+      <a href="login.html">🔐 Login</a>
+      <a href="profile.html">👤 Profile</a>
+      <a href="settings.html">⚙️ Settings</a>
+      <a href="help.html">❓ Help</a>
+      <a href="admin.html">🛡️ Admin Dashboard</a>
+      <a href="logout.html">🚪 Logout</a>
     </div>
+  </div>
 </div>
-```
-
-</div>
-
-<!-- GRID -->
 
 <div class="theme-container">
-    <div class="grid" id="grid"></div>
+  <div class="grid" id="grid"></div>
 </div>
 
-<!-- FOOTER -->
-
 <footer>
-    &copy; 2025 Patholytica by MedicineBank. All rights reserved. 
-    <br>
-    <a href="#">Privacy Policy</a> | 
-    <a href="#">Terms of Service</a> | 
-    <a href="#">Contact</a>
+  &copy; 2025 Patholytica by MedicineBank. All rights reserved.
+  <br>
+  <a href="#">Privacy Policy</a> |
+  <a href="#">Terms of Service</a> |
+  <a href="#">Contact</a>
 </footer>
 
 <script>
 // Grid setup
 const grid = document.getElementById('grid');
-for (let i = 1; i <= 10; i++) {
-    const card = document.createElement('div');
-    card.className = 'video-card';
-    card.innerHTML = `
-        <a href="semester${i}.html" class="thumbnail-link">
-            <div class="thumbnail-container">
-                <img class="thumbnail" src="https://picsum.photos/400/250?random=${i}">
-                <div class="gradient-overlay">
-                    <div class="title">Semester ${i}</div>
-                </div>
-            </div>
-        </a>
-        <div class="info">
-            <label class="upload-btn">
-                Change Thumbnail →
-                <input type="file" accept="image/*" onchange="changeThumb(this)">
-            </label>
-        </div>
-    `;
-    grid.appendChild(card);
+for (let i=1; i<=10; i++) {
+  const card = document.createElement('div');
+  card.className = 'video-card';
+  card.innerHTML = `
+    <a href="semester${i}.html" class="thumbnail-link">
+      <div class="thumbnail-container">
+        <img class="thumbnail" src="https://picsum.photos/400/250?random=${i}">
+        <div class="gradient-overlay"><div class="title">Semester ${i}</div></div>
+      </div>
+    </a>
+    <div class="info">
+      <label class="upload-btn">Change Thumbnail →<input type="file" accept="image/*" onchange="changeThumb(this)"></label>
+    </div>
+  `;
+  grid.appendChild(card);
 }
 
-// Add new semester card
+// Add card
 const addCard = document.createElement('div');
-addCard.className = 'video-card add-card';
-addCard.innerHTML = '+';
-addCard.onclick = () => {
-    const semesterNum = grid.querySelectorAll('.video-card:not(.add-card)').length + 1;
-    const newCard = document.createElement('div');
-    newCard.className = 'video-card';
-    newCard.innerHTML = `
-        <a href="semester${semesterNum}.html" class="thumbnail-link">
-            <div class="thumbnail-container">
-                <img class="thumbnail" src="https://picsum.photos/400/250?random=${semesterNum + 10}">
-                <div class="gradient-overlay">
-                    <div class="title">Semester ${semesterNum}</div>
-                </div>
-            </div>
-        </a>
-        <div class="info">
-            <label class="upload-btn">
-                Change Thumbnail →
-                <input type="file" accept="image/*" onchange="changeThumb(this)">
-            </label>
-        </div>
-    `;
-    grid.insertBefore(newCard, addCard);
+addCard.className='video-card add-card';
+addCard.innerHTML='+';
+addCard.onclick = ()=>{
+  const semesterNum = grid.querySelectorAll('.video-card:not(.add-card)').length+1;
+  const newCard = document.createElement('div');
+  newCard.className='video-card';
+  newCard.innerHTML=`
+    <a href="semester${semesterNum}.html" class="thumbnail-link">
+      <div class="thumbnail-container">
+        <img class="thumbnail" src="https://picsum.photos/400/250?random=${semesterNum+10}">
+        <div class="gradient-overlay"><div class="title">Semester ${semesterNum}</div></div>
+      </div>
+    </a>
+    <div class="info">
+      <label class="upload-btn">Change Thumbnail →<input type="file" accept="image/*" onchange="changeThumb(this)"></label>
+    </div>
+  `;
+  grid.insertBefore(newCard, addCard);
 };
 grid.appendChild(addCard);
 
 // Thumbnail upload
-function changeThumb(input) {
-    const file = input.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        const card = input.closest('.video-card');
-        const img = card.querySelector('.thumbnail');
-        img.src = e.target.result;
-    };
-    reader.readAsDataURL(file);
+function changeThumb(input){
+  const file=input.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=e=>{ input.closest('.video-card').querySelector('.thumbnail').src=e.target.result; }
+  reader.readAsDataURL(file);
 }
 
 // Hamburger toggle
-function toggleMenu(icon) {
-    const menu = document.getElementById('menuButtons');
-    menu.classList.toggle('show');
-    icon.classList.toggle('active');
-    
-    const spans = icon.querySelectorAll('span');
-    if (icon.classList.contains('active')) {
-        spans[0].style.transform = 'rotate(45deg) translate(5px,5px)';
-        spans[1].style.opacity = '0';
-        spans[2].style.transform = 'rotate(-45deg) translate(6px,-6px)';
-    } else {
-        spans[0].style.transform = 'none';
-        spans[1].style.opacity = '1';
-        spans[2].style.transform = 'none';
-    }
+function toggleMenu(icon){
+  const menu=document.getElementById('menuButtons');
+  menu.classList.toggle('show'); icon.classList.toggle('active');
+  const spans=icon.querySelectorAll('span');
+  if(icon.classList.contains('active')){
+    spans[0].style.transform='rotate(45deg) translate(5px,5px)';
+    spans[1].style.opacity='0';
+    spans[2].style.transform='rotate(-45deg) translate(6px,-6px)';
+  } else { spans[0].style.transform='none'; spans[1].style.opacity='1'; spans[2].style.transform='none'; }
 }
 
-// Close menu when clicking outside
-document.addEventListener('click', function(e) {
-    const menu = document.getElementById('menuButtons');
-    const icon = document.querySelector('.menu-icon');
-    if (!menu.contains(e.target) && !icon.contains(e.target) && menu.classList.contains('show')) {
-        toggleMenu(icon);
-    }
+// Close menu
+document.addEventListener('click', e=>{
+  const menu=document.getElementById('menuButtons');
+  const icon=document.querySelector('.menu-icon');
+  if(!menu.contains(e.target)&&!icon.contains(e.target)&&menu.classList.contains('show')) toggleMenu(icon);
 });
 
 // Theme toggle
-function toggleTheme() {
-    document.body.classList.toggle('light-theme');
-    localStorage.setItem('theme', document.body.classList.contains('light-theme') ? 'light' : 'dark');
+function toggleTheme(){
+  document.body.classList.toggle('light-theme');
+  localStorage.setItem('theme',document.body.classList.contains('light-theme')?'light':'dark');
 }
-
-// Load saved theme
-if(localStorage.getItem('theme') === 'light') {
-    document.body.classList.add('light-theme');
-}
+if(localStorage.getItem('theme')==='light') document.body.classList.add('light-theme');
 </script>
-
 </body>
 </html>
