@@ -46,7 +46,7 @@ body {
     top: 0;
     background: #181818;
     padding-top: env(safe-area-inset-top);
-    border-bottom: 1px solid #333;
+    border-bottom: 1px solid #fff;
     z-index: 100;
 }
 
@@ -116,18 +116,20 @@ body {
 }
 
 .menu-buttons a {
-    padding: 10px 20px;
+    padding: 12px 20px;
     font-size: 14px;
     color: #ccc;
     text-decoration: none;
     border-bottom: 1px solid #333;
     transition: all 0.2s ease;
+    white-space: nowrap;
 }
 
 .menu-buttons a:last-child { border-bottom: none; }
 .menu-buttons a:hover { 
     color: #ff4d4d; 
     background: #222;
+    padding-left: 24px;
 }
 
 /* THEME CONTAINER */
@@ -279,17 +281,19 @@ footer {
     padding-bottom: calc(20px + env(safe-area-inset-bottom));
     text-align: center;
     font-size: 12px;
-    color: #ccc;
-    border-top: 1px solid #333;
+    color: #888;
+    border-top: 1px solid var(--card-border);
+    background: var(--bg-color);
 }
 
 footer a { 
-    color: #ccc; 
+    color: #888; 
     text-decoration: none; 
-    margin: 0 6px;
+    margin: 0 8px;
+    transition: color 0.2s ease;
 }
 
-footer a:hover { color: #ff4d4d; }
+footer a:hover { color: var(--hover-text); }
 
 /* Responsive */
 @media (max-width: 640px) {
@@ -320,12 +324,12 @@ footer a:hover { color: #ff4d4d; }
     </div>
 
     <div class="menu-buttons" id="menuButtons">
-        <a href="login.html">Login</a>
-        <a href="profile.html">Profile</a>
-        <a href="settings.html">Settings</a>
-        <a href="help.html">Help</a>
-        <a href="admin.html">Admin Dashboard</a>
-        <a href="logout.html">Logout</a>
+        <a href="login.html">🔐 Login</a>
+        <a href="profile.html">👤 Profile</a>
+        <a href="settings.html">⚙️ Settings</a>
+        <a href="help.html">❓ Help</a>
+        <a href="admin.html">🛡️ Admin Dashboard</a>
+        <a href="logout.html">🚪 Logout</a>
     </div>
 </div>
 ```
@@ -341,8 +345,11 @@ footer a:hover { color: #ff4d4d; }
 <!-- FOOTER -->
 
 <footer>
-    &copy; 2025 Patholytica. All rights reserved. 
-    <a href="#">Privacy Policy</a> | <a href="#">Terms</a>
+    &copy; 2025 Patholytica by MedicineBank. All rights reserved. 
+    <br>
+    <a href="#">Privacy Policy</a> | 
+    <a href="#">Terms of Service</a> | 
+    <a href="#">Contact</a>
 </footer>
 
 <script>
