@@ -187,7 +187,6 @@ body {
 
 .add-card:hover { background: var(--hover-bg); color: var(--hover-text); transform: scale(1.05); }
 
-/* Theme toggle button */
 .theme-toggle {
     margin-left: 10px;
     padding: 6px 12px;
@@ -197,7 +196,19 @@ body {
     font-size: 14px;
     background: #181818;
     color: #fff;
-    transition: 0.2s;
+    transition: all 0.3s ease;
+}
+
+body.light-theme .theme-toggle {
+    border-color: #fff; /* white border in light theme */
+    color: #111;
+    background: #fff;
+}
+
+.theme-toggle:hover {
+    background: var(--hover-bg);
+    color: var(--hover-text);
+    border-color: var(--hover-text);
 }
 
 .theme-toggle:hover { background: #222; color: #ff4d4d; }
