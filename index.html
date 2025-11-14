@@ -6,21 +6,39 @@
 <title>Patholytica — by MedicineBank</title>
 
 <style>
+:root {
+    --bg-color: #0f0f0f;
+    --text-color: #fff;
+    --card-bg: #181818;
+    --card-border: #333;
+    --hover-bg: #222;
+    --hover-text: #ff4d4d;
+}
+
+body.light {
+    --bg-color: #f5f5f5;
+    --text-color: #111;
+    --card-bg: #fff;
+    --card-border: #ccc;
+    --hover-bg: #eee;
+    --hover-text: #e74c3c;
+}
+
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background: #0f0f0f;
-    color: #fff;
+    background: var(--bg-color);
+    color: var(--text-color);
 }
 
 /* HEADER */
 .header {
     height: 60px;
-    background: #181818;
+    background: var(--card-bg);
     display: flex;
     align-items: center;
     padding: 0 16px;
-    border-bottom: 1px solid #2a2a2a;
+    border-bottom: 1px solid var(--card-border);
     position: relative;
 }
 
@@ -46,18 +64,18 @@ body {
 .menu-icon span {
     display: block;
     height: 3px;
-    background: #fff;
+    background: var(--text-color);
     border-radius: 2px;
     transition: 0.3s;
 }
 
-/* Menu buttons container */
+/* Menu buttons */
 .menu-buttons {
     position: absolute;
     top: 60px;
     right: 16px;
-    background: #181818;
-    border: 1px solid #333;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
     border-radius: 6px;
     display: flex;
     flex-direction: column;
@@ -75,19 +93,16 @@ body {
 .menu-buttons a {
     padding: 10px 20px;
     font-size: 14px;
-    color: #ccc;
+    color: var(--text-color);
     text-decoration: none;
-    border-bottom: 1px solid #333;
+    border-bottom: 1px solid var(--card-border);
     transition: 0.2s;
 }
 
-.menu-buttons a:last-child {
-    border-bottom: none;
-}
-
+.menu-buttons a:last-child { border-bottom: none; }
 .menu-buttons a:hover {
-    color: #ff4d4d;
-    background: #222;
+    color: var(--hover-text);
+    background: var(--hover-bg);
 }
 
 /* VIDEO GRID */
@@ -99,7 +114,7 @@ body {
 }
 
 .video-card {
-    background: #181818;
+    background: var(--card-bg);
     border-radius: 6px;
     box-shadow: 0 1px 2px rgba(0,0,0,0.3);
     overflow: hidden;
@@ -120,16 +135,8 @@ body {
     position: relative;
 }
 
-.thumbnail-container {
-    position: relative;
-}
-
-.thumbnail {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    display: block;
-}
+.thumbnail-container { position: relative; }
+.thumbnail { width: 100%; height: 200px; object-fit: cover; display: block; }
 
 .gradient-overlay {
     position: absolute;
@@ -144,35 +151,23 @@ body {
     box-sizing: border-box;
 }
 
-.title {
-    font-size: 14px;
-    font-weight: bold;
-    color: #fff;
-}
+.title { font-size: 14px; font-weight: bold; color: var(--text-color); }
 
-.info {
-    padding: 12px;
-    display: flex;
-    justify-content: flex-start;
-}
+.info { padding: 12px; display: flex; justify-content: flex-start; }
 
 /* Upload Button */
 .upload-btn {
     display: inline-block;
     font-size: 14px;
-    color: #ccc;
+    color: var(--text-color);
     cursor: pointer;
     padding: 8px 12px;
-    border: 1px solid #333;
+    border: 1px solid var(--card-border);
     border-radius: 6px;
     transition: 0.2s;
 }
 
-.upload-btn:hover {
-    color: #ff4d4d;
-    border-color: #ff4d4d;
-}
-
+.upload-btn:hover { color: var(--hover-text); border-color: var(--hover-text); }
 .upload-btn input { display: none; }
 
 /* ADD NEW SEMESTER CARD */
@@ -186,11 +181,22 @@ body {
     transition: 0.2s;
 }
 
-.add-card:hover {
-    background: #222;
-    color: #ff4d4d;
-    transform: scale(1.05);
+.add-card:hover { background: var(--hover-bg); color: var(--hover-text); transform: scale(1.05); }
+
+/* THEME TOGGLE BUTTON */
+.theme-toggle {
+    margin-left: 10px;
+    padding: 6px 12px;
+    cursor: pointer;
+    border-radius: 6px;
+    border: 1px solid var(--card-border);
+    font-size: 14px;
+    background: var(--card-bg);
+    color: var(--text-color);
+    transition: 0.2s;
 }
+
+.theme-toggle:hover { background: var(--hover-bg); color: var(--hover-text); }
 
 /* FOOTER */
 footer {
@@ -198,13 +204,12 @@ footer {
     padding: 20px;
     text-align: center;
     font-size: 12px;
-    color: #aaa;
-    border-top: 1px solid #2a2a2a;
+    color: var(--text-color);
+    border-top: 1px solid var(--card-border);
 }
 
-footer a { color: #ccc; text-decoration: none; margin: 0 6px; }
-footer a:hover { color: #ff4d4d; }
-
+footer a { color: var(--text-color); text-decoration: none; margin: 0 6px; }
+footer a:hover { color: var(--hover-text); }
 </style>
 </head>
 <body>
@@ -212,6 +217,8 @@ footer a:hover { color: #ff4d4d; }
 <!-- HEADER -->
 <div class="header">
     <img src="IMG_0696.png" alt="Patholytica Logo" class="logo-img">
+
+    <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
 
     <!-- Hamburger Menu Icon -->
     <div class="menu-icon" onclick="toggleMenu(this)">
@@ -273,7 +280,7 @@ addCard.innerHTML = '+';
 addCard.onclick = () => alert('Add new semester functionality coming soon!');
 grid.appendChild(addCard);
 
-// Thumbnail upload function
+// Thumbnail upload
 function changeThumb(input) {
     const file = input.files[0];
     if (!file) return;
@@ -286,7 +293,7 @@ function changeThumb(input) {
     reader.readAsDataURL(file);
 }
 
-// Toggle menu
+// Hamburger toggle
 function toggleMenu(icon) {
     const menu = document.getElementById('menuButtons');
     menu.classList.toggle('show');
@@ -303,7 +310,17 @@ function toggleMenu(icon) {
         spans[2].style.transform = 'rotate(0) translate(0,0)';
     }
 }
-</script>
 
+// THEME TOGGLE
+function toggleTheme() {
+    document.body.classList.toggle('light');
+    localStorage.setItem('theme', document.body.classList.contains('light') ? 'light' : 'dark');
+}
+
+// Load saved theme
+if(localStorage.getItem('theme') === 'light') {
+    document.body.classList.add('light');
+}
+</script>
 </body>
 </html>
