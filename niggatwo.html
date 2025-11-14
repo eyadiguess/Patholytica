@@ -68,12 +68,10 @@ body { background: var(--bg-color); color:var(--text-color); transition: backgro
 .video-card { background:var(--card-bg); border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.3); overflow:hidden; position:relative; transition:all 0.25s ease; }
 .video-card:hover { transform:translateY(-4px); box-shadow:0 8px 16px rgba(0,0,0,0.45); }
 .thumbnail { width:100%; height:200px; object-fit:cover; display:block; }
-.gradient-overlay {
-  position:absolute; bottom:0; left:0; width:100%; height:40%; background:linear-gradient(to top, rgba(0,0,0,0.75), rgba(0,0,0,0)); display:flex; align-items:flex-end; padding:8px 10px; z-index:1; pointer-events:none;
-}
+.gradient-overlay { position:absolute; bottom:0; left:0; width:100%; height:40%; background:linear-gradient(to top, rgba(0,0,0,0.75), rgba(0,0,0,0)); display:flex; align-items:flex-end; padding:8px 10px; }
 .title { font-size:14px; font-weight:700; color:#fff; }
-.info { padding:12px; display:flex; justify-content:flex-start; position:relative; z-index:2; margin-top:8px; }
-.upload-btn { display:inline-block; font-size:14px; color:var(--text-color); cursor:pointer; padding:8px 12px; border:1px solid var(--card-border); border-radius:6px; transition:all 0.2s ease; background:rgba(0,0,0,0.03); z-index:3; }
+.info { padding:12px; display:flex; justify-content:flex-start; }
+.upload-btn { display:inline-block; font-size:14px; color:var(--text-color); cursor:pointer; padding:8px 12px; border:1px solid var(--card-border); border-radius:6px; transition:all 0.2s ease; }
 .upload-btn input { display:none; }
 .add-card { display:flex; align-items:center; justify-content:center; font-size:40px; color:#aaa; cursor:pointer; min-height:200px; }
 
@@ -260,16 +258,11 @@ document.addEventListener('click', e=>{
 const themeBtn = document.getElementById('themeToggle');
 const iconSvg = document.getElementById('iconSvg');
 function setIcon(isLight){
-  // clearer sun and moon icons drawn with simple shapes and strokes for crispness
   if(isLight){
-    // sun (stroke-based for better visibility)
-    iconSvg.innerHTML = `
-      <g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="4"></circle>
-        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
-      </g>`;
+    // sun outline
+    iconSvg.innerHTML = `<path d="M6.76 4.84l-1.8-1.79L3.17 5.85l1.79 1.79 1.8-2.8zM1 13h3v-2H1v2zm10-9h2V1h-2v3zm7.03 1.04l-1.79 1.79 1.8 1.8 1.79-1.79-1.8-1.8zM17 13h3v-2h-3v2zm-4 8h2v-3h-2v3zM4.24 19.16l1.8-1.79-1.8-1.8-1.79 1.79 1.79 1.8zM12 6a6 6 0 100 12 6 6 0 000-12z" fill="currentColor" />`;
   } else {
-    // moon (filled, high-contrast)
+    // moon
     iconSvg.innerHTML = `<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" fill="currentColor" />`;
   }
 }
