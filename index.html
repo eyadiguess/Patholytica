@@ -58,38 +58,31 @@ body {
   padding-top: env(safe-area-inset-top); 
   border-bottom: 1px solid var(--card-border); 
   z-index: 100;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
 }
 .header { 
   display: flex; 
   justify-content: space-between; 
   align-items: center; 
-  padding: 18px 24px;
-  max-width: 1200px;
-  margin: 0 auto;
+  padding: 16px 18px;
 }
 .logo-img { 
-  height: 36px; 
-  transition: filter 0.25s ease, transform 0.25s ease; 
+  height: 32px; 
+  transition: filter 0.25s ease; 
 }
-.logo-img:hover { transform: scale(1.05); }
 body.light-theme .logo-img { filter: invert(1); }
 .theme-toggle { 
-  padding: 8px 18px; 
-  font-size: 13px; 
-  background: var(--card-bg); 
-  border-radius: 8px; 
+  padding: 6px 14px; 
+  font-size: 12.5px; 
+  background: transparent; 
+  border-radius: 6px; 
   border: 1px solid var(--card-border); 
   color: var(--text-color); 
   cursor: pointer; 
-  transition: all 0.25s ease;
-  font-weight: 500;
+  transition: 0.25s ease;
 }
 .theme-toggle:hover { 
   border-color: var(--accent); 
   color: var(--accent); 
-  transform: translateY(-2px);
 }
 
 /* HERO CTA */
@@ -404,7 +397,6 @@ footer a:hover {
   .cta { padding: 80px 25px 70px; margin: 40px 20px; }
   .features h2, .faq-section h2 { font-size: 32px; }
   .stat-item h3 { font-size: 40px; }
-  .header { padding: 16px 20px; }
 }
 
 @media (max-width: 480px) {
@@ -422,7 +414,7 @@ footer a:hover {
 <div class="header-wrapper">
   <div class="header">
     <img src="IMG_0696.png" class="logo-img" alt="Patholytica Logo">
-    <button class="theme-toggle" onclick="toggleTheme()">🌓 Theme</button>
+    <button class="theme-toggle" onclick="toggleTheme()">Theme</button>
   </div>
 </div>
 
