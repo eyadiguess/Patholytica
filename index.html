@@ -14,7 +14,6 @@
   --accent-hover: #ff3333;
   --btn-shadow: rgba(255,77,77,0.35);
   --btn-shadow-hover: rgba(255,77,77,0.45);
-  --canvas-bg: rgba(13,13,13,0.2);
 }
 
 /* Light theme */
@@ -26,10 +25,8 @@ body.light-theme {
   --accent-hover: #c62828;
   --btn-shadow: rgba(229,57,53,0.35);
   --btn-shadow-hover: rgba(198,40,40,0.45);
-  --canvas-bg: rgba(245,245,245,0.2);
 }
 
-/* GLOBAL */
 * { box-sizing: border-box; }
 html, body { margin:0; padding:0; height:100%; font-family: "Inter", Arial, sans-serif; }
 body {
@@ -37,18 +34,6 @@ body {
   color: var(--text-color);
   transition: background 0.35s ease, color 0.35s ease;
   overflow-x: hidden;
-  position: relative;
-}
-
-/* ASTEROID CANVAS */
-#asteroidCanvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 0;
 }
 
 /* HEADER */
@@ -58,7 +43,7 @@ body {
   background: var(--bg-color);
   padding-top: env(safe-area-inset-top);
   border-bottom: 1px solid var(--card-border);
-  z-index: 40;
+  z-index: 100;
 }
 .header {
   display: flex;
@@ -83,7 +68,7 @@ body.light-theme .logo-img { filter: invert(1); }
   color: var(--accent);
 }
 
-/* HERO SECTION */
+/* HERO */
 .hero {
   position: relative;
   display: flex;
@@ -92,16 +77,14 @@ body.light-theme .logo-img { filter: invert(1); }
   padding: 110px 25px 90px;
   max-width: 760px;
   margin: auto;
-  z-index: 10;
+  text-align: center;
 }
 
 .hero h1 {
   font-size: 42px;
   font-weight: 700;
   margin-bottom: 18px;
-  animation: fadeInUp 1s ease forwards;
-  opacity: 0;
-  text-align: center;
+  transition: opacity 0.2s, filter 0.2s;
 }
 
 .hero p {
@@ -109,11 +92,10 @@ body.light-theme .logo-img { filter: invert(1); }
   opacity: 0.8;
   margin-bottom: 38px;
   line-height: 1.6;
-  animation: fadeInUp 1.3s ease forwards;
-  text-align: justify;
   max-width: 650px;
   margin-left: auto;
   margin-right: auto;
+  transition: opacity 0.2s, filter 0.2s;
 }
 
 /* BUTTON */
@@ -127,8 +109,6 @@ body.light-theme .logo-img { filter: invert(1); }
   text-decoration: none;
   transition: 0.25s ease, transform 0.25s ease;
   box-shadow: 0 6px 16px var(--btn-shadow);
-  animation: glowPulse 2s infinite;
-  overflow: hidden;
 }
 .main-btn:hover {
   background: var(--accent-hover);
@@ -136,7 +116,7 @@ body.light-theme .logo-img { filter: invert(1); }
   box-shadow: 0 10px 24px var(--btn-shadow-hover);
 }
 
-/* Sparks effect */
+/* Sparks */
 .spark {
   position: absolute;
   width: 6px;
@@ -145,6 +125,12 @@ body.light-theme .logo-img { filter: invert(1); }
   border-radius: 50%;
   pointer-events: none;
   animation: sparkAnim 1.5s linear infinite;
+}
+
+@keyframes sparkAnim {
+  0% { transform: translate(0,0) scale(1); opacity: 1; }
+  50% { transform: translate(var(--x), var(--y)) scale(0.5); opacity: 0.5; }
+  100% { transform: translate(0,0) scale(1); opacity: 1; }
 }
 
 /* FOOTER */
@@ -162,36 +148,38 @@ footer a {
 }
 footer a:hover { color: var(--accent); }
 
-/* Animations */
-@keyframes fadeInUp {
-  0% { opacity: 0; transform: translateY(20px); }
-  100% { opacity: 1; transform: translateY(0); }
+/* CAROUSEL */
+.carousel {
+  max-width: 900px;
+  margin: 80px auto;
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  gap: 24px;
+  padding: 20px 10px;
 }
+.card {
+  min-width: 220px;
+  background: var(--bg-color);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+  flex-shrink: 0;
+}
+.card img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-bottom: 12px;
+  object-fit: cover;
+}
+.card p { font-size: 14px; opacity: 0.85; line-height: 1.4; }
 
-@keyframes glowPulse {
-  0%, 100% { box-shadow: 0 6px 16px var(--btn-shadow), 0 0 8px rgba(255,77,77,0.5); }
-  50% { box-shadow: 0 10px 24px var(--btn-shadow-hover), 0 0 16px rgba(255,77,77,0.7); }
-}
-
-@keyframes sparkAnim {
-  0% { transform: translate(0,0) scale(1); opacity: 1; }
-  50% { transform: translate(var(--x), var(--y)) scale(0.5); opacity: 0.5; }
-  100% { transform: translate(0,0) scale(1); opacity: 1; }
-}
-
-/* Responsive */
-@media (max-width: 640px) {
-  .hero h1 { font-size: 34px; }
-  .hero p { font-size: 15.5px; }
-}
 </style>
 </head>
 <body>
 
-<!-- ASTEROID BACKGROUND -->
-<canvas id="asteroidCanvas"></canvas>
-
-<!-- HEADER -->
 <div class="header-wrapper">
   <div class="header">
     <img src="IMG_0696.png" class="logo-img" alt="Patholytica Logo">
@@ -199,16 +187,33 @@ footer a:hover { color: var(--accent); }
   </div>
 </div>
 
-<!-- HERO -->
 <div class="hero">
-  <h1>Ahlan Wa Sahlan!</h1>
-  <p>
+  <h1 id="heroText">Ahlan Wa Sahlan!</h1>
+  <p id="heroParagraph">
     Patholytica is a platform created by students committed to reshaping how peers access medical knowledge. Our goal is to provide clear, focused, and community-based learning that empowers students and removes the barriers of cost and complexity.
   </p>
   <a href="login.html" class="main-btn" id="getStartedBtn">Get Started</a>
 </div>
 
-<!-- FOOTER -->
+<!-- CAROUSEL -->
+<div class="carousel" id="carousel">
+  <div class="card">
+    <img src="founder1.jpg" alt="Founder 1">
+    <h4>Founder Name</h4>
+    <p>"Our mission is to make medical learning accessible to everyone."</p>
+  </div>
+  <div class="card">
+    <img src="team1.jpg" alt="Team Member">
+    <h4>Team Member</h4>
+    <p>"We build tools that empower students and remove barriers."</p>
+  </div>
+  <div class="card">
+    <img src="team2.jpg" alt="Team Member">
+    <h4>Team Member</h4>
+    <p>"Collaboration and clarity are our core values."</p>
+  </div>
+</div>
+
 <footer>
   © 2025 Patholytica by MedicineBank — All rights reserved.
   <br>
@@ -224,11 +229,9 @@ function toggleTheme(){
     document.body.classList.contains("light-theme") ? "light" : "dark"
   );
 }
-if (localStorage.getItem("theme") === "light") {
-  document.body.classList.add("light-theme");
-}
+if(localStorage.getItem("theme")==="light"){ document.body.classList.add("light-theme"); }
 
-/* Sparks around button */
+/* Sparks */
 const btn = document.getElementById('getStartedBtn');
 function createSpark() {
   const spark = document.createElement('div');
@@ -242,72 +245,33 @@ function createSpark() {
 }
 setInterval(createSpark, 300);
 
-/* ASTEROID BACKGROUND SCRIPT WITH BUTTON REPULSION */
-const canvas = document.getElementById('asteroidCanvas');
-const ctx = canvas.getContext('2d');
+/* Scroll animations: button moves & hero text scrambles */
+const heroText = document.getElementById('heroText');
+const heroParagraph = document.getElementById('heroParagraph');
+const logo = document.querySelector('.logo-img');
+const button = document.getElementById('getStartedBtn');
+const initialButtonOffset = button.getBoundingClientRect().top;
 
-let w = canvas.width = window.innerWidth;
-let h = canvas.height = window.innerHeight;
+window.addEventListener('scroll', () => {
+  const scrollY = window.scrollY;
 
-window.addEventListener('resize', () => {
-  w = canvas.width = window.innerWidth;
-  h = canvas.height = window.innerHeight;
+  // Hero text scrambling effect
+  const scrambleAmount = Math.min(scrollY / 300, 1);
+  heroText.style.filter = `blur(${scrambleAmount*4}px)`;
+  heroText.style.opacity = `${1 - scrambleAmount}`;
+  heroParagraph.style.filter = `blur(${scrambleAmount*2}px)`;
+  heroParagraph.style.opacity = `${1 - scrambleAmount}`;
+
+  // Move button toward header logo
+  const logoRect = logo.getBoundingClientRect();
+  const targetY = logoRect.bottom + 8; // under logo
+  const startY = initialButtonOffset;
+  const newTop = Math.max(startY - scrollY, targetY);
+  button.style.position = 'fixed';
+  button.style.top = `${newTop}px`;
+  button.style.left = `50%`;
+  button.style.transform = `translateX(-50%)`;
 });
-
-class Asteroid {
-  constructor() { this.reset(); }
-  reset() {
-    this.x = Math.random() * w;
-    this.y = Math.random() * h;
-    this.len = 20 + Math.random() * 30;
-    this.speed = 2 + Math.random() * 3;
-    this.angle = Math.random() * Math.PI * 2;
-    this.opacity = 0.5 + Math.random() * 0.5;
-  }
-  draw() {
-    // draw asteroid
-    ctx.strokeStyle = `rgba(255,77,77,${this.opacity})`;
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(this.x, this.y);
-    ctx.lineTo(this.x - this.len * Math.cos(this.angle), this.y - this.len * Math.sin(this.angle));
-    ctx.stroke();
-
-    // move
-    this.x += Math.cos(this.angle) * this.speed;
-    this.y += Math.sin(this.angle) * this.speed;
-
-    // repulsion from button
-    const buttonRect = btn.getBoundingClientRect();
-    const bx = buttonRect.left + buttonRect.width/2;
-    const by = buttonRect.top + buttonRect.height/2;
-    const dx = this.x - bx;
-    const dy = this.y - by;
-    const dist = Math.sqrt(dx*dx + dy*dy);
-    const repelRadius = 100; // pixels around button
-    if(dist < repelRadius) {
-      const force = (repelRadius - dist)/repelRadius * 2; 
-      this.x += dx/dist * force;
-      this.y += dy/dist * force;
-    }
-
-    // wrap around screen
-    if(this.x < -this.len || this.x > w + this.len || this.y < -this.len || this.y > h + this.len){
-      this.reset();
-    }
-  }
-}
-
-const asteroids = [];
-for(let i=0; i<12; i++){ asteroids.push(new Asteroid()); }
-
-function animate() {
-  ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--canvas-bg') || 'rgba(13,13,13,0.2)';
-  ctx.fillRect(0,0,w,h);
-  asteroids.forEach(a => a.draw());
-  requestAnimationFrame(animate);
-}
-animate();
 </script>
 
 </body>
