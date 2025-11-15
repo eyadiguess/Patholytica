@@ -1,1 +1,848 @@
-:)
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Login — Patholytica</title>
+<style>
+:root {
+  --bg-color: #0f0f0f;
+  --text-color: #fff;
+  --card-bg: #181818;
+  --card-border: #333;
+  --hover-bg: #222;
+  --hover-text: #ff4d4d;
+}
+
+body.light-theme {
+  --bg-color: #f5f5f5;
+  --text-color: #111;
+  --card-bg: #fff;
+  --card-border: #ccc;
+  --hover-bg: #eee;
+  --hover-text: #e74c3c;
+}
+
+* { box-sizing: border-box; }
+html, body { margin:0; padding:0; height:100%; font-family: Arial, sans-serif; }
+
+body { background: var(--bg-color); transition: background 0.3s ease; }
+
+/* HEADER */
+.header-wrapper {
+  position: sticky;
+  top: 0;
+  background: var(--card-bg);
+  z-index: 100;
+  transition: background 0.3s ease;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: env(safe-area-inset-top) 16px 0 16px;
+  height: 50px;
+}
+
+.logo-img { 
+  height: 28px; 
+  width: auto; 
+  filter: brightness(0) invert(1);
+  transition: filter 0.3s ease;
+  cursor: pointer;
+}
+body.light-theme .logo-img {
+  filter: brightness(0) invert(0);
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.menu-icon {
+  width: 25px; height: 20px; display: flex; flex-direction: column; justify-content: space-between;
+  cursor: pointer; z-index: 1001;
+}
+.menu-icon span { display:block; height:3px; background:var(--text-color); border-radius:2px; transition: all 0.3s ease; }
+
+/* Menu buttons */
+.menu-buttons {
+  position: absolute; top: calc(100% + 1px); right: 16px;
+  background: var(--card-bg); border:1px solid var(--card-border); border-radius:6px;
+  display:flex; flex-direction:column; overflow:hidden; opacity:0;
+  transform:translateY(-10px); pointer-events:none; transition:all 0.3s ease; z-index:1000;
+}
+.menu-buttons.show { opacity:1; transform:translateY(0); pointer-events:all; }
+.menu-buttons a { padding:12px 20px; font-size:14px; color:var(--text-color); text-decoration:none; border-bottom:1px solid var(--card-border); white-space:nowrap; transition: all 0.2s ease; opacity:0.8; }
+.menu-buttons a:last-child { border-bottom:none; }
+.menu-buttons a:hover { color:var(--hover-text); background:var(--hover-bg); padding-left:24px; opacity:1; }
+
+/* Theme toggle */
+.theme-toggle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--card-border);
+  background: var(--card-bg);
+  color: var(--text-color);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+.theme-toggle:hover {
+  background: var(--hover-bg);
+  border-color: var(--hover-text);
+  transform: scale(1.1);
+}
+.theme-toggle svg {
+  width: 20px;
+  height: 20px;
+  transition: all 0.3s ease;
+}
+.theme-toggle .moon-icon {
+  display: block;
+}
+.theme-toggle .sun-icon {
+  display: none;
+}
+body.light-theme .theme-toggle .moon-icon {
+  display: none;
+}
+body.light-theme .theme-toggle .sun-icon {
+  display: block;
+}
+
+/* Startup Animation */
+.startup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh; /* Dynamic viewport height for mobile */
+  background: #000;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.startup-overlay.hidden {
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.startup-logo {
+  position: relative;
+  z-index: 10001;
+  height: 80px;
+  width: auto;
+  max-width: 90vw;
+  filter: brightness(0) invert(1);
+  animation: logoFadeIn 0.6s ease-out;
+  will-change: transform, opacity;
+  transition: filter 0.3s ease;
+}
+body.light-theme .startup-logo {
+  filter: brightness(0) invert(0);
+}
+@keyframes logoFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.circle-reveal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: var(--bg-color);
+  transform: translate(-50%, -50%);
+  will-change: width, height;
+  animation: circleExpand 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+@keyframes circleExpand {
+  0% {
+    width: 0;
+    height: 0;
+  }
+  100% {
+    width: 500vmax;
+    height: 500vmax;
+  }
+}
+
+/* Mobile optimizations for startup animation */
+@media (max-width: 640px) {
+  .startup-logo {
+    height: 60px;
+    max-width: 85vw;
+  }
+  .circle-reveal {
+    animation-duration: 0.9s;
+  }
+  @keyframes circleExpand {
+    0% {
+      width: 0;
+      height: 0;
+    }
+    100% {
+      width: 600vmax;
+      height: 600vmax;
+    }
+  }
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  .startup-logo {
+    animation: none;
+    opacity: 1;
+  }
+  .circle-reveal {
+    animation: circleExpandReduced 0.5s ease forwards;
+  }
+    @keyframes circleExpandReduced {
+      0% {
+        width: 0;
+        height: 0;
+      }
+      100% {
+        width: 500vmax;
+        height: 500vmax;
+      }
+    }
+}
+
+/* LOGIN PAGE STYLES */
+.login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 50px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  padding: 40px calc(20px + env(safe-area-inset-left)) calc(40px + env(safe-area-inset-bottom)) calc(20px + env(safe-area-inset-right));
+}
+
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 40px 35px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  animation: fadeUp 0.5s ease both;
+  transition: all 0.3s ease;
+}
+
+.login-card:hover {
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+  transform: translateY(-2px);
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.login-card h1 {
+  font-size: 28px;
+  margin: 0 0 8px 0;
+  color: var(--text-color);
+  text-align: center;
+}
+
+.login-card .subtitle {
+  font-size: 14px;
+  color: #888;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.login-card .subtitle strong {
+  color: var(--hover-text);
+}
+
+/* Form Styles */
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 13px;
+  color: var(--text-color);
+  margin-bottom: 6px;
+  opacity: 0.9;
+}
+
+.input-field {
+  width: 100%;
+  padding: 12px 14px;
+  background: rgba(0,0,0,0.2);
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  color: var(--text-color);
+  font-size: 15px;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+body.light-theme .input-field {
+  background: rgba(255,255,255,0.7);
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: var(--hover-text);
+  box-shadow: 0 0 0 3px rgba(255,77,77,0.1);
+}
+
+.input-field::placeholder {
+  color: #888;
+}
+
+/* Password visibility toggle */
+.password-wrapper {
+  position: relative;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--text-color);
+  cursor: pointer;
+  opacity: 0.6;
+  font-size: 18px;
+  padding: 4px;
+  transition: opacity 0.2s ease;
+}
+
+.password-toggle:hover {
+  opacity: 1;
+}
+
+/* Buttons */
+.btn-primary {
+  width: 100%;
+  padding: 14px;
+  background: var(--hover-text);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 8px;
+  box-shadow: 0 4px 12px rgba(255,77,77,0.3);
+}
+
+.btn-primary:hover {
+  background: var(--hover-text);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(255,77,77,0.4);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  width: 100%;
+  padding: 12px;
+  background: transparent;
+  color: var(--text-color);
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 12px;
+}
+
+.btn-secondary:hover {
+  border-color: var(--hover-text);
+  color: var(--hover-text);
+  background: var(--hover-bg);
+}
+
+/* Links */
+.form-links {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.form-links a {
+  color: var(--hover-text);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.form-links a:hover {
+  text-decoration: underline;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  margin: 24px 0;
+  color: #888;
+  font-size: 13px;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--card-border);
+}
+
+.divider span {
+  padding: 0 12px;
+}
+
+/* Social Login */
+.social-login {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.social-btn {
+  padding: 12px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  color: var(--text-color);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.social-btn:hover {
+  border-color: var(--hover-text);
+  background: var(--hover-bg);
+}
+
+/* Form Toggle */
+.form-toggle {
+  display: none;
+}
+
+.form-section {
+  display: none;
+  animation: fadeUp 0.4s ease both;
+}
+
+.form-section.active {
+  display: block;
+}
+
+/* Remember Me & Forgot Password */
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  font-size: 13px;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-color);
+  cursor: pointer;
+}
+
+.remember-me input[type="checkbox"] {
+  cursor: pointer;
+}
+
+.forgot-password {
+  color: var(--hover-text);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
+
+/* Footer */
+footer {
+  margin-top: 40px;
+  padding: 20px calc(20px + env(safe-area-inset-left)) calc(20px + env(safe-area-inset-bottom)) calc(20px + env(safe-area-inset-right));
+  text-align: center;
+  font-size: 12px;
+  color: #888;
+  border-top: 1px solid var(--card-border);
+  background: var(--bg-color);
+}
+footer a {
+  color: #888;
+  text-decoration: none;
+  margin: 0 8px;
+  transition: color 0.2s ease;
+}
+footer a:hover {
+  color: var(--hover-text);
+}
+
+@media (max-width: 640px) {
+  .login-card {
+    padding: 30px 24px;
+  }
+  .login-card h1 {
+    font-size: 24px;
+  }
+  .social-login {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- Startup Animation -->
+<div class="startup-overlay" id="startupOverlay">
+  <img src="IMG_0696.png" class="startup-logo" alt="Patholytica Logo">
+  <div class="circle-reveal"></div>
+</div>
+
+<div class="header-wrapper">
+  <div class="header">
+    <img src="IMG_0696.png" class="logo-img" alt="Patholytica Logo" onclick="window.location.href='nigger.html'">
+    <div class="header-right">
+      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+        <svg class="moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+        </svg>
+        <svg class="sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+        </svg>
+      </button>
+      <div class="menu-icon" onclick="toggleMenu(this)">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+    <div class="menu-buttons" id="menuButtons">
+      <a href="nigger.html">🏠 Home</a>
+      <a href="profile.html">👤 Profile</a>
+      <a href="settings.html">⚙️ Settings</a>
+      <a href="help.html">❓ Help</a>
+      <a href="admin.html">🛡️ Admin Dashboard</a>
+      <a href="logout.html">🚪 Logout</a>
+    </div>
+  </div>
+</div>
+
+<div class="login-container">
+  <div class="login-card">
+    <h1>Welcome Back</h1>
+    <p class="subtitle">Your tool to <strong>LOVE</strong> what you learn</p>
+
+    <!-- Login Form -->
+    <div class="form-section active" id="loginSection">
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="loginEmail">Email or Username</label>
+          <input type="text" id="loginEmail" class="input-field" placeholder="Enter your email or username" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="loginPassword">Password</label>
+          <div class="password-wrapper">
+            <input type="password" id="loginPassword" class="input-field" placeholder="Enter your password" required>
+            <button type="button" class="password-toggle" onclick="togglePassword('loginPassword', this)">👁️</button>
+          </div>
+        </div>
+
+        <div class="form-options">
+          <label class="remember-me">
+            <input type="checkbox" id="rememberMe">
+            <span>Remember me</span>
+          </label>
+          <a href="#" class="forgot-password" onclick="showForgotPassword(); return false;">Forgot password?</a>
+        </div>
+
+        <button type="submit" class="btn-primary">Sign In</button>
+      </form>
+
+      <div class="divider"><span>or</span></div>
+
+      <div class="social-login">
+        <button class="social-btn" onclick="socialLogin('google')">
+          <span>🔍</span> Google
+        </button>
+        <button class="social-btn" onclick="socialLogin('github')">
+          <span>💻</span> GitHub
+        </button>
+      </div>
+
+      <div class="form-links">
+        Don't have an account? <a href="#" onclick="showSignup(); return false;">Sign up</a>
+      </div>
+
+      <button class="btn-secondary" onclick="guestMode()">Continue as Guest</button>
+    </div>
+
+    <!-- Signup Form -->
+    <div class="form-section" id="signupSection">
+      <form id="signupForm">
+        <div class="form-group">
+          <label for="signupName">Full Name</label>
+          <input type="text" id="signupName" class="input-field" placeholder="Enter your full name" required>
+        </div>
+
+        <div class="form-group">
+          <label for="signupEmail">Email Address</label>
+          <input type="email" id="signupEmail" class="input-field" placeholder="Enter your email" required>
+        </div>
+
+        <div class="form-group">
+          <label for="signupUsername">Username</label>
+          <input type="text" id="signupUsername" class="input-field" placeholder="Choose a username" required>
+        </div>
+
+        <div class="form-group">
+          <label for="signupPassword">Password</label>
+          <div class="password-wrapper">
+            <input type="password" id="signupPassword" class="input-field" placeholder="Create a password (min. 8 characters)" minlength="8" required>
+            <button type="button" class="password-toggle" onclick="togglePassword('signupPassword', this)">👁️</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="signupConfirmPassword">Confirm Password</label>
+          <div class="password-wrapper">
+            <input type="password" id="signupConfirmPassword" class="input-field" placeholder="Confirm your password" required>
+            <button type="button" class="password-toggle" onclick="togglePassword('signupConfirmPassword', this)">👁️</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="remember-me">
+            <input type="checkbox" id="agreeTerms" required>
+            <span>I agree to the <a href="#" style="color:var(--hover-text);">Terms of Service</a> and <a href="#" style="color:var(--hover-text);">Privacy Policy</a></span>
+          </label>
+        </div>
+
+        <button type="submit" class="btn-primary">Create Account</button>
+      </form>
+
+      <div class="form-links">
+        Already have an account? <a href="#" onclick="showLogin(); return false;">Sign in</a>
+      </div>
+    </div>
+
+    <!-- Forgot Password Form -->
+    <div class="form-section" id="forgotPasswordSection">
+      <h2 style="font-size: 24px; margin-bottom: 8px; text-align: center;">Reset Password</h2>
+      <p class="subtitle" style="margin-bottom: 30px;">Enter your email and we'll send you a reset link</p>
+      
+      <form id="forgotPasswordForm">
+        <div class="form-group">
+          <label for="resetEmail">Email Address</label>
+          <input type="email" id="resetEmail" class="input-field" placeholder="Enter your email" required>
+        </div>
+
+        <button type="submit" class="btn-primary">Send Reset Link</button>
+      </form>
+
+      <div class="form-links">
+        Remember your password? <a href="#" onclick="showLogin(); return false;">Back to login</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  &copy; 2025 Patholytica by MedicineBank. All rights reserved.
+  <br>
+  <a href="#">Privacy Policy</a> |
+  <a href="#">Terms of Service</a> |
+  <a href="#">Contact</a>
+</footer>
+
+<script>
+// Apply theme immediately on page load (before animation)
+if(localStorage.getItem('theme')==='light') document.body.classList.add('light-theme');
+
+// Theme toggle
+function toggleTheme(){
+  document.body.classList.toggle('light-theme');
+  localStorage.setItem('theme',document.body.classList.contains('light-theme')?'light':'dark');
+}
+
+// Hamburger toggle
+function toggleMenu(icon){
+  const menu=document.getElementById('menuButtons');
+  menu.classList.toggle('show'); icon.classList.toggle('active');
+  const spans=icon.querySelectorAll('span');
+  if(icon.classList.contains('active')){
+    spans[0].style.transform='rotate(45deg) translate(5px,5px)';
+    spans[1].style.opacity='0';
+    spans[2].style.transform='rotate(-45deg) translate(6px,-6px)';
+  } else { spans[0].style.transform='none'; spans[1].style.opacity='1'; spans[2].style.transform='none'; }
+}
+
+// Close menu
+document.addEventListener('click', e=>{
+  const menu=document.getElementById('menuButtons');
+  const icon=document.querySelector('.menu-icon');
+  if(!menu.contains(e.target)&&!icon.contains(e.target)&&menu.classList.contains('show')) toggleMenu(icon);
+});
+
+// Form Toggle Functions
+function showSignup(){
+  document.getElementById('loginSection').classList.remove('active');
+  document.getElementById('signupSection').classList.add('active');
+  document.getElementById('forgotPasswordSection').classList.remove('active');
+}
+
+function showLogin(){
+  document.getElementById('signupSection').classList.remove('active');
+  document.getElementById('loginSection').classList.add('active');
+  document.getElementById('forgotPasswordSection').classList.remove('active');
+}
+
+function showForgotPassword(){
+  document.getElementById('loginSection').classList.remove('active');
+  document.getElementById('signupSection').classList.remove('active');
+  document.getElementById('forgotPasswordSection').classList.add('active');
+}
+
+// Password Toggle
+function togglePassword(inputId, button){
+  const input = document.getElementById(inputId);
+  if(input.type === 'password'){
+    input.type = 'text';
+    button.textContent = '🙈';
+  } else {
+    input.type = 'password';
+    button.textContent = '👁️';
+  }
+}
+
+// Guest Mode
+function guestMode(){
+  if(confirm('Continue as guest? You will have limited access to features.')){
+    window.location.href = 'nigger.html';
+  }
+}
+
+// Social Login
+function socialLogin(provider){
+  alert(`${provider.charAt(0).toUpperCase() + provider.slice(1)} login would be implemented here.`);
+}
+
+// Form Submissions
+document.getElementById('loginForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const email = document.getElementById('loginEmail').value;
+  const password = document.getElementById('loginPassword').value;
+  const rememberMe = document.getElementById('rememberMe').checked;
+  
+  // Simulate login
+  console.log('Login attempt:', { email, password, rememberMe });
+  alert('Login functionality would connect here. Welcome to Patholytica!');
+  // window.location.href = 'nigger.html';
+});
+
+document.getElementById('signupForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const password = document.getElementById('signupPassword').value;
+  const confirmPassword = document.getElementById('signupConfirmPassword').value;
+  
+  if(password !== confirmPassword){
+    alert('Passwords do not match. Please try again.');
+    return;
+  }
+  
+  // Simulate signup
+  console.log('Signup attempt');
+  alert('Account created successfully! Welcome to Patholytica!');
+  showLogin();
+});
+
+document.getElementById('forgotPasswordForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const email = document.getElementById('resetEmail').value;
+  
+  // Simulate password reset
+  console.log('Password reset requested for:', email);
+  alert('Password reset link has been sent to your email!');
+  showLogin();
+});
+
+// Startup Animation - Start immediately when DOM is ready, don't wait for all resources
+(function startAnimation() {
+  // Use DOMContentLoaded for faster execution, or run immediately if DOM already ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', startAnimation);
+    return;
+  }
+  
+  const overlay = document.getElementById('startupOverlay');
+  const circleReveal = overlay?.querySelector('.circle-reveal');
+  
+  // Update circle reveal background to match current theme
+  if (circleReveal) {
+    const bgColor = getComputedStyle(document.body).getPropertyValue('--bg-color').trim();
+    circleReveal.style.background = bgColor;
+  }
+  
+  if (overlay) {
+    // Detect mobile and adjust timing
+    const isMobile = window.innerWidth <= 640;
+    const animationDuration = isMobile ? 900 : 1200; // Faster on mobile
+    const fadeDelay = 300;
+    
+    // Wait for animation to complete - force play for full duration regardless of page load
+    setTimeout(() => {
+      overlay.classList.add('hidden');
+      // Remove from DOM after fade completes
+      setTimeout(() => {
+        overlay.remove();
+      }, fadeDelay);
+    }, animationDuration + fadeDelay);
+  }
+})();
+</script>
+</body>
+</html>
+
