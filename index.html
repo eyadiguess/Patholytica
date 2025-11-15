@@ -149,23 +149,27 @@ footer a {
 footer a:hover { color: var(--accent); }
 
 /* CAROUSEL */
+.carousel-wrapper {
+  overflow: hidden;
+  width: 100%;
+  margin-top: 60px;
+}
 .carousel {
-  max-width: 900px;
-  margin: 80px auto;
   display: flex;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  gap: 24px;
-  padding: 20px 10px;
+  gap: 16px;
+  padding: 20px;
+  animation: scrollCarousel 20s linear infinite;
 }
 .card {
-  min-width: 220px;
+  flex: 0 0 220px; /* equal width */
   background: var(--bg-color);
   border: 1px solid var(--card-border);
   border-radius: 12px;
   padding: 16px;
   text-align: center;
-  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .card img {
   width: 80px;
@@ -174,8 +178,42 @@ footer a:hover { color: var(--accent); }
   margin-bottom: 12px;
   object-fit: cover;
 }
-.card p { font-size: 14px; opacity: 0.85; line-height: 1.4; }
+.card h4 { margin: 0 0 8px 0; text-align: center; }
+.card p { font-size: 14px; opacity: 0.85; line-height: 1.4; text-align: center; }
 
+@keyframes scrollCarousel {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* CTA section under carousel */
+.cta {
+  text-align: center;
+  padding: 60px 20px;
+  background: rgba(255,77,77,0.05);
+  border-radius: 12px;
+  max-width: 800px;
+  margin: 60px auto;
+}
+.cta h3 { margin-bottom: 20px; }
+.cta p { margin-bottom: 25px; opacity: 0.85; }
+.cta .cta-btn {
+  display: inline-block;
+  padding: 14px 32px;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: 0.25s;
+}
+.cta .cta-btn:hover { background: var(--accent-hover); }
+
+/* Responsive */
+@media (max-width: 640px) {
+  .hero h1 { font-size: 34px; }
+  .hero p { font-size: 15.5px; }
+  .card { flex: 0 0 80%; }
+}
 </style>
 </head>
 <body>
@@ -196,22 +234,47 @@ footer a:hover { color: var(--accent); }
 </div>
 
 <!-- CAROUSEL -->
-<div class="carousel" id="carousel">
-  <div class="card">
-    <img src="IMG_0749.jpeg" alt="Founder Eyad Al-Basyouni">
-    <h4>Eyad Al-Basyouni</h4>
-    <p>"Our mission is to make medical learning accessible to everyone."</p>
+<div class="carousel-wrapper">
+  <div class="carousel" id="carousel">
+    <div class="card">
+      <img src="IMG_0751.jpeg" alt="Founder Eyad Al-Basyouni">
+      <h4>Eyad Al-Basyouni</h4>
+      <p>"Our mission is to make medical learning accessible to everyone."</p>
+    </div>
+    <div class="card">
+      <img src="IMG_0749.jpeg" alt="Web Dev Ahmed Samir">
+      <h4>Ahmed Samir</h4>
+      <p>"We build tools that empower students and remove barriers."</p>
+    </div>
+    <div class="card">
+      <img src="IMG_0750.jpeg" alt="Co-founder Omar Halawa">
+      <h4>Omar Halawa</h4>
+      <p>"Collaboration and clarity are our core values."</p>
+    </div>
+    <!-- duplicate for looping effect -->
+    <div class="card">
+      <img src="IMG_0751.jpeg" alt="Founder Eyad Al-Basyouni">
+      <h4>Eyad Al-Basyouni</h4>
+      <p>"Our mission is to make medical learning accessible to everyone."</p>
+    </div>
+    <div class="card">
+      <img src="IMG_0749.jpeg" alt="Web Dev Ahmed Samir">
+      <h4>Ahmed Samir</h4>
+      <p>"We build tools that empower students and remove barriers."</p>
+    </div>
+    <div class="card">
+      <img src="IMG_0750.jpeg" alt="Co-founder Omar Halawa">
+      <h4>Omar Halawa</h4>
+      <p>"Collaboration and clarity are our core values."</p>
+    </div>
   </div>
-  <div class="card">
-    <img src="IMG_0749.jpeg" alt="Web Dev Ahmed Samir">
-    <h4>Ahmed Samir</h4>
-    <p>"We build tools that empower students and remove barriers."</p>
-  </div>
-  <div class="card">
-    <img src="IMG_0750.jpeg" alt="Co-founder Omar Halawa">
-    <h4>Omar Halawa</h4>
-    <p>"Collaboration and clarity are our core values."</p>
-  </div>
+</div>
+
+<!-- CTA Section -->
+<div class="cta">
+  <h3>Join the Patholytica Community</h3>
+  <p>Stay updated with our latest features, events, and resources. Be part of the growing community of learners and contributors.</p>
+  <a href="#" class="cta-btn">Subscribe Now</a>
 </div>
 
 <footer>
@@ -264,7 +327,7 @@ window.addEventListener('scroll', () => {
 
   // Move button toward header logo
   const logoRect = logo.getBoundingClientRect();
-  const targetY = logoRect.bottom + 8; // under logo
+  const targetY = logoRect.bottom + 8;
   const startY = initialButtonOffset;
   const newTop = Math.max(startY - scrollY, targetY);
   button.style.position = 'fixed';
