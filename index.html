@@ -204,77 +204,6 @@ body.light-theme .logo-img {
   box-shadow: 0 12px 35px var(--btn-shadow-hover);
 }
 
-/* FEATURES GRID */
-.features {
-  max-width: 1100px;
-  margin: var(--section-gap) auto;
-  padding: 0 30px;
-}
-
-.features h2 {
-  text-align: center;
-  font-size: 38px;
-  font-weight: 700;
-  margin-bottom: 60px;
-  letter-spacing: -0.01em;
-}
-
-.features-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 30px;
-}
-
-.feature-card {
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  border-radius: 16px;
-  padding: 40px 30px;
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.feature-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: var(--accent);
-  transform: scaleX(0);
-  transition: transform 0.3s ease;
-}
-
-.feature-card:hover {
-  transform: translateY(-8px);
-  border-color: var(--accent);
-  box-shadow: 0 15px 40px rgba(0,0,0,0.2);
-}
-
-.feature-card:hover::before {
-  transform: scaleX(1);
-}
-
-.feature-icon {
-  font-size: 42px;
-  margin-bottom: 20px;
-  display: block;
-}
-
-.feature-card h3 {
-  font-size: 22px;
-  margin-bottom: 12px;
-  font-weight: 600;
-}
-
-.feature-card p {
-  color: var(--text-secondary);
-  font-size: 15px;
-  line-height: 1.6;
-}
-
 /* STATS SECTION */
 .stats {
   max-width: 1100px;
@@ -403,7 +332,7 @@ footer a:hover {
 @media (max-width: 768px) {
   .cta h3 { font-size: 36px; }
   .cta { padding: 80px 25px 70px; margin: 40px 20px; }
-  .features h2, .faq-section h2 { font-size: 32px; }
+  .faq-section h2 { font-size: 32px; }
   .stat-item h3 { font-size: 40px; }
 }
 
@@ -438,67 +367,6 @@ footer a:hover {
   <a href="login.html" class="cta-btn">Get Started</a>
 </div>
 
-<!-- FEATURES SECTION -->
-
-<div class="features">
-  <h2>Why Choose Patholytica?</h2>
-  <div class="features-grid">
-    <div class="feature-card">
-      <span class="feature-icon">📚</span>
-      <h3>Comprehensive Resources</h3>
-      <p>Access curated notes, diagrams, and study materials created by medical students for medical students.</p>
-    </div>
-    <div class="feature-card">
-      <span class="feature-icon">🤝</span>
-      <h3>Community Driven</h3>
-      <p>Join a thriving community where students collaborate, share insights, and support each other's learning journey.</p>
-    </div>
-    <div class="feature-card">
-      <span class="feature-icon">🎯</span>
-      <h3>Focused Learning</h3>
-      <p>Study materials organized by topic and difficulty, helping you master concepts efficiently and effectively.</p>
-    </div>
-    <div class="feature-card">
-      <span class="feature-icon">✨</span>
-      <h3>Always Free</h3>
-      <p>Quality medical education shouldn't have a price tag. Everything on Patholytica is completely free forever.</p>
-    </div>
-    <div class="feature-card">
-      <span class="feature-icon">📊</span>
-      <h3>Track Progress</h3>
-      <p>Monitor your learning journey with built-in progress tracking and personalized study recommendations.</p>
-    </div>
-    <div class="feature-card">
-      <span class="feature-icon">🌍</span>
-      <h3>Global Access</h3>
-      <p>Learn from anywhere, anytime. Our platform is accessible to medical students worldwide, 24/7.</p>
-    </div>
-  </div>
-</div>
-
-<!-- STATS SECTION -->
-
-<div class="stats">
-  <div class="stats-grid">
-    <div class="stat-item">
-      <h3>10K+</h3>
-      <p>Active Students</p>
-    </div>
-    <div class="stat-item">
-      <h3>500+</h3>
-      <p>Study Resources</p>
-    </div>
-    <div class="stat-item">
-      <h3>50+</h3>
-      <p>Medical Topics</p>
-    </div>
-    <div class="stat-item">
-      <h3>100%</h3>
-      <p>Free Forever</p>
-    </div>
-  </div>
-</div>
-
 <!-- FAQ SECTION -->
 
 <section class="faq-section">
@@ -524,6 +392,29 @@ footer a:hover {
     <p>Our community regularly contributes new content and updates existing materials to ensure everything remains current and accurate.</p>
   </div>
 </section>
+
+<!-- STATS SECTION -->
+
+<div class="stats">
+  <div class="stats-grid">
+    <div class="stat-item">
+      <h3>10K+</h3>
+      <p>Active Students</p>
+    </div>
+    <div class="stat-item">
+      <h3>500+</h3>
+      <p>Study Resources</p>
+    </div>
+    <div class="stat-item">
+      <h3>50+</h3>
+      <p>Medical Topics</p>
+    </div>
+    <div class="stat-item">
+      <h3>100%</h3>
+      <p>Free Forever</p>
+    </div>
+  </div>
+</div>
 
 <!-- FOOTER -->
 
