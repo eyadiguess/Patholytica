@@ -55,7 +55,11 @@ body.light-theme .logo-img {
   filter: brightness(0) invert(0);
 }
 
-.header-center { flex: 1; display: flex; justify-content: center; }
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
 
 .menu-icon {
   width: 25px; height: 20px; display: flex; flex-direction: column; justify-content: space-between;
@@ -118,8 +122,9 @@ body.light-theme .theme-toggle .sun-icon {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh; /* Dynamic viewport height for mobile */
   background: #000;
   z-index: 10000;
   display: flex;
@@ -141,6 +146,10 @@ body.light-theme .theme-toggle .sun-icon {
   filter: brightness(0) invert(1);
   animation: logoFadeIn 0.6s ease-out;
   will-change: transform, opacity;
+  transition: filter 0.3s ease;
+}
+body.light-theme .startup-logo {
+  filter: brightness(0) invert(0);
 }
 @keyframes logoFadeIn {
   from {
@@ -170,8 +179,8 @@ body.light-theme .theme-toggle .sun-icon {
     height: 0;
   }
   100% {
-    width: 200vmax;
-    height: 200vmax;
+    width: 300vmax;
+    height: 300vmax;
   }
 }
 
@@ -184,6 +193,16 @@ body.light-theme .theme-toggle .sun-icon {
   .circle-reveal {
     animation-duration: 0.9s;
   }
+  @keyframes circleExpand {
+    0% {
+      width: 0;
+      height: 0;
+    }
+    100% {
+      width: 400vmax;
+      height: 400vmax;
+    }
+  }
 }
 
 /* Reduce motion for users who prefer it */
@@ -195,16 +214,16 @@ body.light-theme .theme-toggle .sun-icon {
   .circle-reveal {
     animation: circleExpandReduced 0.5s ease forwards;
   }
-  @keyframes circleExpandReduced {
-    0% {
-      width: 0;
-      height: 0;
+    @keyframes circleExpandReduced {
+      0% {
+        width: 0;
+        height: 0;
+      }
+      100% {
+        width: 300vmax;
+        height: 300vmax;
+      }
     }
-    100% {
-      width: 200vmax;
-      height: 200vmax;
-    }
-  }
 }
 
 /* GRID */
@@ -260,7 +279,7 @@ footer a:hover { color:var(--hover-text); }
 <div class="header-wrapper">
   <div class="header">
     <img src="IMG_0696.png" class="logo-img" alt="Patholytica Logo">
-    <div class="header-center">
+    <div class="header-right">
       <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
         <svg class="moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
@@ -269,11 +288,11 @@ footer a:hover { color:var(--hover-text); }
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
         </svg>
       </button>
-    </div>
-    <div class="menu-icon" onclick="toggleMenu(this)">
-      <span></span>
-      <span></span>
-      <span></span>
+      <div class="menu-icon" onclick="toggleMenu(this)">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
     </div>
     <div class="menu-buttons" id="menuButtons">
       <a href="login.html">🔐 Login</a>
