@@ -12,8 +12,6 @@
   --card-border: #333;
   --hover-bg: #222;
   --hover-text: #ff4d4d;
-  --header-bg: #fff;
-  --header-text: #000;
   --btn-primary: #ff4d4d;
   --btn-primary-hover: #ff3333;
 }
@@ -25,88 +23,88 @@ body.light-theme {
   --card-border: #ccc;
   --hover-bg: #eee;
   --hover-text: #e74c3c;
-  --header-bg: #0f0f0f;
-  --header-text: #fff;
   --btn-primary: #e74c3c;
   --btn-primary-hover: #c0392b;
 }
 
 * { box-sizing: border-box; }
 html, body { margin:0; padding:0; height:100%; font-family: Arial, sans-serif; }
-body { background: var(--bg-color); color: var(--text-color); transition: all 0.3s ease; }
+
+body { background: var(--bg-color); transition: background 0.3s ease; display: flex; flex-direction: column; }
 
 /* HEADER */
 .header-wrapper {
   position: sticky;
   top: 0;
-  background: var(--header-bg);
+  background: #181818;
   z-index: 100;
-  padding-top: env(safe-area-inset-top);
 }
+
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 16px;
+  padding: env(safe-area-inset-top) 16px 0 16px;
   height: 50px;
-  color: var(--header-text);
 }
 
-.logo-img {
-  height: 28px;
-  width: auto;
-  filter: invert(0);
-  transition: filter 0.3s ease;
-}
+.logo-img { height: 28px; width: auto; }
 
-body.light-theme .logo-img {
-  filter: invert(1) brightness(1.1);
-}
+.header-center { flex: 1; display: flex; justify-content: center; }
 
-.header-center { flex:1; display:flex; justify-content:center; }
-
+/* Theme toggle */
 .theme-toggle {
-  padding:4px 10px; border-radius:4px; border:1px solid var(--card-border); font-size:12px;
-  background: var(--header-bg); color: var(--header-text); cursor:pointer; transition: all 0.3s ease;
+  padding:4px 10px; border-radius:4px; border:1px solid #333; font-size:12px;
+  background:#181818; color:#fff; cursor:pointer; transition: all 0.3s ease;
 }
-.theme-toggle:hover { background: var(--hover-bg); color: var(--hover-text); border-color: var(--hover-text); }
+body.light-theme .theme-toggle { border-color:#fff; background:#fff; color:#111; }
+.theme-toggle:hover { background:var(--hover-bg); color:var(--hover-text); border-color:var(--hover-text); }
+
+/* Empty space for hamburger alignment */
+.header-right { width: 25px; }
 
 /* LOGIN CONTAINER */
 .login-container {
+  flex: 1;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: calc(100vh - 50px - env(safe-area-inset-top));
-  padding: 20px calc(20px + env(safe-area-inset-left)) calc(20px + env(safe-area-inset-bottom)) calc(20px + env(safe-area-inset-right));
+  padding: 40px calc(20px + env(safe-area-inset-left)) calc(40px + env(safe-area-inset-bottom)) calc(20px + env(safe-area-inset-right));
 }
 
 .login-card {
   background: var(--card-bg);
   border: 1px solid var(--card-border);
   border-radius: 12px;
-  padding: 40px;
-  max-width: 400px;
+  padding: 50px 40px;
+  max-width: 420px;
   width: 100%;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
   text-align: center;
+  transition: all 0.3s ease;
+}
+
+.login-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.5);
 }
 
 .login-card h1 {
-  margin: 0 0 10px 0;
-  font-size: 28px;
+  margin: 0 0 12px 0;
+  font-size: 32px;
   color: var(--text-color);
 }
 
 .login-card p {
-  margin: 0 0 30px 0;
-  font-size: 14px;
+  margin: 0 0 35px 0;
+  font-size: 15px;
   color: #888;
+  line-height: 1.5;
 }
 
 .login-btn {
   display: inline-block;
-  padding: 14px 32px;
+  padding: 16px 40px;
   background: var(--btn-primary);
   color: #fff;
   text-decoration: none;
@@ -121,7 +119,7 @@ body.light-theme .logo-img {
 .login-btn:hover {
   background: var(--btn-primary-hover);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(255,77,77,0.4);
+  box-shadow: 0 6px 16px rgba(255,77,77,0.4);
 }
 
 /* FOOTER */
@@ -148,7 +146,11 @@ footer a:hover {
 
 @media (max-width: 640px) {
   .login-card {
-    padding: 30px 20px;
+    padding: 40px 30px;
+  }
+  
+  .login-card h1 {
+    font-size: 26px;
   }
 }
 </style>
@@ -161,14 +163,15 @@ footer a:hover {
     <div class="header-center">
       <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
     </div>
+    <div class="header-right"></div>
   </div>
 </div>
 
 <div class="login-container">
   <div class="login-card">
     <h1>Welcome to Patholytica</h1>
-    <p>Your comprehensive pathology learning platform</p>
-    <a href="login.html" class="login-btn">Login to Continue</a>
+    <p>Your comprehensive pathology learning platform powered by MedicineBank</p>
+    <a href="login.html" class="login-btn">🔐 Login to Continue</a>
   </div>
 </div>
 
