@@ -45,7 +45,15 @@ body { background: var(--bg-color); transition: background 0.3s ease; }
   height: 50px;
 }
 
-.logo-img { height: 28px; width: auto; }
+.logo-img { 
+  height: 28px; 
+  width: auto; 
+  filter: brightness(0) invert(1);
+  transition: filter 0.3s ease;
+}
+body.light-theme .logo-img {
+  filter: brightness(0) invert(0);
+}
 
 .header-center { flex: 1; display: flex; justify-content: center; }
 
@@ -129,7 +137,10 @@ body.light-theme .theme-toggle .sun-icon {
   z-index: 10001;
   height: 80px;
   width: auto;
+  max-width: 90vw;
+  filter: brightness(0) invert(1);
   animation: logoFadeIn 0.6s ease-out;
+  will-change: transform, opacity;
 }
 @keyframes logoFadeIn {
   from {
@@ -150,6 +161,7 @@ body.light-theme .theme-toggle .sun-icon {
   border-radius: 50%;
   background: var(--bg-color);
   transform: translate(-50%, -50%);
+  will-change: width, height;
   animation: circleExpand 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 @keyframes circleExpand {
@@ -160,6 +172,38 @@ body.light-theme .theme-toggle .sun-icon {
   100% {
     width: 200vmax;
     height: 200vmax;
+  }
+}
+
+/* Mobile optimizations for startup animation */
+@media (max-width: 640px) {
+  .startup-logo {
+    height: 60px;
+    max-width: 85vw;
+  }
+  .circle-reveal {
+    animation-duration: 0.9s;
+  }
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  .startup-logo {
+    animation: none;
+    opacity: 1;
+  }
+  .circle-reveal {
+    animation: circleExpandReduced 0.5s ease forwards;
+  }
+  @keyframes circleExpandReduced {
+    0% {
+      width: 0;
+      height: 0;
+    }
+    100% {
+      width: 200vmax;
+      height: 200vmax;
+    }
   }
 }
 
@@ -345,14 +389,19 @@ window.addEventListener('load', () => {
   }
   
   if (overlay) {
-    // Wait for animation to complete (1.2s circle expand + 0.3s fade)
+    // Detect mobile and adjust timing
+    const isMobile = window.innerWidth <= 640;
+    const animationDuration = isMobile ? 900 : 1200; // Faster on mobile
+    const fadeDelay = 300;
+    
+    // Wait for animation to complete
     setTimeout(() => {
       overlay.classList.add('hidden');
       // Remove from DOM after fade completes
       setTimeout(() => {
         overlay.remove();
-      }, 300);
-    }, 1500);
+      }, fadeDelay);
+    }, animationDuration + fadeDelay);
   }
 });
 </script>
