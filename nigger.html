@@ -179,8 +179,8 @@ body.light-theme .startup-logo {
     height: 0;
   }
   100% {
-    width: 300vmax;
-    height: 300vmax;
+    width: 500vmax;
+    height: 500vmax;
   }
 }
 
@@ -199,8 +199,8 @@ body.light-theme .startup-logo {
       height: 0;
     }
     100% {
-      width: 400vmax;
-      height: 400vmax;
+      width: 600vmax;
+      height: 600vmax;
     }
   }
 }
@@ -220,8 +220,8 @@ body.light-theme .startup-logo {
         height: 0;
       }
       100% {
-        width: 300vmax;
-        height: 300vmax;
+        width: 500vmax;
+        height: 500vmax;
       }
     }
 }
@@ -396,8 +396,14 @@ function toggleTheme(){
   localStorage.setItem('theme',document.body.classList.contains('light-theme')?'light':'dark');
 }
 
-// Startup Animation
-window.addEventListener('load', () => {
+// Startup Animation - Start immediately when DOM is ready, don't wait for all resources
+(function startAnimation() {
+  // Use DOMContentLoaded for faster execution, or run immediately if DOM already ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', startAnimation);
+    return;
+  }
+  
   const overlay = document.getElementById('startupOverlay');
   const circleReveal = overlay?.querySelector('.circle-reveal');
   
@@ -413,7 +419,7 @@ window.addEventListener('load', () => {
     const animationDuration = isMobile ? 900 : 1200; // Faster on mobile
     const fadeDelay = 300;
     
-    // Wait for animation to complete
+    // Wait for animation to complete - force play for full duration regardless of page load
     setTimeout(() => {
       overlay.classList.add('hidden');
       // Remove from DOM after fade completes
@@ -422,7 +428,7 @@ window.addEventListener('load', () => {
       }, fadeDelay);
     }, animationDuration + fadeDelay);
   }
-});
+})();
 </script>
 </body>
 </html>
