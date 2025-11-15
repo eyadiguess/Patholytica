@@ -41,7 +41,7 @@ body.light-theme .logo-img { filter: invert(1); }
 /* HERO */
 .hero { position: relative; display:flex; flex-direction:column; align-items:center; padding:110px 25px 90px; max-width:760px; margin:auto; text-align:center; }
 .hero h1 { font-size:42px; font-weight:700; margin-bottom:18px; }
-.hero p { font-size:17px; opacity:0.8; margin-bottom:38px; line-height:1.6; max-width:680px; text-align:justify; }
+.hero p { font-size:17px; opacity:0.8; margin-bottom:38px; line-height:1.6; max-width:650px; margin-left:auto; margin-right:auto; }
 
 /* BUTTON */
 .main-btn { position: relative; padding:16px 42px; background:var(--accent); color:#fff; border-radius:12px; font-size:17px; text-decoration:none; transition:0.25s ease, transform 0.25s ease; box-shadow:0 6px 16px var(--btn-shadow); display:inline-block; }
@@ -54,26 +54,133 @@ body.light-theme .logo-img { filter: invert(1); }
 /* CAROUSEL SECTION */
 .carousel-section { padding:80px 0; background:linear-gradient(180deg, transparent 0%, rgba(255,77,77,0.03) 50%, transparent 100%); }
 .carousel-section h2 { text-align:center; font-size:32px; margin-bottom:16px; font-weight:700; }
-.carousel-section > p { text-align:center; opacity:0.75; max-width:520px; margin:0 auto 50px; font-size:16px; line-height:1.6; }
+.carousel-section > p { text-align:center; opacity:0.75; max-width:600px; margin:0 auto 50px; font-size:16px; line-height:1.6; }
 
 /* Carousel wrapper */
-.carousel-wrapper { overflow:hidden; width:100%; position:relative; display:flex; align-items:center; }
-.carousel { display:flex; gap:24px; transition: transform 0.4s ease; }
-.card { flex:0 0 280px; background:var(--bg-color); border:1px solid var(--card-border); border-radius:16px; padding:28px 20px; display:flex; flex-direction:column; align-items:center; text-align:center; }
-.card img { width:100px; height:100px; border-radius:50%; margin-bottom:18px; object-fit:cover; border:3px solid var(--card-border); }
-.card h4 { margin:0 0 10px 0; font-size:18px; font-weight:600; }
-.card p { font-size:14px; opacity:0.85; line-height:1.5; font-style:italic; text-align:center; }
+.carousel-container { position:relative; max-width:1200px; margin:0 auto; }
+.carousel-wrapper { overflow:hidden; width:100%; position:relative; padding:20px 0; }
+
+.carousel-wrapper::before,
+.carousel-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 120px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.carousel-wrapper::before {
+  left: 0;
+  background: linear-gradient(to right, var(--bg-color), transparent);
+}
+
+.carousel-wrapper::after {
+  right: 0;
+  background: linear-gradient(to left, var(--bg-color), transparent);
+}
+
+.carousel {
+  display: flex;
+  gap: 24px;
+  animation: scrollCarousel 30s linear infinite;
+  padding: 0 20px;
+}
+
+.carousel.paused {
+  animation-play-state: paused;
+}
+
+.card {
+  flex: 0 0 280px;
+  background: var(--bg-color);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  padding: 28px 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  border-color: var(--accent);
+  box-shadow: 0 12px 32px rgba(255,77,77,0.15);
+}
+
+.card img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-bottom: 18px;
+  object-fit: cover;
+  border: 3px solid var(--card-border);
+  transition: border-color 0.3s ease;
+}
+
+.card:hover img {
+  border-color: var(--accent);
+}
+
+.card h4 { 
+  margin: 0 0 10px 0; 
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.card p { 
+  font-size: 14px; 
+  opacity: 0.85; 
+  line-height: 1.5; 
+  text-align: center;
+  font-style: italic;
+}
+
+@keyframes scrollCarousel {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
 
 /* Carousel buttons */
-.carousel-btn { position:absolute; top:50%; transform:translateY(-50%); background:var(--bg-color); border:1px solid var(--card-border); color:var(--text-color); padding:12px; cursor:pointer; border-radius:50%; z-index:10; transition:all 0.25s ease; }
-.carousel-btn:hover { background:var(--accent); color:#fff; border-color:var(--accent); }
-.carousel-btn.left { left:10px; }
-.carousel-btn.right { right:10px; }
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--bg-color);
+  border: 1px solid var(--card-border);
+  color: var(--text-color);
+  width: 48px;
+  height: 48px;
+  cursor: pointer;
+  border-radius: 50%;
+  z-index: 10;
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.carousel-btn:hover {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-btn.left { left: 20px; }
+.carousel-btn.right { right: 20px; }
 
 /* CTA section */
-.cta { text-align:center; padding:80px 30px; background:linear-gradient(135deg, rgba(255,77,77,0.08), rgba(255,77,77,0.02)); border-radius:20px; max-width:900px; margin:80px auto; border:1px solid var(--card-border); }
+.cta { text-align:center; padding:80px 30px; background:linear-gradient(135deg, rgba(255,77,77,0.08), rgba(255,77,77,0.02)); border-radius:20px; max-width:900px; margin:80px auto; border:1px solid var(--card-border); position:relative; overflow:hidden; }
+.cta::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg, transparent, var(--accent), transparent); }
 .cta h3 { margin-bottom:16px; font-size:32px; font-weight:700; }
-.cta p { margin-bottom:32px; opacity:0.85; font-size:17px; line-height:1.7; max-width:680px; text-align:justify; margin-left:auto; margin-right:auto; }
+.cta p { margin-bottom:32px; opacity:0.85; font-size:17px; line-height:1.7; max-width:700px; margin-left:auto; margin-right:auto; }
 .cta-btn { display:inline-block; padding:16px 40px; background:var(--accent); color:#fff; border-radius:12px; text-decoration:none; transition:all 0.25s ease; font-size:16px; font-weight:500; box-shadow:0 6px 20px var(--btn-shadow); }
 .cta-btn:hover { background:var(--accent-hover); transform:translateY(-3px); box-shadow:0 10px 30px var(--btn-shadow-hover); }
 
@@ -90,6 +197,9 @@ footer a:hover { color:var(--accent); }
   .cta h3 { font-size:26px; }
   .card { flex:0 0 75%; }
   .cta { padding:60px 25px; margin:60px 20px; }
+  .carousel-btn { width:40px; height:40px; font-size:20px; }
+  .carousel-btn.left { left:10px; }
+  .carousel-btn.right { right:10px; }
 }
 </style>
 </head>
@@ -115,26 +225,44 @@ footer a:hover { color:var(--accent); }
   <h2>Meet Our Team</h2>
   <p>Dedicated students and innovators working together to transform medical education for everyone.</p>
   
-  <div class="carousel-wrapper">
-    <button class="carousel-btn left" onclick="scrollCarousel(-1)">‹</button>
-    <div class="carousel" id="carousel">
-      <div class="card">
-        <img src="IMG_0751.jpeg" alt="Founder Eyad Al-Basyouni">
-        <h4>Eyad Al-Basyouni</h4>
-        <p>"Our mission is to make medical learning accessible to everyone."</p>
-      </div>
-      <div class="card">
-        <img src="IMG_0749.jpeg" alt="Web Dev Ahmed Samir">
-        <h4>Ahmed Samir</h4>
-        <p>"We build tools that empower students and remove barriers."</p>
-      </div>
-      <div class="card">
-        <img src="IMG_0750.jpeg" alt="Co-founder Omar Halawa">
-        <h4>Omar Halawa</h4>
-        <p>"Collaboration and clarity are our core values."</p>
+  <div class="carousel-container">
+    <button class="carousel-btn left" onclick="pauseAndScroll(-1)">‹</button>
+    <div class="carousel-wrapper">
+      <div class="carousel" id="carousel">
+        <div class="card">
+          <img src="IMG_0751.jpeg" alt="Founder Eyad Al-Basyouni">
+          <h4>Eyad Al-Basyouni</h4>
+          <p>"Our mission is to make medical learning accessible to everyone."</p>
+        </div>
+        <div class="card">
+          <img src="IMG_0749.jpeg" alt="Web Dev Ahmed Samir">
+          <h4>Ahmed Samir</h4>
+          <p>"We build tools that empower students and remove barriers."</p>
+        </div>
+        <div class="card">
+          <img src="IMG_0750.jpeg" alt="Co-founder Omar Halawa">
+          <h4>Omar Halawa</h4>
+          <p>"Collaboration and clarity are our core values."</p>
+        </div>
+        <!-- duplicate for looping effect -->
+        <div class="card">
+          <img src="IMG_0751.jpeg" alt="Founder Eyad Al-Basyouni">
+          <h4>Eyad Al-Basyouni</h4>
+          <p>"Our mission is to make medical learning accessible to everyone."</p>
+        </div>
+        <div class="card">
+          <img src="IMG_0749.jpeg" alt="Web Dev Ahmed Samir">
+          <h4>Ahmed Samir</h4>
+          <p>"We build tools that empower students and remove barriers."</p>
+        </div>
+        <div class="card">
+          <img src="IMG_0750.jpeg" alt="Co-founder Omar Halawa">
+          <h4>Omar Halawa</h4>
+          <p>"Collaboration and clarity are our core values."</p>
+        </div>
       </div>
     </div>
-    <button class="carousel-btn right" onclick="scrollCarousel(1)">›</button>
+    <button class="carousel-btn right" onclick="pauseAndScroll(1)">›</button>
   </div>
 </div>
 
@@ -173,12 +301,49 @@ function createSpark() {
 }
 setInterval(createSpark,300);
 
-/* Carousel manual scroll */
+/* Carousel control with buttons */
 const carousel = document.getElementById('carousel');
-function scrollCarousel(direction){
-  const cardWidth = carousel.querySelector('.card').offsetWidth + 24; // card width + gap
-  carousel.scrollBy({left: cardWidth*direction, behavior:'smooth'});
+let isPaused = false;
+let resumeTimeout;
+
+function pauseAndScroll(direction) {
+  // Pause the animation
+  carousel.classList.add('paused');
+  isPaused = true;
+  
+  // Get current transform value
+  const style = window.getComputedStyle(carousel);
+  const matrix = new DOMMatrix(style.transform);
+  const currentTranslateX = matrix.m41;
+  
+  // Calculate new position
+  const cardWidth = 280 + 24; // card width + gap
+  const newTranslateX = currentTranslateX - (cardWidth * direction);
+  
+  // Apply new transform
+  carousel.style.transform = `translateX(${newTranslateX}px)`;
+  
+  // Clear any existing timeout
+  clearTimeout(resumeTimeout);
+  
+  // Resume animation after 3 seconds
+  resumeTimeout = setTimeout(() => {
+    carousel.classList.remove('paused');
+    carousel.style.transform = '';
+    isPaused = false;
+  }, 3000);
 }
+
+// Also pause on hover
+carousel.addEventListener('mouseenter', () => {
+  carousel.classList.add('paused');
+});
+
+carousel.addEventListener('mouseleave', () => {
+  if (!isPaused) {
+    carousel.classList.remove('paused');
+  }
+});
 </script>
 
 </body>
