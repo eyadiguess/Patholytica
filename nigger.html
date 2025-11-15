@@ -1,339 +1,360 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Patholytica — Educational Platform</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Patholytica — by MedicineBank</title>
+<style>
+:root {
+  --bg-color: #0f0f0f;
+  --text-color: #fff;
+  --card-bg: #181818;
+  --card-border: #333;
+  --hover-bg: #222;
+  --hover-text: #ff4d4d;
+}
 
-  <!-- Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+body.light-theme {
+  --bg-color: #f5f5f5;
+  --text-color: #111;
+  --card-bg: #fff;
+  --card-border: #ccc;
+  --hover-bg: #eee;
+  --hover-text: #e74c3c;
+}
 
-  <style>
-    html, body { max-width:100%; overflow-x:hidden; }
-    :root{
-      --blue:#9146FF; /* LinkedIn‑style blue */
-      --light:#ffffff;
-      --bg:#f5f7fa;
-      --text:#1a1a1a;
-      --sub:#5f6b7a;
-      --card:#ffffff;
-      --radius:12px;
-      font-family:'Inter', sans-serif;
-    }
+* { box-sizing: border-box; }
+html, body { margin:0; padding:0; height:100%; font-family: Arial, sans-serif; }
 
-    /* Dark mode overrides (body.dark) */
-    body.dark {
-      --bg:#0b0f14;
-      --card:#0f1720;
-      --text:#e6eef6;
-      --sub:#9aa6b2;
-    }
+body { background: var(--bg-color); transition: background 0.3s ease; }
 
-    body{
-      margin:0;
-      background:var(--bg);
-      color:var(--text);
-    }
+/* HEADER */
+.header-wrapper {
+  position: sticky;
+  top: 0;
+  background: var(--card-bg);
+  z-index: 100;
+  transition: background 0.3s ease;
+}
 
-    /* HEADER */
-    header{
-      background:var(--blue);
-      padding:12px 26px;
-      color:var(--light);
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      position:sticky;
-      top:0;
-      z-index:20;
-      box-shadow:0 2px 6px rgba(0,0,0,0.25);
-    }
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: env(safe-area-inset-top) 16px 0 16px;
+  height: 50px;
+}
 
-    .title{
-      font-size:24px;
-      font-weight:700;
-      letter-spacing:0.3px;
-    }
+.logo-img { height: 28px; width: auto; }
 
-    nav{
-      display:flex;
-      gap:16px;
-      font-size:15px;
-      align-items:center;
-      flex-wrap:wrap; /* allow items to wrap on small screens */
-    }
-    nav a{
+.header-center { flex: 1; display: flex; justify-content: center; }
 
-      color:var(--light);
-      text-decoration:none;
-      font-weight:500;
-      opacity:0.9;
-    }
-    nav a:hover{
-      opacity:1;
-    }
+.menu-icon {
+  width: 25px; height: 20px; display: flex; flex-direction: column; justify-content: space-between;
+  cursor: pointer; z-index: 1001;
+}
+.menu-icon span { display:block; height:3px; background:var(--text-color); border-radius:2px; transition: all 0.3s ease; }
 
-    /* LAYOUT */
-    .container{
-      display:grid;
-      grid-template-columns:260px 1fr;
-      gap:20px;
-      padding:24px;
-      max-width:1350px;
-      margin:0 auto;
-    }
+/* Menu buttons */
+.menu-buttons {
+  position: absolute; top: calc(100% + 1px); right: 16px;
+  background: var(--card-bg); border:1px solid var(--card-border); border-radius:6px;
+  display:flex; flex-direction:column; overflow:hidden; opacity:0;
+  transform:translateY(-10px); pointer-events:none; transition:all 0.3s ease; z-index:1000;
+}
+.menu-buttons.show { opacity:1; transform:translateY(0); pointer-events:all; }
+.menu-buttons a { padding:12px 20px; font-size:14px; color:var(--text-color); text-decoration:none; border-bottom:1px solid var(--card-border); white-space:nowrap; transition: all 0.2s ease; opacity:0.8; }
+.menu-buttons a:last-child { border-bottom:none; }
+.menu-buttons a:hover { color:var(--hover-text); background:var(--hover-bg); padding-left:24px; opacity:1; }
 
-    /* SIDEBAR */
-    .sidebar{
-      background:var(--card);
-      border-radius:var(--radius);
-      padding:20px;
-      box-shadow:0 2px 8px rgba(0,0,0,0.05);
-      height:max-content;
-    }
-    .sidebar h3{
-      margin-top:0;
-      font-size:18px;
-    }
-    .sidebar ul{
-      list-style:none;
-      padding:0;
-      margin:12px 0 0 0;
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-    }
-    .sidebar ul li{
-      cursor:pointer;
-      padding:10px 12px;
-      border-radius:8px;
-      color:var(--sub);
-      background:#f1f4f6;
-      font-size:14px;
-      transition:0.2s;
-    }
-    .sidebar ul li:hover{
-      background:#e3e8ef;
-      color:var(--text);
-    }
+/* Theme toggle */
+.theme-toggle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--card-border);
+  background: var(--card-bg);
+  color: var(--text-color);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+.theme-toggle:hover {
+  background: var(--hover-bg);
+  border-color: var(--hover-text);
+  transform: scale(1.1);
+}
+.theme-toggle svg {
+  width: 20px;
+  height: 20px;
+  transition: all 0.3s ease;
+}
+.theme-toggle .moon-icon {
+  display: block;
+}
+.theme-toggle .sun-icon {
+  display: none;
+}
+body.light-theme .theme-toggle .moon-icon {
+  display: none;
+}
+body.light-theme .theme-toggle .sun-icon {
+  display: block;
+}
 
-    /* MAIN */
-    .main{
-      display:flex;
-      flex-direction:column;
-      gap:20px;
-    }
+/* Startup Animation */
+.startup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.startup-overlay.hidden {
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.startup-logo {
+  position: relative;
+  z-index: 10001;
+  height: 80px;
+  width: auto;
+  animation: logoFadeIn 0.6s ease-out;
+}
+@keyframes logoFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.circle-reveal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: var(--bg-color);
+  transform: translate(-50%, -50%);
+  animation: circleExpand 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+@keyframes circleExpand {
+  0% {
+    width: 0;
+    height: 0;
+  }
+  100% {
+    width: 200vmax;
+    height: 200vmax;
+  }
+}
 
-    .hero{
-      background:var(--card);
-      padding:26px;
-      border-radius:var(--radius);
-      box-shadow:0 2px 8px rgba(0,0,0,0.05);
-    }
-    .hero h1{
-      margin:0;
-      font-size:28px;
-      font-weight:700;
-    }
-    .hero p{
-      margin-top:8px;
-      font-size:16px;
-      color:var(--sub);
-      max-width:620px;
-    }
+/* GRID */
+.theme-container {
+  padding:20px calc(20px + env(safe-area-inset-left)) calc(20px + env(safe-area-inset-bottom)) calc(20px + env(safe-area-inset-right));
+  min-height: calc(100vh - 50px - env(safe-area-inset-top)); background: var(--bg-color);
+}
+.grid { display:grid; gap:20px; grid-template-columns: repeat(auto-fill, minmax(250px,1fr)); }
 
-    /* COURSE CARDS */
-    .grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
-      gap:20px;
-    }
+.video-card { background:var(--card-bg); border-radius:6px; box-shadow:0 2px 8px rgba(0,0,0,0.3); overflow:hidden; position:relative; transition:all 0.3s ease; }
+.video-card:hover { transform:translateY(-4px); box-shadow:0 8px 16px rgba(0,0,0,0.5); }
 
-    .card{
-      background:var(--card);
-      border-radius:var(--radius);
-      padding:18px;
-      box-shadow:0 2px 8px rgba(0,0,0,0.05);
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-    }
-    .card h3{
-      margin:0;
-      font-size:18px;
-    }
-    .card p{
-      margin:0;
-      font-size:14px;
-      color:var(--sub);
-    }
-    .card button{
-      margin-top:auto;
-      padding:10px 14px;
-      border-radius:8px;
-      border:0;
-      background:var(--blue);
-      color:white;
-      font-weight:500;
-      cursor:pointer;
-      transition:0.2s;
-    }
-    .card button:hover{
-      background:#094e95;
-    }
+.thumbnail-link { display:block; width:100%; text-decoration:none; color:inherit; position:relative; }
+.thumbnail-container { position:relative; overflow:hidden; }
+.thumbnail { width:100%; height:200px; object-fit:cover; display:block; transition:transform 0.3s ease; }
+.video-card:hover .thumbnail { transform:scale(1.05); }
 
-    /* FOOTER */
-    footer{
-      background:var(--blue);
-      color:white;
-      text-align:center;
-      padding:22px 0;
-      margin-top:40px;
-      font-size:14px;
-      box-shadow:0 -2px 6px rgba(0,0,0,0.25);
-    }
-    footer span{
-      opacity:0.8;
-    }
+.gradient-overlay {
+  position:absolute; bottom:0; left:0; width:100%; height:40%;
+  background:linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0));
+  display:flex; align-items:flex-end; padding:5px 10px;
+}
+.title { font-size:14px; font-weight:bold; color:#fff !important; }
 
-    /* RESPONSIVE */
-    @media(max-width:900px){
-      .container{
-        grid-template-columns:1fr;
-      }
-    }
+.info { padding:12px; display:flex; justify-content:flex-start; }
 
-    /* Smaller screens: make header stack and ensure toggle stays visible */
-    @media (max-width:600px){
-      header{
-        flex-direction:column;
-        align-items:flex-start;
-        gap:10px;
-        padding:14px 16px;
-      }
-      .title{width:100%;}
-      nav{width:100%;justify-content:space-between;}
-      nav a{flex:1 1 auto;text-align:left;padding:8px 6px;border-radius:8px;background:transparent}
-      /* place the toggle always at the end of the nav row */
-      #themeToggle{order:3}
-    }
+.upload-btn { display:inline-block; font-size:14px; color:var(--text-color); cursor:pointer; padding:8px 12px; border:1px solid var(--card-border); border-radius:6px; transition:all 0.3s ease; }
+.upload-btn:hover { color:var(--hover-text); border-color:var(--hover-text); }
+.upload-btn input { display:none; }
 
-    /* Theme toggle visual tweaks */
-    #themeToggle{
-      background:transparent;
-      border:1px solid rgba(0,0,0,0.08);
-      color:inherit;
-      padding:6px 10px;
-      border-radius:8px;
-      cursor:pointer;
-      font-weight:600;
-    }
-    body.dark #themeToggle{border-color:rgba(255,255,255,0.12)}
-    
-  </style>
+.add-card { display:flex; align-items:center; justify-content:center; font-size:36px; color:#aaa; cursor:pointer; transition:all 0.3s ease; }
+.add-card:hover { background:var(--hover-bg); color:var(--hover-text); transform:scale(1.05); }
+
+/* FOOTER */
+footer {
+  margin-top:40px; padding:20px calc(20px + env(safe-area-inset-left)) calc(20px + env(safe-area-inset-bottom)) calc(20px + env(safe-area-inset-right));
+  text-align:center; font-size:12px; color:#888; border-top:1px solid var(--card-border); background:var(--bg-color);
+}
+footer a { color:#888; text-decoration:none; margin:0 8px; transition:color 0.2s ease; }
+footer a:hover { color:var(--hover-text); }
+
+@media (max-width:640px) { .grid { grid-template-columns:1fr; } }
+</style>
 </head>
-
 <body>
-  <!-- HEADER -->
-  <header>
-    <div class="title">Patholytica</div>
-    <nav>
-      <a href="#">Home</a>
-      <a href="#">Courses</a>
-      <a href="#">Articles</a>
-      <a href="#">Community</a>
-      <a href="#">About</a>
-      <div style="display:flex;align-items:center;gap:12px">
-      <button id="themeToggle" aria-label="Toggle dark mode" title="Toggle dark mode" style="background:transparent;border:1px solid rgba(255,255,255,0.12);color:inherit;padding:6px 10px;border-radius:8px;cursor:pointer;font-weight:600">🌙</button>
+
+<!-- Startup Animation -->
+<div class="startup-overlay" id="startupOverlay">
+  <img src="IMG_0696.png" class="startup-logo" alt="Patholytica Logo">
+  <div class="circle-reveal"></div>
+</div>
+
+<div class="header-wrapper">
+  <div class="header">
+    <img src="IMG_0696.png" class="logo-img" alt="Patholytica Logo">
+    <div class="header-center">
+      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+        <svg class="moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+        </svg>
+        <svg class="sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+        </svg>
+      </button>
     </div>
-  </nav>
-  </header>
-
-
-  <!-- BODY -->
-  <div class="container">
-
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-      <h3>Navigation</h3>
-      <ul>
-        <li>Dashboard</li>
-        <li>My Courses</li>
-        <li>Bookmarks</li>
-        <li>Pathology Atlas</li>
-        <li>Quizzes</li>
-        <li>Settings</li>
-      </ul>
-    </aside>
-
-
-    <!-- MAIN -->
-    <main class="main">
-
-      <section class="hero">
-        <h1>Welcome to Patholytica</h1>
-        <p>Your hub for medical learning, pathology deep‑dives, structured courses, and curated academic material. Built for students who want clarity, structure, and high‑yield content.</p>
-      </section>
-
-      <section class="grid">
-        <div class="card">
-          <h3>Intro to Histopathology</h3>
-          <p>Fundamentals and pattern‑recognition essentials.</p>
-          <button>Start Learning</button>
-        </div>
-
-        <div class="card">
-          <h3>Neoplasia Masterclass</h3>
-          <p>Benign vs malignant, grading, staging, and mechanisms.</p>
-          <button>Start Learning</button>
-        </div>
-
-        <div class="card">
-          <h3>Inflammation & Repair</h3>
-          <p>Acute, chronic, granulomas, regeneration, fibrosis.</p>
-          <button>Start Learning</button>
-        </div>
-
-        <div class="card">
-          <h3>Digital Slide Library</h3>
-          <p>High‑resolution slides with annotations and quizzes.</p>
-          <button>Open Library</button>
-        </div>
-      </section>
-
-    </main>
+    <div class="menu-icon" onclick="toggleMenu(this)">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <div class="menu-buttons" id="menuButtons">
+      <a href="login.html">🔐 Login</a>
+      <a href="profile.html">👤 Profile</a>
+      <a href="settings.html">⚙️ Settings</a>
+      <a href="help.html">❓ Help</a>
+      <a href="admin.html">🛡️ Admin Dashboard</a>
+      <a href="logout.html">🚪 Logout</a>
+    </div>
   </div>
+</div>
 
-  <!-- FOOTER -->
-  <footer>
-    <span>© 2025 Patholytica — Educational Medical Platform</span>
-  </footer>
-  <div style="height:400px"></div>
-  <script>
-    // Theme toggle: stores preference in localStorage
-    (function(){
-      const btn = document.getElementById('themeToggle');
-      const root = document.body;
-      const preferDark = localStorage.getItem('patholytica-theme') === 'dark';
-      function apply(dark){
-        if(dark){
-          root.classList.add('dark');
-          btn.textContent = '☀️';
-          btn.title = 'Switch to light mode';
-        } else {
-          root.classList.remove('dark');
-          btn.textContent = '🌙';
-          btn.title = 'Switch to dark mode';
-        }
-      }
-      apply(preferDark);
-      btn.addEventListener('click', ()=>{
-        const isDark = root.classList.toggle('dark');
-        localStorage.setItem('patholytica-theme', isDark ? 'dark' : 'light');
-        apply(isDark);
-      });
-    })();
-  </script>
+<div class="theme-container">
+  <div class="grid" id="grid"></div>
+</div>
+
+<footer>
+  &copy; 2025 Patholytica by MedicineBank. All rights reserved.
+  <br>
+  <a href="#">Privacy Policy</a> |
+  <a href="#">Terms of Service</a> |
+  <a href="#">Contact</a>
+</footer>
+
+<script>
+// Grid setup
+const grid = document.getElementById('grid');
+for (let i=1; i<=10; i++) {
+  const card = document.createElement('div');
+  card.className = 'video-card';
+  card.innerHTML = `
+    <a href="semester${i}.html" class="thumbnail-link">
+      <div class="thumbnail-container">
+        <img class="thumbnail" src="https://picsum.photos/400/250?random=${i}">
+        <div class="gradient-overlay"><div class="title">Semester ${i}</div></div>
+      </div>
+    </a>
+    <div class="info">
+      <label class="upload-btn">Change Thumbnail →<input type="file" accept="image/*" onchange="changeThumb(this)"></label>
+    </div>
+  `;
+  grid.appendChild(card);
+}
+
+// Add card
+const addCard = document.createElement('div');
+addCard.className='video-card add-card';
+addCard.innerHTML='+';
+addCard.onclick = ()=>{
+  const semesterNum = grid.querySelectorAll('.video-card:not(.add-card)').length+1;
+  const newCard = document.createElement('div');
+  newCard.className='video-card';
+  newCard.innerHTML=`
+    <a href="semester${semesterNum}.html" class="thumbnail-link">
+      <div class="thumbnail-container">
+        <img class="thumbnail" src="https://picsum.photos/400/250?random=${semesterNum+10}">
+        <div class="gradient-overlay"><div class="title">Semester ${semesterNum}</div></div>
+      </div>
+    </a>
+    <div class="info">
+      <label class="upload-btn">Change Thumbnail →<input type="file" accept="image/*" onchange="changeThumb(this)"></label>
+    </div>
+  `;
+  grid.insertBefore(newCard, addCard);
+};
+grid.appendChild(addCard);
+
+// Thumbnail upload
+function changeThumb(input){
+  const file=input.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=e=>{ input.closest('.video-card').querySelector('.thumbnail').src=e.target.result; }
+  reader.readAsDataURL(file);
+}
+
+// Hamburger toggle
+function toggleMenu(icon){
+  const menu=document.getElementById('menuButtons');
+  menu.classList.toggle('show'); icon.classList.toggle('active');
+  const spans=icon.querySelectorAll('span');
+  if(icon.classList.contains('active')){
+    spans[0].style.transform='rotate(45deg) translate(5px,5px)';
+    spans[1].style.opacity='0';
+    spans[2].style.transform='rotate(-45deg) translate(6px,-6px)';
+  } else { spans[0].style.transform='none'; spans[1].style.opacity='1'; spans[2].style.transform='none'; }
+}
+
+// Close menu
+document.addEventListener('click', e=>{
+  const menu=document.getElementById('menuButtons');
+  const icon=document.querySelector('.menu-icon');
+  if(!menu.contains(e.target)&&!icon.contains(e.target)&&menu.classList.contains('show')) toggleMenu(icon);
+});
+
+// Apply theme immediately on page load (before animation)
+if(localStorage.getItem('theme')==='light') document.body.classList.add('light-theme');
+
+// Theme toggle
+function toggleTheme(){
+  document.body.classList.toggle('light-theme');
+  localStorage.setItem('theme',document.body.classList.contains('light-theme')?'light':'dark');
+}
+
+// Startup Animation
+window.addEventListener('load', () => {
+  const overlay = document.getElementById('startupOverlay');
+  const circleReveal = overlay?.querySelector('.circle-reveal');
+  
+  // Update circle reveal background to match current theme
+  if (circleReveal) {
+    const bgColor = getComputedStyle(document.body).getPropertyValue('--bg-color').trim();
+    circleReveal.style.background = bgColor;
+  }
+  
+  if (overlay) {
+    // Wait for animation to complete (1.2s circle expand + 0.3s fade)
+    setTimeout(() => {
+      overlay.classList.add('hidden');
+      // Remove from DOM after fade completes
+      setTimeout(() => {
+        overlay.remove();
+      }, 300);
+    }, 1500);
+  }
+});
+</script>
 </body>
 </html>
-
