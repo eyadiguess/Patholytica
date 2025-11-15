@@ -12,14 +12,21 @@
   --card-border: rgba(255,255,255,0.07);
   --accent: #ff4d4d;
   --accent-hover: #ff3333;
+  --btn-shadow: rgba(255,77,77,0.35);
+  --btn-shadow-hover: rgba(255,77,77,0.45);
+  --canvas-bg: rgba(13,13,13,0.2);
 }
 
 /* Light theme */
 body.light-theme {
   --bg-color: #f5f5f5;
   --text-color: #111;
+  --card-border: rgba(0,0,0,0.1);
   --accent: #e53935;
   --accent-hover: #c62828;
+  --btn-shadow: rgba(229,57,53,0.35);
+  --btn-shadow-hover: rgba(198,40,40,0.45);
+  --canvas-bg: rgba(245,245,245,0.2);
 }
 
 /* GLOBAL */
@@ -28,7 +35,7 @@ html, body { margin:0; padding:0; height:100%; font-family: "Inter", Arial, sans
 body {
   background: var(--bg-color);
   color: var(--text-color);
-  transition: background 0.35s ease;
+  transition: background 0.35s ease, color 0.35s ease;
   overflow-x: hidden;
   position: relative;
 }
@@ -40,8 +47,8 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  pointer-events: none; /* doesn't block clicks */
-  z-index: 0; /* behind all content */
+  pointer-events: none;
+  z-index: 0;
 }
 
 /* HEADER */
@@ -85,7 +92,7 @@ body.light-theme .logo-img { filter: invert(1); }
   padding: 110px 25px 90px;
   max-width: 760px;
   margin: auto;
-  z-index: 10; /* above canvas */
+  z-index: 10;
 }
 
 .hero h1 {
@@ -118,15 +125,15 @@ body.light-theme .logo-img { filter: invert(1); }
   border-radius: 12px;
   font-size: 17px;
   text-decoration: none;
-  transition: 0.25s ease;
-  box-shadow: 0 6px 16px rgba(255,77,77,0.35);
+  transition: 0.25s ease, transform 0.25s ease;
+  box-shadow: 0 6px 16px var(--btn-shadow);
   animation: glowPulse 2s infinite;
   overflow: hidden;
 }
 .main-btn:hover {
   background: var(--accent-hover);
   transform: translateY(-2px);
-  box-shadow: 0 10px 24px rgba(255,77,77,0.45);
+  box-shadow: 0 10px 24px var(--btn-shadow-hover);
 }
 
 /* Sparks effect */
@@ -162,8 +169,8 @@ footer a:hover { color: var(--accent); }
 }
 
 @keyframes glowPulse {
-  0%, 100% { box-shadow: 0 6px 16px rgba(255,77,77,0.35), 0 0 8px rgba(255,77,77,0.5); }
-  50% { box-shadow: 0 10px 24px rgba(255,77,77,0.45), 0 0 16px rgba(255,77,77,0.7); }
+  0%, 100% { box-shadow: 0 6px 16px var(--btn-shadow), 0 0 8px rgba(255,77,77,0.5); }
+  50% { box-shadow: 0 10px 24px var(--btn-shadow-hover), 0 0 16px rgba(255,77,77,0.7); }
 }
 
 @keyframes sparkAnim {
@@ -276,7 +283,7 @@ const asteroids = [];
 for(let i=0; i<12; i++){ asteroids.push(new Asteroid()); }
 
 function animate() {
-  ctx.fillStyle = 'rgba(13,13,13,0.2)'; // dark background fade for trails
+  ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--canvas-bg') || 'rgba(13,13,13,0.2)';
   ctx.fillRect(0,0,w,h);
   asteroids.forEach(a => a.draw());
   requestAnimationFrame(animate);
