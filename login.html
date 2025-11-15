@@ -1,9 +1,10 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Login — Patholytica</title>
+<title>Profile — Patholytica</title>
 <style>
 :root {
   --bg-color: #0f0f0f;
@@ -15,527 +16,644 @@
 }
 
 body.light-theme {
-  --bg-color: #f5f5f5;
-  --text-color: #111;
-  --card-bg: #fff;
-  --card-border: #ccc;
-  --hover-bg: #eee;
-  --hover-text: #e74c3c;
+–bg-color: #f5f5f5;
+–text-color: #111;
+–card-bg: #fff;
+–card-border: #ccc;
+–hover-bg: #eee;
+–hover-text: #e74c3c;
 }
 
-* { box-sizing: border-box; }
-html, body { margin:0; padding:0; height:100%; font-family: Arial, sans-serif; }
+- { box-sizing: border-box; }
+  html, body { margin:0; padding:0; height:100%; font-family: Arial, sans-serif; }
 
-body { background: var(--bg-color); transition: background 0.3s ease; }
+body { background: var(–bg-color); transition: background 0.3s ease; }
 
 /* HEADER */
 .header-wrapper {
-  position: sticky;
-  top: 0;
-  background: var(--card-bg);
-  z-index: 100;
-  transition: background 0.3s ease;
+position: sticky;
+top: 0;
+background: var(–card-bg);
+z-index: 100;
+transition: background 0.3s ease;
 }
 
 .header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: env(safe-area-inset-top) 16px 0 16px;
-  height: 50px;
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: env(safe-area-inset-top) 16px 0 16px;
+height: 50px;
 }
 
-.logo-img { 
-  height: 28px; 
-  width: auto; 
-  filter: brightness(0) invert(1);
-  transition: filter 0.3s ease;
-  cursor: pointer;
+.logo-img {
+height: 28px;
+width: auto;
+filter: brightness(0) invert(1);
+transition: filter 0.3s ease;
+cursor: pointer;
 }
 body.light-theme .logo-img {
-  filter: brightness(0) invert(0);
+filter: brightness(0) invert(0);
 }
 
 .header-right {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+display: flex;
+align-items: center;
+gap: 12px;
 }
 
 .menu-icon {
-  width: 25px; height: 20px; display: flex; flex-direction: column; justify-content: space-between;
-  cursor: pointer; z-index: 1001;
+width: 25px; height: 20px; display: flex; flex-direction: column; justify-content: space-between;
+cursor: pointer; z-index: 1001;
 }
-.menu-icon span { display:block; height:3px; background:var(--text-color); border-radius:2px; transition: all 0.3s ease; }
+.menu-icon span { display:block; height:3px; background:var(–text-color); border-radius:2px; transition: all 0.3s ease; }
 
 /* Menu buttons */
 .menu-buttons {
-  position: absolute; top: calc(100% + 1px); right: 16px;
-  background: var(--card-bg); border:1px solid var(--card-border); border-radius:6px;
-  display:flex; flex-direction:column; overflow:hidden; opacity:0;
-  transform:translateY(-10px); pointer-events:none; transition:all 0.3s ease; z-index:1000;
+position: absolute; top: calc(100% + 1px); right: 16px;
+background: var(–card-bg); border:1px solid var(–card-border); border-radius:6px;
+display:flex; flex-direction:column; overflow:hidden; opacity:0;
+transform:translateY(-10px); pointer-events:none; transition:all 0.3s ease; z-index:1000;
 }
 .menu-buttons.show { opacity:1; transform:translateY(0); pointer-events:all; }
-.menu-buttons a { padding:12px 20px; font-size:14px; color:var(--text-color); text-decoration:none; border-bottom:1px solid var(--card-border); white-space:nowrap; transition: all 0.2s ease; opacity:0.8; }
+.menu-buttons a { padding:12px 20px; font-size:14px; color:var(–text-color); text-decoration:none; border-bottom:1px solid var(–card-border); white-space:nowrap; transition: all 0.2s ease; opacity:0.8; }
 .menu-buttons a:last-child { border-bottom:none; }
-.menu-buttons a:hover { color:var(--hover-text); background:var(--hover-bg); padding-left:24px; opacity:1; }
+.menu-buttons a:hover { color:var(–hover-text); background:var(–hover-bg); padding-left:24px; opacity:1; }
 
 /* Theme toggle */
 .theme-toggle {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border: 1px solid var(--card-border);
-  background: var(--card-bg);
-  color: var(--text-color);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-  padding: 0;
+width: 36px;
+height: 36px;
+border-radius: 50%;
+border: 1px solid var(–card-border);
+background: var(–card-bg);
+color: var(–text-color);
+cursor: pointer;
+display: flex;
+align-items: center;
+justify-content: center;
+transition: all 0.3s ease;
+padding: 0;
 }
 .theme-toggle:hover {
-  background: var(--hover-bg);
-  border-color: var(--hover-text);
-  transform: scale(1.1);
+background: var(–hover-bg);
+border-color: var(–hover-text);
+transform: scale(1.1);
 }
 .theme-toggle svg {
-  width: 20px;
-  height: 20px;
-  transition: all 0.3s ease;
+width: 20px;
+height: 20px;
+transition: all 0.3s ease;
 }
 .theme-toggle .moon-icon {
-  display: block;
+display: block;
 }
 .theme-toggle .sun-icon {
-  display: none;
+display: none;
 }
 body.light-theme .theme-toggle .moon-icon {
-  display: none;
+display: none;
 }
 body.light-theme .theme-toggle .sun-icon {
-  display: block;
+display: block;
 }
 
 /* Startup Animation */
 .startup-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  height: 100dvh; /* Dynamic viewport height for mobile */
-  background: #000;
-  z-index: 10000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
+position: fixed;
+top: 0;
+left: 0;
+width: 100vw;
+height: 100vh;
+height: 100dvh; /* Dynamic viewport height for mobile */
+background: #000;
+z-index: 10000;
+display: flex;
+align-items: center;
+justify-content: center;
+overflow: hidden;
 }
 .startup-overlay.hidden {
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.3s ease;
+pointer-events: none;
+opacity: 0;
+transition: opacity 0.3s ease;
 }
 .startup-logo {
-  position: relative;
-  z-index: 10001;
-  height: 80px;
-  width: auto;
-  max-width: 90vw;
-  filter: brightness(0) invert(1);
-  animation: logoFadeIn 0.6s ease-out;
-  will-change: transform, opacity;
-  transition: filter 0.3s ease;
+position: relative;
+z-index: 10001;
+height: 80px;
+width: auto;
+max-width: 90vw;
+filter: brightness(0) invert(1);
+animation: logoFadeIn 0.6s ease-out;
+will-change: transform, opacity;
+transition: filter 0.3s ease;
 }
 body.light-theme .startup-logo {
-  filter: brightness(0) invert(0);
+filter: brightness(0) invert(0);
 }
 @keyframes logoFadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.8);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+from {
+opacity: 0;
+transform: scale(0.8);
+}
+to {
+opacity: 1;
+transform: scale(1);
+}
 }
 .circle-reveal {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  border-radius: 50%;
-  background: var(--bg-color);
-  transform: translate(-50%, -50%);
-  will-change: width, height;
-  animation: circleExpand 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+position: absolute;
+top: 50%;
+left: 50%;
+width: 0;
+height: 0;
+border-radius: 50%;
+background: var(–bg-color);
+transform: translate(-50%, -50%);
+will-change: width, height;
+animation: circleExpand 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 @keyframes circleExpand {
-  0% {
-    width: 0;
-    height: 0;
-  }
-  100% {
-    width: 500vmax;
-    height: 500vmax;
-  }
+0% {
+width: 0;
+height: 0;
+}
+100% {
+width: 500vmax;
+height: 500vmax;
+}
 }
 
 /* Mobile optimizations for startup animation */
 @media (max-width: 640px) {
-  .startup-logo {
-    height: 60px;
-    max-width: 85vw;
-  }
-  .circle-reveal {
-    animation-duration: 0.9s;
-  }
-  @keyframes circleExpand {
-    0% {
-      width: 0;
-      height: 0;
-    }
-    100% {
-      width: 600vmax;
-      height: 600vmax;
-    }
-  }
+.startup-logo {
+height: 60px;
+max-width: 85vw;
+}
+.circle-reveal {
+animation-duration: 0.9s;
+}
+@keyframes circleExpand {
+0% {
+width: 0;
+height: 0;
+}
+100% {
+width: 600vmax;
+height: 600vmax;
+}
+}
 }
 
 /* Reduce motion for users who prefer it */
 @media (prefers-reduced-motion: reduce) {
-  .startup-logo {
-    animation: none;
-    opacity: 1;
-  }
-  .circle-reveal {
-    animation: circleExpandReduced 0.5s ease forwards;
-  }
-    @keyframes circleExpandReduced {
-      0% {
-        width: 0;
-        height: 0;
-      }
-      100% {
-        width: 500vmax;
-        height: 500vmax;
-      }
-    }
+.startup-logo {
+animation: none;
+opacity: 1;
+}
+.circle-reveal {
+animation: circleExpandReduced 0.5s ease forwards;
+}
+@keyframes circleExpandReduced {
+0% {
+width: 0;
+height: 0;
+}
+100% {
+width: 500vmax;
+height: 500vmax;
+}
+}
 }
 
-/* LOGIN PAGE STYLES */
-.login-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: calc(100vh - 50px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
-  padding: 40px calc(20px + env(safe-area-inset-left)) calc(40px + env(safe-area-inset-bottom)) calc(20px + env(safe-area-inset-right));
+/* PROFILE PAGE STYLES */
+.profile-container {
+padding: 0;
+min-height: calc(100vh - 50px - env(safe-area-inset-top));
+background: var(–bg-color);
 }
 
-.login-card {
-  width: 100%;
-  max-width: 420px;
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  border-radius: 12px;
-  padding: 40px 35px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-  animation: fadeUp 0.5s ease both;
-  transition: all 0.3s ease;
+/* Cover Photo */
+.cover-photo {
+width: 100%;
+height: 300px;
+background: linear-gradient(135deg, var(–hover-text) 0%, #ff6b6b 100%);
+position: relative;
+overflow: hidden;
 }
 
-.login-card:hover {
-  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
-  transform: translateY(-2px);
+.cover-photo img {
+width: 100%;
+height: 100%;
+object-fit: cover;
 }
 
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.cover-edit-btn {
+position: absolute;
+top: 20px;
+right: 20px;
+padding: 8px 16px;
+background: rgba(0,0,0,0.6);
+color: #fff;
+border: 1px solid rgba(255,255,255,0.3);
+border-radius: 6px;
+cursor: pointer;
+font-size: 13px;
+transition: all 0.3s ease;
+backdrop-filter: blur(10px);
 }
 
-.login-card h1 {
-  font-size: 28px;
-  margin: 0 0 8px 0;
-  color: var(--text-color);
-  text-align: center;
+.cover-edit-btn:hover {
+background: rgba(0,0,0,0.8);
+border-color: rgba(255,255,255,0.5);
 }
 
-.login-card .subtitle {
-  font-size: 14px;
-  color: #888;
-  text-align: center;
-  margin-bottom: 30px;
+/* Profile Header */
+.profile-header {
+max-width: 1200px;
+margin: 0 auto;
+padding: 0 20px;
+position: relative;
+margin-top: -80px;
+margin-bottom: 30px;
 }
 
-.login-card .subtitle strong {
-  color: var(--hover-text);
+.profile-info {
+display: flex;
+align-items: flex-end;
+gap: 20px;
+padding-bottom: 20px;
+border-bottom: 1px solid var(–card-border);
 }
 
-/* Form Styles */
-.form-group {
-  margin-bottom: 18px;
+.profile-picture {
+width: 160px;
+height: 160px;
+border-radius: 50%;
+border: 4px solid var(–card-bg);
+object-fit: cover;
+background: var(–card-bg);
+box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+position: relative;
 }
 
-.form-group label {
-  display: block;
-  font-size: 13px;
-  color: var(--text-color);
-  margin-bottom: 6px;
-  opacity: 0.9;
+.profile-picture-wrapper {
+position: relative;
 }
 
-.input-field {
-  width: 100%;
-  padding: 12px 14px;
-  background: rgba(0,0,0,0.2);
-  border: 1px solid var(--card-border);
-  border-radius: 8px;
-  color: var(--text-color);
-  font-size: 15px;
-  transition: all 0.3s ease;
-  box-sizing: border-box;
+.profile-picture-edit {
+position: absolute;
+bottom: 10px;
+right: 10px;
+width: 40px;
+height: 40px;
+border-radius: 50%;
+background: var(–hover-text);
+border: 3px solid var(–card-bg);
+display: flex;
+align-items: center;
+justify-content: center;
+cursor: pointer;
+transition: all 0.3s ease;
+font-size: 18px;
 }
 
-body.light-theme .input-field {
-  background: rgba(255,255,255,0.7);
+.profile-picture-edit:hover {
+transform: scale(1.1);
+box-shadow: 0 4px 12px rgba(255,77,77,0.4);
 }
 
-.input-field:focus {
-  outline: none;
-  border-color: var(--hover-text);
-  box-shadow: 0 0 0 3px rgba(255,77,77,0.1);
+.profile-details {
+flex: 1;
+padding-bottom: 10px;
 }
 
-.input-field::placeholder {
-  color: #888;
+.profile-name {
+font-size: 32px;
+font-weight: bold;
+color: var(–text-color);
+margin: 0 0 8px 0;
 }
 
-/* Password visibility toggle */
-.password-wrapper {
-  position: relative;
+.profile-username {
+font-size: 16px;
+color: #888;
+margin: 0 0 12px 0;
 }
 
-.password-toggle {
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  color: var(--text-color);
-  cursor: pointer;
-  opacity: 0.6;
-  font-size: 18px;
-  padding: 4px;
-  transition: opacity 0.2s ease;
+.profile-bio {
+font-size: 15px;
+color: var(–text-color);
+line-height: 1.6;
+margin: 0 0 16px 0;
+opacity: 0.9;
 }
 
-.password-toggle:hover {
-  opacity: 1;
+.profile-stats {
+display: flex;
+gap: 24px;
+margin-bottom: 16px;
 }
 
-/* Buttons */
-.btn-primary {
-  width: 100%;
-  padding: 14px;
-  background: var(--hover-text);
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  margin-top: 8px;
-  box-shadow: 0 4px 12px rgba(255,77,77,0.3);
+.stat-item {
+display: flex;
+flex-direction: column;
 }
 
-.btn-primary:hover {
-  background: var(--hover-text);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(255,77,77,0.4);
+.stat-number {
+font-size: 20px;
+font-weight: bold;
+color: var(–text-color);
 }
 
-.btn-primary:active {
-  transform: translateY(0);
+.stat-label {
+font-size: 13px;
+color: #888;
 }
 
-.btn-secondary {
-  width: 100%;
-  padding: 12px;
-  background: transparent;
-  color: var(--text-color);
-  border: 1px solid var(--card-border);
-  border-radius: 8px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  margin-top: 12px;
+.profile-actions {
+display: flex;
+gap: 12px;
+flex-wrap: wrap;
 }
 
-.btn-secondary:hover {
-  border-color: var(--hover-text);
-  color: var(--hover-text);
-  background: var(--hover-bg);
+.btn-edit {
+padding: 10px 20px;
+background: var(–card-bg);
+border: 1px solid var(–card-border);
+color: var(–text-color);
+border-radius: 8px;
+font-size: 14px;
+font-weight: 600;
+cursor: pointer;
+transition: all 0.3s ease;
 }
 
-/* Links */
-.form-links {
-  text-align: center;
-  margin-top: 20px;
-  font-size: 14px;
+.btn-edit:hover {
+background: var(–hover-bg);
+border-color: var(–hover-text);
+color: var(–hover-text);
 }
 
-.form-links a {
-  color: var(--hover-text);
-  text-decoration: none;
-  transition: color 0.2s ease;
+.btn-follow {
+padding: 10px 20px;
+background: var(–hover-text);
+border: none;
+color: #fff;
+border-radius: 8px;
+font-size: 14px;
+font-weight: 600;
+cursor: pointer;
+transition: all 0.3s ease;
 }
 
-.form-links a:hover {
-  text-decoration: underline;
+.btn-follow:hover {
+background: var(–hover-text);
+transform: translateY(-2px);
+box-shadow: 0 4px 12px rgba(255,77,77,0.3);
 }
 
-.divider {
-  display: flex;
-  align-items: center;
-  margin: 24px 0;
-  color: #888;
-  font-size: 13px;
+.btn-more {
+padding: 10px;
+background: var(–card-bg);
+border: 1px solid var(–card-border);
+color: var(–text-color);
+border-radius: 8px;
+cursor: pointer;
+transition: all 0.3s ease;
+width: 40px;
+height: 40px;
+display: flex;
+align-items: center;
+justify-content: center;
 }
 
-.divider::before,
-.divider::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: var(--card-border);
+.btn-more:hover {
+background: var(–hover-bg);
+border-color: var(–hover-text);
 }
 
-.divider span {
-  padding: 0 12px;
+/* Profile Content */
+.profile-content {
+max-width: 1200px;
+margin: 0 auto;
+padding: 0 20px 40px;
+display: grid;
+grid-template-columns: 1fr 350px;
+gap: 24px;
 }
 
-/* Social Login */
-.social-login {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-top: 20px;
+/* Posts Grid */
+.posts-section {
+background: var(–card-bg);
+border: 1px solid var(–card-border);
+border-radius: 12px;
+padding: 24px;
 }
 
-.social-btn {
-  padding: 12px;
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  border-radius: 8px;
-  color: var(--text-color);
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
+.section-header {
+display: flex;
+align-items: center;
+justify-content: space-between;
+margin-bottom: 20px;
+padding-bottom: 16px;
+border-bottom: 1px solid var(–card-border);
 }
 
-.social-btn:hover {
-  border-color: var(--hover-text);
-  background: var(--hover-bg);
+.section-title {
+font-size: 20px;
+font-weight: bold;
+color: var(–text-color);
+margin: 0;
 }
 
-/* Form Toggle */
-.form-toggle {
-  display: none;
+.posts-grid {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 12px;
 }
 
-.form-section {
-  display: none;
-  animation: fadeUp 0.4s ease both;
+.post-item {
+aspect-ratio: 1;
+border-radius: 8px;
+overflow: hidden;
+position: relative;
+cursor: pointer;
+transition: all 0.3s ease;
+background: var(–hover-bg);
 }
 
-.form-section.active {
-  display: block;
+.post-item:hover {
+transform: scale(1.05);
+box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+z-index: 10;
 }
 
-/* Remember Me & Forgot Password */
-.form-options {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  font-size: 13px;
+.post-item img {
+width: 100%;
+height: 100%;
+object-fit: cover;
 }
 
-.remember-me {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  color: var(--text-color);
-  cursor: pointer;
+.post-item-overlay {
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+display: flex;
+align-items: flex-end;
+padding: 12px;
+opacity: 0;
+transition: opacity 0.3s ease;
 }
 
-.remember-me input[type="checkbox"] {
-  cursor: pointer;
+.post-item:hover .post-item-overlay {
+opacity: 1;
 }
 
-.forgot-password {
-  color: var(--hover-text);
-  text-decoration: none;
-  transition: color 0.2s ease;
+.post-stats {
+display: flex;
+gap: 16px;
+color: #fff;
+font-size: 14px;
 }
 
-.forgot-password:hover {
-  text-decoration: underline;
+.post-stat {
+display: flex;
+align-items: center;
+gap: 4px;
+}
+
+/* Sidebar */
+.profile-sidebar {
+display: flex;
+flex-direction: column;
+gap: 20px;
+}
+
+.sidebar-card {
+background: var(–card-bg);
+border: 1px solid var(–card-border);
+border-radius: 12px;
+padding: 20px;
+}
+
+.sidebar-card h3 {
+font-size: 16px;
+font-weight: bold;
+color: var(–text-color);
+margin: 0 0 16px 0;
+}
+
+.info-item {
+display: flex;
+align-items: center;
+gap: 12px;
+padding: 10px 0;
+border-bottom: 1px solid var(–card-border);
+font-size: 14px;
+color: var(–text-color);
+}
+
+.info-item:last-child {
+border-bottom: none;
+}
+
+.info-item span {
+font-size: 18px;
+}
+
+.info-item a {
+color: var(–hover-text);
+text-decoration: none;
+}
+
+.info-item a:hover {
+text-decoration: underline;
 }
 
 /* Footer */
 footer {
-  margin-top: 40px;
-  padding: 20px calc(20px + env(safe-area-inset-left)) calc(20px + env(safe-area-inset-bottom)) calc(20px + env(safe-area-inset-right));
-  text-align: center;
-  font-size: 12px;
-  color: #888;
-  border-top: 1px solid var(--card-border);
-  background: var(--bg-color);
+margin-top: 40px;
+padding: 20px calc(20px + env(safe-area-inset-left)) calc(20px + env(safe-area-inset-bottom)) calc(20px + env(safe-area-inset-right));
+text-align: center;
+font-size: 12px;
+color: #888;
+border-top: 1px solid var(–card-border);
+background: var(–bg-color);
 }
 footer a {
-  color: #888;
-  text-decoration: none;
-  margin: 0 8px;
-  transition: color 0.2s ease;
+color: #888;
+text-decoration: none;
+margin: 0 8px;
+transition: color 0.2s ease;
 }
 footer a:hover {
-  color: var(--hover-text);
+color: var(–hover-text);
+}
+
+@media (max-width: 968px) {
+.profile-content {
+grid-template-columns: 1fr;
+}
+
+.profile-info {
+flex-direction: column;
+align-items: center;
+text-align: center;
+}
+
+.profile-stats {
+justify-content: center;
+}
+
+.profile-actions {
+justify-content: center;
+}
+
+.posts-grid {
+grid-template-columns: repeat(2, 1fr);
+}
 }
 
 @media (max-width: 640px) {
-  .login-card {
-    padding: 30px 24px;
-  }
-  .login-card h1 {
-    font-size: 24px;
-  }
-  .social-login {
-    grid-template-columns: 1fr;
-  }
+.cover-photo {
+height: 200px;
+}
+
+.profile-header {
+margin-top: -60px;
+}
+
+.profile-picture {
+width: 120px;
+height: 120px;
+}
+
+.profile-name {
+font-size: 24px;
+}
+
+.posts-grid {
+grid-template-columns: 1fr;
+}
+
+.profile-stats {
+flex-wrap: wrap;
+gap: 16px;
+}
 }
 </style>
+
 </head>
 <body>
 
 <!-- Startup Animation -->
+
 <div class="startup-overlay" id="startupOverlay">
   <img src="IMG_0696.png" class="startup-logo" alt="Patholytica Logo">
   <div class="circle-reveal"></div>
@@ -561,7 +679,7 @@ footer a:hover {
     </div>
     <div class="menu-buttons" id="menuButtons">
       <a href="nigger.html">🏠 Home</a>
-      <a href="profile.html">👤 Profile</a>
+      <a href="login.html">🔐 Login</a>
       <a href="settings.html">⚙️ Settings</a>
       <a href="help.html">❓ Help</a>
       <a href="admin.html">🛡️ Admin Dashboard</a>
@@ -570,123 +688,106 @@ footer a:hover {
   </div>
 </div>
 
-<div class="login-container">
-  <div class="login-card">
-    <h1>Welcome Back</h1>
-    <p class="subtitle">Your tool to <strong>LOVE</strong> what you learn</p>
+<div class="profile-container">
+  <!-- Cover Photo -->
+  <div class="cover-photo">
+    <button class="cover-edit-btn" onclick="editCover()">📷 Edit Cover</button>
+  </div>
 
-    <!-- Login Form -->
-    <div class="form-section active" id="loginSection">
-      <form id="loginForm">
-        <div class="form-group">
-          <label for="loginEmail">Email or Username</label>
-          <input type="text" id="loginEmail" class="input-field" placeholder="Enter your email or username" required>
-        </div>
-        
-        <div class="form-group">
-          <label for="loginPassword">Password</label>
-          <div class="password-wrapper">
-            <input type="password" id="loginPassword" class="input-field" placeholder="Enter your password" required>
-            <button type="button" class="password-toggle" onclick="togglePassword('loginPassword', this)">👁️</button>
-          </div>
-        </div>
+  <!-- Profile Header -->
 
-        <div class="form-options">
-          <label class="remember-me">
-            <input type="checkbox" id="rememberMe">
-            <span>Remember me</span>
-          </label>
-          <a href="#" class="forgot-password" onclick="showForgotPassword(); return false;">Forgot password?</a>
-        </div>
-
-        <button type="submit" class="btn-primary">Sign In</button>
-      </form>
-
-      <div class="divider"><span>or</span></div>
-
-      <div class="social-login">
-        <button class="social-btn" onclick="socialLogin('google')">
-          <span>🔍</span> Google
-        </button>
-        <button class="social-btn" onclick="socialLogin('github')">
-          <span>💻</span> GitHub
-        </button>
+  <div class="profile-header">
+    <div class="profile-info">
+      <div class="profile-picture-wrapper">
+        <img src="IMG_0751.jpeg" alt="Profile Picture" class="profile-picture">
+        <button class="profile-picture-edit" onclick="editProfilePicture()" title="Edit Profile Picture">📷</button>
       </div>
+      <div class="profile-details">
+        <h1 class="profile-name">John Doe</h1>
+        <p class="profile-username">@johndoe</p>
+        <p class="profile-bio">Medical student passionate about pathology. Sharing knowledge and learning every day. Your tool to LOVE what you learn! 🩺📚</p>
 
-      <div class="form-links">
-        Don't have an account? <a href="#" onclick="showSignup(); return false;">Sign up</a>
+```
+    <div class="profile-stats">
+      <div class="stat-item">
+        <span class="stat-number">127</span>
+        <span class="stat-label">Posts</span>
       </div>
-
-      <button class="btn-secondary" onclick="guestMode()">Continue as Guest</button>
-    </div>
-
-    <!-- Signup Form -->
-    <div class="form-section" id="signupSection">
-      <form id="signupForm">
-        <div class="form-group">
-          <label for="signupName">Full Name</label>
-          <input type="text" id="signupName" class="input-field" placeholder="Enter your full name" required>
-        </div>
-
-        <div class="form-group">
-          <label for="signupEmail">Email Address</label>
-          <input type="email" id="signupEmail" class="input-field" placeholder="Enter your email" required>
-        </div>
-
-        <div class="form-group">
-          <label for="signupUsername">Username</label>
-          <input type="text" id="signupUsername" class="input-field" placeholder="Choose a username" required>
-        </div>
-
-        <div class="form-group">
-          <label for="signupPassword">Password</label>
-          <div class="password-wrapper">
-            <input type="password" id="signupPassword" class="input-field" placeholder="Create a password (min. 8 characters)" minlength="8" required>
-            <button type="button" class="password-toggle" onclick="togglePassword('signupPassword', this)">👁️</button>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="signupConfirmPassword">Confirm Password</label>
-          <div class="password-wrapper">
-            <input type="password" id="signupConfirmPassword" class="input-field" placeholder="Confirm your password" required>
-            <button type="button" class="password-toggle" onclick="togglePassword('signupConfirmPassword', this)">👁️</button>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="remember-me">
-            <input type="checkbox" id="agreeTerms" required>
-            <span>I agree to the <a href="#" style="color:var(--hover-text);">Terms of Service</a> and <a href="#" style="color:var(--hover-text);">Privacy Policy</a></span>
-          </label>
-        </div>
-
-        <button type="submit" class="btn-primary">Create Account</button>
-      </form>
-
-      <div class="form-links">
-        Already have an account? <a href="#" onclick="showLogin(); return false;">Sign in</a>
+      <div class="stat-item">
+        <span class="stat-number">1.2K</span>
+        <span class="stat-label">Followers</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">456</span>
+        <span class="stat-label">Following</span>
       </div>
     </div>
 
-    <!-- Forgot Password Form -->
-    <div class="form-section" id="forgotPasswordSection">
-      <h2 style="font-size: 24px; margin-bottom: 8px; text-align: center;">Reset Password</h2>
-      <p class="subtitle" style="margin-bottom: 30px;">Enter your email and we'll send you a reset link</p>
-      
-      <form id="forgotPasswordForm">
-        <div class="form-group">
-          <label for="resetEmail">Email Address</label>
-          <input type="email" id="resetEmail" class="input-field" placeholder="Enter your email" required>
-        </div>
+    <div class="profile-actions">
+      <button class="btn-edit" onclick="editProfile()">✏️ Edit Profile</button>
+      <button class="btn-follow">+ Follow</button>
+      <button class="btn-more" onclick="showMoreOptions()">⋯</button>
+    </div>
+  </div>
+</div>
+```
 
-        <button type="submit" class="btn-primary">Send Reset Link</button>
-      </form>
+  </div>
 
-      <div class="form-links">
-        Remember your password? <a href="#" onclick="showLogin(); return false;">Back to login</a>
+  <!-- Profile Content -->
+
+  <div class="profile-content">
+    <!-- Posts Section -->
+    <div class="posts-section">
+      <div class="section-header">
+        <h2 class="section-title">Posts</h2>
+      </div>
+      <div class="posts-grid" id="postsGrid">
+        <!-- Posts will be generated here -->
       </div>
     </div>
+
+```
+<!-- Sidebar -->
+<div class="profile-sidebar">
+  <div class="sidebar-card">
+    <h3>About</h3>
+    <div class="info-item">
+      <span>📍</span>
+      <span>New York, USA</span>
+    </div>
+    <div class="info-item">
+      <span>🎓</span>
+      <span>Medical School Student</span>
+    </div>
+    <div class="info-item">
+      <span>📅</span>
+      <span>Joined January 2024</span>
+    </div>
+    <div class="info-item">
+      <span>🌐</span>
+      <a href="#" target="_blank">johndoe.com</a>
+    </div>
+  </div>
+
+  <div class="sidebar-card">
+    <h3>Recent Activity</h3>
+    <div class="info-item">
+      <span>📝</span>
+      <span>Posted 2 hours ago</span>
+    </div>
+    <div class="info-item">
+      <span>❤️</span>
+      <span>Liked 5 posts today</span>
+    </div>
+    <div class="info-item">
+      <span>💬</span>
+      <span>Commented on 3 posts</span>
+    </div>
+  </div>
+</div>
+```
+
   </div>
 </div>
 
@@ -727,87 +828,39 @@ document.addEventListener('click', e=>{
   if(!menu.contains(e.target)&&!icon.contains(e.target)&&menu.classList.contains('show')) toggleMenu(icon);
 });
 
-// Form Toggle Functions
-function showSignup(){
-  document.getElementById('loginSection').classList.remove('active');
-  document.getElementById('signupSection').classList.add('active');
-  document.getElementById('forgotPasswordSection').classList.remove('active');
+// Generate sample posts
+const postsGrid = document.getElementById('postsGrid');
+for (let i = 1; i <= 9; i++) {
+  const postItem = document.createElement('div');
+  postItem.className = 'post-item';
+  postItem.innerHTML = `
+    <img src="https://picsum.photos/400/400?random=${i + 100}" alt="Post ${i}">
+    <div class="post-item-overlay">
+      <div class="post-stats">
+        <div class="post-stat">❤️ ${Math.floor(Math.random() * 100) + 10}</div>
+        <div class="post-stat">💬 ${Math.floor(Math.random() * 50) + 5}</div>
+      </div>
+    </div>
+  `;
+  postsGrid.appendChild(postItem);
 }
 
-function showLogin(){
-  document.getElementById('signupSection').classList.remove('active');
-  document.getElementById('loginSection').classList.add('active');
-  document.getElementById('forgotPasswordSection').classList.remove('active');
+// Profile actions
+function editProfile() {
+  alert('Edit profile functionality would open here.');
 }
 
-function showForgotPassword(){
-  document.getElementById('loginSection').classList.remove('active');
-  document.getElementById('signupSection').classList.remove('active');
-  document.getElementById('forgotPasswordSection').classList.add('active');
+function editProfilePicture() {
+  alert('Profile picture editor would open here.');
 }
 
-// Password Toggle
-function togglePassword(inputId, button){
-  const input = document.getElementById(inputId);
-  if(input.type === 'password'){
-    input.type = 'text';
-    button.textContent = '🙈';
-  } else {
-    input.type = 'password';
-    button.textContent = '👁️';
-  }
+function editCover() {
+  alert('Cover photo editor would open here.');
 }
 
-// Guest Mode
-function guestMode(){
-  if(confirm('Continue as guest? You will have limited access to features.')){
-    window.location.href = 'nigger.html';
-  }
+function showMoreOptions() {
+  alert('More options menu would appear here.');
 }
-
-// Social Login
-function socialLogin(provider){
-  alert(`${provider.charAt(0).toUpperCase() + provider.slice(1)} login would be implemented here.`);
-}
-
-// Form Submissions
-document.getElementById('loginForm').addEventListener('submit', (e) => {
-  e.preventDefault();
-  const email = document.getElementById('loginEmail').value;
-  const password = document.getElementById('loginPassword').value;
-  const rememberMe = document.getElementById('rememberMe').checked;
-  
-  // Simulate login
-  console.log('Login attempt:', { email, password, rememberMe });
-  alert('Login functionality would connect here. Welcome to Patholytica!');
-  // window.location.href = 'nigger.html';
-});
-
-document.getElementById('signupForm').addEventListener('submit', (e) => {
-  e.preventDefault();
-  const password = document.getElementById('signupPassword').value;
-  const confirmPassword = document.getElementById('signupConfirmPassword').value;
-  
-  if(password !== confirmPassword){
-    alert('Passwords do not match. Please try again.');
-    return;
-  }
-  
-  // Simulate signup
-  console.log('Signup attempt');
-  alert('Account created successfully! Welcome to Patholytica!');
-  showLogin();
-});
-
-document.getElementById('forgotPasswordForm').addEventListener('submit', (e) => {
-  e.preventDefault();
-  const email = document.getElementById('resetEmail').value;
-  
-  // Simulate password reset
-  console.log('Password reset requested for:', email);
-  alert('Password reset link has been sent to your email!');
-  showLogin();
-});
 
 // Startup Animation - Start immediately when DOM is ready, don't wait for all resources
 (function startAnimation() {
@@ -843,6 +896,6 @@ document.getElementById('forgotPasswordForm').addEventListener('submit', (e) => 
   }
 })();
 </script>
+
 </body>
 </html>
-
