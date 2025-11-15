@@ -38,25 +38,16 @@ body.light-theme .logo-img { filter: invert(1); }
 .theme-toggle { padding:6px 14px; font-size:12.5px; background:transparent; border-radius:6px; border:1px solid var(--card-border); color:var(--text-color); cursor:pointer; transition:0.25s ease; }
 .theme-toggle:hover { border-color:var(--accent); color:var(--accent); }
 
-/* CTA container for centering */
-.cta-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: calc(100vh - 104px - 64px); /* header + footer height approx */
-  padding: 0 20px;
-}
-
-/* CTA block */
+/* CTA section */
 .cta { 
-  text-align: center; 
-  padding: 80px 30px; 
-  background: linear-gradient(135deg, rgba(255,77,77,0.08), rgba(255,77,77,0.02)); 
-  border-radius: 20px; 
-  max-width: 900px; 
-  width: 100%;
-  border: 1px solid var(--card-border); 
-  position: relative; 
+  text-align: justify;
+  padding: 80px 30px;
+  background: linear-gradient(135deg, rgba(255,77,77,0.08), rgba(255,77,77,0.02));
+  border-radius: 20px;
+  max-width: 900px;
+  margin: 80px auto;
+  border: 1px solid var(--card-border);
+  position: relative;
   overflow: hidden;
 }
 
@@ -70,10 +61,43 @@ body.light-theme .logo-img { filter: invert(1); }
   background: linear-gradient(90deg, transparent, var(--accent), transparent); 
 }
 
-.cta h3 { margin-bottom: 16px; font-size: 32px; font-weight: 700; }
-.cta p { margin-bottom: 32px; opacity: 0.85; font-size: 17px; line-height: 1.7; max-width: 700px; margin-left: auto; margin-right: auto; }
-.cta-btn { display: inline-block; padding: 16px 40px; background: var(--accent); color: #fff; border-radius: 12px; text-decoration: none; transition: all 0.25s ease; font-size: 16px; font-weight: 500; box-shadow:0 6px 20px var(--btn-shadow); }
-.cta-btn:hover { background: var(--accent-hover); transform: translateY(-3px); box-shadow:0 10px 30px var(--btn-shadow-hover); }
+.cta h3 { 
+  margin-bottom: 16px;
+  font-size: 32px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.cta p { 
+  margin-bottom: 32px;
+  opacity: 0.85;
+  font-size: 17px;
+  line-height: 1.7;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+.cta-btn { 
+  display: inline-block;
+  padding: 16px 40px;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  font-size: 16px;
+  font-weight: 500;
+  box-shadow: 0 6px 20px var(--btn-shadow);
+}
+
+.cta-btn:hover { 
+  background: var(--accent-hover);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px var(--btn-shadow-hover);
+}
 
 /* FOOTER */
 footer { text-align: center; padding: 24px 16px; font-size: 12px; border-top: 1px solid var(--card-border); opacity:0.7; margin-top: 40px; }
@@ -83,7 +107,7 @@ footer a:hover { color: var(--accent); }
 /* Responsive */
 @media (max-width: 640px) {
   .cta h3 { font-size: 26px; }
-  .cta { padding: 60px 25px; margin: 0 auto; }
+  .cta { padding: 60px 25px; margin: 60px 20px; }
 }
 </style>
 </head>
@@ -96,15 +120,12 @@ footer a:hover { color: var(--accent); }
   </div>
 </div>
 
-<!-- Centered CTA -->
-<div class="cta-container">
-  <div class="cta">
-    <h3>Ahlan Wa Sahlan!</h3>
-    <p>
-      Patholytica is a platform created by students committed to reshaping how peers access medical knowledge. Our goal is to provide clear, focused, and community-based learning that empowers students and removes the barriers of cost and complexity.
-    </p>
-    <a href="login.html" class="cta-btn">Get Started</a>
-  </div>
+<div class="cta">
+  <h3>Ahlan Wa Sahlan!</h3>
+  <p>
+    Patholytica is a platform created by students committed to reshaping how peers access medical knowledge. Our goal is to provide clear, focused, and community-based learning that empowers students and removes the barriers of cost and complexity.
+  </p>
+  <a href="login.html" class="cta-btn">Get Started</a>
 </div>
 
 <footer>
