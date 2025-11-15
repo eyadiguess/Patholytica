@@ -4,192 +4,210 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Patholytica — by MedicineBank</title>
+
 <style>
 :root {
-  --bg-color: #0f0f0f;
+  --bg-color: #0c0c0c;
   --text-color: #fff;
-  --card-bg: #181818;
-  --card-border: #333;
-  --hover-bg: #222;
+  --card-bg: rgba(24,24,24,0.75);
+  --card-border: rgba(255,255,255,0.08);
   --hover-text: #ff4d4d;
   --btn-primary: #ff4d4d;
-  --btn-primary-hover: #ff3333;
+  --btn-hover: #ff3333;
 }
 
 body.light-theme {
-  --bg-color: #f5f5f5;
+  --bg-color: #f4f4f4;
   --text-color: #111;
-  --card-bg: #fff;
-  --card-border: #ccc;
-  --hover-bg: #eee;
-  --hover-text: #e74c3c;
-  --btn-primary: #e74c3c;
-  --btn-primary-hover: #c0392b;
+  --card-bg: rgba(255,255,255,0.7);
+  --card-border: rgba(0,0,0,0.1);
+  --hover-text: #e53935;
+  --btn-primary: #e53935;
+  --btn-hover: #c62828;
 }
 
 * { box-sizing: border-box; }
-html, body { margin:0; padding:0; height:100%; font-family: Arial, sans-serif; }
+html, body { margin:0; padding:0; height:100%; font-family: 'Inter', Arial, sans-serif; }
 
-body { background: var(--bg-color); transition: background 0.3s ease; display: flex; flex-direction: column; }
+body {
+  background: var(--bg-color);
+  color: var(--text-color);
+  display: flex; 
+  flex-direction: column;
+  transition: background 0.3s ease;
+}
 
 /* HEADER */
 .header-wrapper {
   position: sticky;
   top: 0;
-  background: #181818;
-  z-index: 100;
+  background: var(--bg-color);
+  padding-top: env(safe-area-inset-top);
+  border-bottom: 1px solid var(--card-border);
+  z-index: 50;
 }
 
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: env(safe-area-inset-top) 16px 0 16px;
-  height: 50px;
+  padding: 14px 18px;
 }
 
-.logo-img { height: 28px; width: auto; }
-
-.header-center { flex: 1; display: flex; justify-content: center; }
+.logo-img {
+  height: 32px;
+  width: auto;
+}
 
 /* Theme toggle */
 .theme-toggle {
-  padding:4px 10px; border-radius:4px; border:1px solid #333; font-size:12px;
-  background:#181818; color:#fff; cursor:pointer; transition: all 0.3s ease;
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: 1px solid var(--card-border);
+  background: transparent;
+  color: var(--text-color);
+  font-size: 12.5px;
+  cursor: pointer;
+  transition: 0.25s ease;
 }
-body.light-theme .theme-toggle { border-color:#fff; background:#fff; color:#111; }
-.theme-toggle:hover { background:var(--hover-bg); color:var(--hover-text); border-color:var(--hover-text); }
+.theme-toggle:hover {
+  color: var(--hover-text);
+  border-color: var(--hover-text);
+}
 
-/* Empty space for hamburger alignment */
-.header-right { width: 25px; }
-
-/* LOGIN CONTAINER */
+/* MAIN AREA */
 .login-container {
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 40px calc(20px + env(safe-area-inset-left)) calc(40px + env(safe-area-inset-bottom)) calc(20px + env(safe-area-inset-right));
+  padding: calc(40px + env(safe-area-inset-top))
+           calc(20px + env(safe-area-inset-left))
+           calc(40px + env(safe-area-inset-bottom))
+           calc(20px + env(safe-area-inset-right));
 }
 
 .login-card {
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  border-radius: 12px;
-  padding: 50px 40px;
-  max-width: 420px;
   width: 100%;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  max-width: 420px;
+  padding: 55px 40px;
+  background: var(--card-bg);
+  backdrop-filter: blur(22px);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
   text-align: center;
-  transition: all 0.3s ease;
+  animation: fadeIn 0.6s ease both;
+  box-shadow: 0 6px 22px rgba(0,0,0,0.45);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .login-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.55);
 }
 
 .login-card h1 {
-  margin: 0 0 12px 0;
   font-size: 32px;
-  color: var(--text-color);
+  margin-bottom: 12px;
 }
 
 .login-card p {
-  margin: 0 0 35px 0;
+  color: #aaa;
   font-size: 15px;
-  color: #888;
-  line-height: 1.5;
+  margin-bottom: 34px;
+  line-height: 1.55;
 }
 
+/* CTA BUTTON */
 .login-btn {
   display: inline-block;
-  padding: 16px 40px;
+  padding: 16px 42px;
+  font-size: 16px;
+  font-weight: 600;
   background: var(--btn-primary);
   color: #fff;
+  border-radius: 10px;
   text-decoration: none;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: bold;
-  transition: all 0.3s ease;
-  border: none;
-  cursor: pointer;
+  transition: 0.25s ease;
+  box-shadow: 0 6px 15px rgba(255,77,77,0.35);
 }
-
 .login-btn:hover {
-  background: var(--btn-primary-hover);
+  background: var(--btn-hover);
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(255,77,77,0.4);
+  box-shadow: 0 10px 22px rgba(255,77,77,0.45);
 }
 
 /* FOOTER */
 footer {
-  margin-top: auto;
-  padding: 20px calc(20px + env(safe-area-inset-left)) calc(20px + env(safe-area-inset-bottom)) calc(20px + env(safe-area-inset-right));
   text-align: center;
+  padding: 20px;
   font-size: 12px;
-  color: #888;
   border-top: 1px solid var(--card-border);
-  background: var(--bg-color);
+  color: #888;
 }
 
 footer a {
   color: #888;
+  margin: 0 6px;
   text-decoration: none;
-  margin: 0 8px;
   transition: color 0.2s ease;
 }
-
 footer a:hover {
   color: var(--hover-text);
 }
 
+/* Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 @media (max-width: 640px) {
-  .login-card {
-    padding: 40px 30px;
-  }
-  
-  .login-card h1 {
-    font-size: 26px;
-  }
+  .login-card { padding: 45px 30px; }
+  .login-card h1 { font-size: 26px; }
 }
 </style>
 </head>
+
 <body>
 
+<!-- HEADER -->
 <div class="header-wrapper">
   <div class="header">
     <img src="IMG_0696.png" class="logo-img" alt="Patholytica Logo">
-    <div class="header-center">
-      <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
-    </div>
-    <div class="header-right"></div>
+    <button class="theme-toggle" onclick="toggleTheme()">Theme</button>
   </div>
 </div>
 
+<!-- MAIN LOGIN CARD -->
 <div class="login-container">
   <div class="login-card">
     <h1>Welcome to Patholytica</h1>
-    <p>Your comprehensive pathology learning platform powered by MedicineBank</p>
+    <p>Your premium pathology learning platform powered by MedicineBank.</p>
     <a href="login.html" class="login-btn">🔐 Login to Continue</a>
   </div>
 </div>
 
+<!-- FOOTER -->
 <footer>
-  &copy; 2025 Patholytica by MedicineBank. All rights reserved.
+  © 2025 Patholytica by MedicineBank. All rights reserved.
   <br>
   <a href="#">Privacy Policy</a> |
-  <a href="#">Terms of Service</a> |
+  <a href="#">Terms</a> |
   <a href="#">Contact</a>
 </footer>
 
 <script>
-// Theme toggle
 function toggleTheme(){
   document.body.classList.toggle('light-theme');
-  localStorage.setItem('theme',document.body.classList.contains('light-theme')?'light':'dark');
+  localStorage.setItem('theme',
+    document.body.classList.contains('light-theme') ? 'light' : 'dark'
+  );
 }
-if(localStorage.getItem('theme')==='light') document.body.classList.add('light-theme');
+if(localStorage.getItem('theme')==='light'){
+  document.body.classList.add('light-theme');
+}
 </script>
+
 </body>
 </html>
