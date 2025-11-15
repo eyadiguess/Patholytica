@@ -13,8 +13,6 @@
   --card-border: rgba(255,255,255,0.07);
   --accent: #ff4d4d;
   --accent-hover: #ff3333;
-  --guest-btn: #888888;
-  --guest-btn-hover: #666666;
 }
 
 /* Light theme */
@@ -25,8 +23,6 @@ body.light-theme {
   --card-border: rgba(0,0,0,0.1);
   --accent: #e53935;
   --accent-hover: #c62828;
-  --guest-btn: #aaaaaa;
-  --guest-btn-hover: #888888;
 }
 
 /* GLOBAL */
@@ -62,14 +58,13 @@ body {
   height: 32px;
   width: auto;
   transition: filter 0.25s ease;
+  cursor: pointer;
 }
 
-/* Auto-invert logo in light mode */
 body.light-theme .logo-img {
   filter: invert(1);
 }
 
-/* Theme button */
 .theme-toggle {
   padding: 6px 14px;
   font-size: 12.5px;
@@ -122,7 +117,7 @@ body.light-theme .logo-img {
 
 .login-card p {
   font-size: 15px;
-  margin-bottom: 34px;
+  margin-bottom: 20px;
   color: #999;
   line-height: 1.55;
 }
@@ -141,7 +136,7 @@ body.light-theme .logo-img {
   box-shadow: 0 6px 16px rgba(255,77,77,0.35);
   cursor: pointer;
   border: none;
-  margin-bottom: 12px;
+  margin-bottom: 6px;
   width: 100%;
 }
 .login-btn:hover {
@@ -150,28 +145,16 @@ body.light-theme .logo-img {
   box-shadow: 0 10px 22px rgba(255,77,77,0.45);
 }
 
-/* Guest mode button */
-.guest-btn {
-  display: inline-block;
-  padding: 16px 42px;
-  font-size: 16px;
-  font-weight: 600;
-  background: var(--guest-btn);
-  color: #fff;
-  border-radius: 10px;
-  text-decoration: none;
-  transition: 0.25s ease;
-  box-shadow: 0 6px 16px rgba(136,136,136,0.35);
+/* Guest text link */
+.guest-text {
+  display: block;
+  font-size: 13px;
+  color: #aaa;
+  margin-top: 6px;
   cursor: pointer;
-  border: none;
-  margin-bottom: 12px;
-  width: 100%;
+  text-decoration: underline;
 }
-.guest-btn:hover {
-  background: var(--guest-btn-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 10px 22px rgba(136,136,136,0.45);
-}
+.guest-text:hover { color: #888; }
 
 /* INPUT FIELDS */
 .input-field {
@@ -204,20 +187,18 @@ body.light-theme .input-field {
 /* FOOTER */
 footer {
   text-align: center;
-  padding: 22px;
-  font-size: 12px;
+  padding: 16px;
+  font-size: 11px;
   border-top: 1px solid var(--card-border);
   color: #888;
 }
 footer a {
   color: #888;
-  margin: 0 6px;
+  margin: 0 3px;
   text-decoration: none;
   transition: color 0.25s ease;
 }
-footer a:hover {
-  color: var(--accent);
-}
+footer a:hover { color: var(--accent); }
 
 /* Animations */
 @keyframes fadeUp {
@@ -232,13 +213,14 @@ footer a:hover {
 </style>
 
 </head>
-
 <body>
 
 <!-- HEADER -->
 <div class="header-wrapper">
   <div class="header">
-    <img src="IMG_0696.png" class="logo-img" alt="Patholytica Logo">
+    <a href="https://patholytica.com">
+      <img src="IMG_0696.png" class="logo-img" alt="Patholytica Logo">
+    </a>
     <button class="theme-toggle" onclick="toggleTheme()">Theme</button>
   </div>
 </div>
@@ -252,8 +234,8 @@ footer a:hover {
 
     <!-- Login button (initial state) -->
     <a class="login-btn" id="startLoginBtn">🔐 Login to Continue</a>
-    <!-- Guest mode button -->
-    <a class="guest-btn" id="guestBtn">👤 Guest Mode</a>
+    <!-- Guest mode text link -->
+    <span class="guest-text" id="guestBtn">👤 Guest Mode</span>
 
     <!-- Hidden login form -->
     <form id="loginForm" style="display:none; margin-top:20px; animation: fadeUp 0.5s ease both;">
@@ -300,8 +282,8 @@ footer a:hover {
 <footer>
   © 2025 Patholytica by MedicineBank. All rights reserved.
   <br>
-  <a href="#">Privacy Policy</a> |
-  <a href="#">Terms</a> |
+  <a href="#">Privacy Policy</a> | 
+  <a href="#">Terms</a> | 
   <a href="#">Contact</a>
 </footer>
 
@@ -339,7 +321,7 @@ startBtn.addEventListener("click", () => {
   }, 250);
 });
 
-// Guest mode button click
+// Guest mode click
 guestBtn.addEventListener("click", () => {
   alert("Entering Guest Mode. Limited features available.");
 });
