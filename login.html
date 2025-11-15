@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Patholytica — by MedicineBank</title>
 
+<!-- Include Supabase JS -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
+
 <style>
 :root {
   --bg-color: #0d0d0d;
@@ -15,7 +18,6 @@
   --accent-hover: #ff3333;
 }
 
-/* Light theme */
 body.light-theme {
   --bg-color: #f5f5f5;
   --text-color: #111;
@@ -28,191 +30,46 @@ body.light-theme {
 /* GLOBAL */
 * { box-sizing: border-box; }
 html, body { margin:0; padding:0; height:100%; font-family: "Inter", Arial, sans-serif; }
-
-body {
-  background: var(--bg-color);
-  color: var(--text-color);
-  display: flex;
-  flex-direction: column;
-  transition: background 0.35s ease;
-}
+body { background: var(--bg-color); color: var(--text-color); display: flex; flex-direction: column; transition: background 0.35s ease; }
 
 /* HEADER */
-.header-wrapper {
-  position: sticky;
-  top: 0;
-  background: var(--bg-color);
-  padding-top: env(safe-area-inset-top);
-  border-bottom: 1px solid var(--card-border);
-  z-index: 40;
-}
-
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 18px;
-}
-
-.logo-img {
-  height: 32px;
-  width: auto;
-  transition: filter 0.25s ease;
-  cursor: pointer;
-}
-
-body.light-theme .logo-img {
-  filter: invert(1);
-}
-
-.theme-toggle {
-  padding: 6px 14px;
-  font-size: 12.5px;
-  background: transparent;
-  border-radius: 6px;
-  border: 1px solid var(--card-border);
-  color: var(--text-color);
-  cursor: pointer;
-  transition: 0.25s ease;
-}
-.theme-toggle:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-}
+.header-wrapper { position: sticky; top: 0; background: var(--bg-color); padding-top: env(safe-area-inset-top); border-bottom: 1px solid var(--card-border); z-index: 40; }
+.header { display: flex; align-items: center; justify-content: space-between; padding: 16px 18px; }
+.logo-img { height: 32px; width: auto; transition: filter 0.25s ease; cursor: pointer; }
+body.light-theme .logo-img { filter: invert(1); }
+.theme-toggle { padding: 6px 14px; font-size: 12.5px; background: transparent; border-radius: 6px; border: 1px solid var(--card-border); color: var(--text-color); cursor: pointer; transition: 0.25s ease; }
+.theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
 
 /* MAIN CONTENT */
-.login-container {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: calc(40px + env(safe-area-inset-top))
-           calc(20px + env(safe-area-inset-left))
-           calc(40px + env(safe-area-inset-bottom))
-           calc(20px + env(safe-area-inset-right));
-}
-
-.login-card {
-  width: 100%;
-  max-width: 430px;
-  padding: 55px 42px;
-  background: var(--card-bg);
-  backdrop-filter: blur(22px);
-  border-radius: 16px;
-  border: 1px solid var(--card-border);
-  box-shadow: 0 8px 28px rgba(0,0,0,0.45);
-  text-align: center;
-  animation: fadeUp 0.5s ease both;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-.login-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 35px rgba(0,0,0,0.55);
-}
-
-.login-card h1 {
-  font-size: 32px;
-  margin-bottom: 12px;
-}
-
-.login-card p {
-  font-size: 15px;
-  margin-bottom: 20px;
-  color: #999;
-  line-height: 1.55;
-}
+.login-container { flex: 1; display: flex; align-items: center; justify-content: center; padding: calc(40px + env(safe-area-inset-top)) calc(20px + env(safe-area-inset-left)) calc(40px + env(safe-area-inset-bottom)) calc(20px + env(safe-area-inset-right)); }
+.login-card { width: 100%; max-width: 430px; padding: 55px 42px; background: var(--card-bg); backdrop-filter: blur(22px); border-radius: 16px; border: 1px solid var(--card-border); box-shadow: 0 8px 28px rgba(0,0,0,0.45); text-align: center; animation: fadeUp 0.5s ease both; transition: transform 0.25s ease, box-shadow 0.25s ease; }
+.login-card:hover { transform: translateY(-4px); box-shadow: 0 12px 35px rgba(0,0,0,0.55); }
+.login-card h1 { font-size: 32px; margin-bottom: 12px; }
+.login-card p { font-size: 15px; margin-bottom: 20px; color: #999; line-height: 1.55; }
 
 /* BUTTONS */
-.login-btn {
-  display: inline-block;
-  padding: 16px 42px;
-  font-size: 16px;
-  font-weight: 600;
-  background: var(--accent);
-  color: #fff;
-  border-radius: 10px;
-  text-decoration: none;
-  transition: 0.25s ease;
-  box-shadow: 0 6px 16px rgba(255,77,77,0.35);
-  cursor: pointer;
-  border: none;
-  margin-bottom: 6px;
-  width: 100%;
-}
-.login-btn:hover {
-  background: var(--accent-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 10px 22px rgba(255,77,77,0.45);
-}
+.login-btn { display: inline-block; padding: 16px 42px; font-size: 16px; font-weight: 600; background: var(--accent); color: #fff; border-radius: 10px; text-decoration: none; transition: 0.25s ease; box-shadow: 0 6px 16px rgba(255,77,77,0.35); cursor: pointer; border: none; margin-bottom: 6px; width: 100%; }
+.login-btn:hover { background: var(--accent-hover); transform: translateY(-2px); box-shadow: 0 10px 22px rgba(255,77,77,0.45); }
 
-/* Guest Mode text styled like signup link */
-.guest-text {
-  display: block;
-  font-size: 14px;
-  color: var(--accent);
-  margin-top: 6px;
-  cursor: pointer;
-  font-weight: 600;
-  text-decoration: none;
-}
-.guest-text:hover {
-  text-decoration: underline;
-}
+/* Guest Mode text */
+.guest-text { display: block; font-size: 14px; color: var(--accent); margin-top: 6px; cursor: pointer; font-weight: 600; text-decoration: none; }
+.guest-text:hover { text-decoration: underline; }
 
 /* INPUT FIELDS */
-.input-field {
-  width: 100%;
-  padding: 14px;
-  margin-bottom: 14px;
-  border-radius: 8px;
-  border: 1px solid var(--card-border);
-  background: rgba(0,0,0,0.25);
-  color: var(--text-color);
-  font-size: 15px;
-  transition: 0.25s ease;
-}
-
-body.light-theme .input-field {
-  background: rgba(255,255,255,0.7);
-}
-
-.input-field:focus {
-  border-color: var(--accent);
-  outline: none;
-  box-shadow: 0 0 8px rgba(255,77,77,0.35);
-}
+.input-field { width: 100%; padding: 14px; margin-bottom: 14px; border-radius: 8px; border: 1px solid var(--card-border); background: rgba(0,0,0,0.25); color: var(--text-color); font-size: 15px; transition: 0.25s ease; }
+body.light-theme .input-field { background: rgba(255,255,255,0.7); }
+.input-field:focus { border-color: var(--accent); outline: none; box-shadow: 0 0 8px rgba(255,77,77,0.35); }
 
 /* FORM TRANSITIONS */
-#loginForm, #signupForm {
-  transition: opacity 0.25s ease;
-}
+#loginForm, #signupForm { transition: opacity 0.25s ease; }
 
 /* FOOTER */
-footer {
-  text-align: center;
-  padding: 16px;
-  font-size: 11px;
-  border-top: 1px solid var(--card-border);
-  color: #888;
-}
-footer a {
-  color: #888;
-  margin: 0 3px;
-  text-decoration: none;
-  transition: color 0.25s ease;
-}
+footer { text-align: center; padding: 16px; font-size: 11px; border-top: 1px solid var(--card-border); color: #888; }
+footer a { color: #888; margin: 0 3px; text-decoration: none; transition: color 0.25s ease; }
 footer a:hover { color: var(--accent); }
 
-/* Animations */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-@media (max-width: 640px) {
-  .login-card { padding: 45px 30px; }
-  .login-card h1 { font-size: 27px; }
-}
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@media (max-width: 640px) { .login-card { padding: 45px 30px; } .login-card h1 { font-size: 27px; } }
 </style>
 
 </head>
@@ -237,50 +94,40 @@ footer a:hover { color: var(--accent); }
 
     <!-- Login button -->
     <a class="login-btn" id="startLoginBtn">🔐 Login to Continue</a>
-    <!-- Guest Mode text link -->
     <span class="guest-text" id="guestBtn">Guest Mode</span>
 
-    <!-- Hidden login form -->
-    <form id="loginForm" style="display:none; margin-top:20px; animation: fadeUp 0.5s ease both;">
-      <input type="email" placeholder="Email" class="input-field" required>
-      <input type="password" placeholder="Password" class="input-field" required>
-
-      <button type="submit" class="login-btn" style="width:100%; margin-top:12px;">
-        Continue
-      </button>
-
+    <!-- Login form -->
+    <form id="loginForm" style="display:none; margin-top:20px;">
+      <input type="text" placeholder="Email" id="loginEmail" class="input-field" required>
+      <input type="password" placeholder="Password" id="loginPassword" class="input-field" required>
+      <button type="submit" class="login-btn">Continue</button>
       <p style="margin-top:20px; font-size:14px; color:#999;">
         Don't have an account? 
-        <a href="#" id="showSignupLink" style="color:var(--accent); text-decoration:none; font-weight:600;">Sign up</a>
+        <a href="#" id="showSignupLink" style="color:var(--accent); font-weight:600;">Sign up</a>
       </p>
     </form>
 
-    <!-- Hidden signup form -->
-    <form id="signupForm" style="display:none; margin-top:20px; animation: fadeUp 0.5s ease both;">
-      <input type="text" placeholder="Full Name" class="input-field" required>
-      <input type="email" placeholder="Email Address" class="input-field" required>
-      <input type="password" placeholder="Password (min. 8 characters)" class="input-field" minlength="8" required>
-      <input type="password" placeholder="Confirm Password" class="input-field" required>
-
+    <!-- Signup form -->
+    <form id="signupForm" style="display:none; margin-top:20px;">
+      <input type="text" placeholder="Full Name" id="signupFullName" class="input-field" required>
+      <input type="text" placeholder="Username" id="signupUsername" class="input-field" required>
+      <input type="email" placeholder="Email" id="signupEmail" class="input-field" required>
+      <input type="password" placeholder="Password (min. 8 characters)" id="signupPassword" class="input-field" minlength="8" required>
+      <input type="password" placeholder="Confirm Password" id="signupConfirmPassword" class="input-field" required>
       <label style="display:flex; align-items:center; justify-content:center; margin:16px 0; font-size:13px; color:#999;">
         <input type="checkbox" required style="margin-right:8px;">
-        I agree to the <a href="#" style="color:var(--accent); text-decoration:none; margin:0 3px;">Terms</a> and <a href="#" style="color:var(--accent); text-decoration:none; margin:0 3px;">Privacy Policy</a>
+        I agree to the <a href="#" style="color:var(--accent); text-decoration:none;">Terms</a> and <a href="#" style="color:var(--accent); text-decoration:none;">Privacy Policy</a>
       </label>
-
-      <button type="submit" class="login-btn" style="width:100%; margin-top:12px;">
-        Create Account
-      </button>
-
+      <button type="submit" class="login-btn">Create Account</button>
       <p style="margin-top:20px; font-size:14px; color:#999;">
         Already have an account? 
-        <a href="#" id="showLoginLink" style="color:var(--accent); text-decoration:none; font-weight:600;">Login</a>
+        <a href="#" id="showLoginLink" style="color:var(--accent); font-weight:600;">Login</a>
       </p>
     </form>
 
   </div>
 </div>
 
-<!-- FOOTER -->
 <footer>
   © 2025 Patholytica by MedicineBank. All rights reserved.
   <br>
@@ -289,28 +136,20 @@ footer a:hover { color: var(--accent); }
   <a href="#">Contact</a>
 </footer>
 
-<!-- Supabase SDK -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.34.0/dist/supabase.min.js"></script>
 <script>
-const supabaseUrl = "https://kmwuqrbkbqhqhjncmzms.supabase.co";
-const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imttd3VxcmJrYnFocWhqbmNtem1zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMxNTg5MDYsImV4cCI6MjA3ODczNDkwNn0.DNhDZcoM3diHK5DEhtcQV4BTFfxz2996corYikb06C8";
-const supabase = supabase.createClient(supabaseUrl, supabaseKey);
-</script>
+// Supabase setup
+const SUPABASE_URL = "https://kmwuqrbkbqhqhjncmzms.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imttd3VxcmJrYnFocWhqbmNtem1zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMxNTg5MDYsImV4cCI6MjA3ODczNDkwNn0.DNhDZcoM3diHK5DEhtcQV4BTFfxz2996corYikb06C8";
+const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-<script>
+// Theme toggle
 function toggleTheme(){
   document.body.classList.toggle('light-theme');
-  localStorage.setItem(
-    "theme",
-    document.body.classList.contains("light-theme") ? "light" : "dark"
-  );
+  localStorage.setItem("theme", document.body.classList.contains("light-theme") ? "light" : "dark");
 }
+if (localStorage.getItem("theme") === "light") document.body.classList.add("light-theme");
 
-if (localStorage.getItem("theme") === "light") {
-  document.body.classList.add("light-theme");
-}
-
-/* Elements */
+// Elements
 const startBtn = document.getElementById("startLoginBtn");
 const form = document.getElementById("loginForm");
 const signupForm = document.getElementById("signupForm");
@@ -318,74 +157,54 @@ const showSignupLink = document.getElementById("showSignupLink");
 const showLoginLink = document.getElementById("showLoginLink");
 const guestBtn = document.getElementById("guestBtn");
 
-/* Show login form */
+// Show login form
 startBtn.addEventListener("click", () => {
   startBtn.style.display = "none";
   guestBtn.style.display = "none";
   form.style.display = "block";
 });
 
-/* Guest mode */
-guestBtn.addEventListener("click", () => {
-  alert("Entering Guest Mode. Limited features available.");
+// Guest mode
+guestBtn.addEventListener("click", () => { alert("Entering Guest Mode. Limited features available."); });
+
+// Toggle forms
+showSignupLink.addEventListener("click", (e)=>{ e.preventDefault(); form.style.display="none"; signupForm.style.display="block"; });
+showLoginLink.addEventListener("click", (e)=>{ e.preventDefault(); signupForm.style.display="none"; form.style.display="block"; });
+
+// LOGIN
+form.addEventListener("submit", async (e)=>{
+  e.preventDefault();
+  const email = document.getElementById("loginEmail").value;
+  const password = document.getElementById("loginPassword").value;
+  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+  if(error){ alert("Login failed: " + error.message); return; }
+  alert("Login successful! Welcome to Patholytica!");
+  form.reset();
 });
 
-/* Toggle signup/login */
-showSignupLink.addEventListener("click", (e) => {
+// SIGNUP
+signupForm.addEventListener("submit", async (e)=>{
   e.preventDefault();
-  form.style.display = "none";
-  signupForm.style.display = "block";
-});
-showLoginLink.addEventListener("click", (e) => {
-  e.preventDefault();
-  signupForm.style.display = "none";
-  form.style.display = "block";
-});
+  const fullName = document.getElementById("signupFullName").value;
+  const username = document.getElementById("signupUsername").value;
+  const email = document.getElementById("signupEmail").value;
+  const password = document.getElementById("signupPassword").value;
+  const confirmPassword = document.getElementById("signupConfirmPassword").value;
 
-/* SIGNUP */
-signupForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const email = signupForm.querySelector('input[type="email"]').value;
-  const password = signupForm.querySelectorAll('input[type="password"]')[0].value;
-  const confirmPassword = signupForm.querySelectorAll('input[type="password"]')[1].value;
-
-  if(password !== confirmPassword){
-    alert("Passwords do not match!");
-    return;
-  }
+  if(password !== confirmPassword){ alert("Passwords do not match."); return; }
 
   const { data, error } = await supabase.auth.signUp({
-    email: email,
-    password: password
+    email,
+    password,
+    options: {
+      data: { full_name: fullName, username: username }
+    }
   });
-
-  if(error){
-    alert("Error: " + error.message);
-  } else {
-    alert("Account created! Please check your email to confirm.");
-    signupForm.reset();
-    signupForm.style.display = "none";
-    form.style.display = "block";
-  }
-});
-
-/* LOGIN */
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const email = form.querySelector('input[type="email"]').value;
-  const password = form.querySelector('input[type="password"]').value;
-
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email: email,
-    password: password
-  });
-
-  if(error){
-    alert("Error: " + error.message);
-  } else {
-    alert("Logged in successfully! Welcome to Patholytica.");
-    form.reset();
-  }
+  if(error){ alert("Signup failed: " + error.message); return; }
+  alert("Signup successful! Please check your email for confirmation.");
+  signupForm.reset();
+  signupForm.style.display="none";
+  form.style.display="block";
 });
 </script>
 
