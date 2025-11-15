@@ -13,10 +13,11 @@
   --card-border: rgba(255,255,255,0.07);
   --accent: #ff4d4d;
   --accent-hover: #ff3333;
-  --guest-btn: #4d94ff;
-  --guest-btn-hover: #3377ff;
+  --guest-btn: #888888;
+  --guest-btn-hover: #666666;
 }
 
+/* Light theme */
 body.light-theme {
   --bg-color: #f5f5f5;
   --text-color: #111;
@@ -24,8 +25,8 @@ body.light-theme {
   --card-border: rgba(0,0,0,0.1);
   --accent: #e53935;
   --accent-hover: #c62828;
-  --guest-btn: #4285f4;
-  --guest-btn-hover: #3367d6;
+  --guest-btn: #aaaaaa;
+  --guest-btn-hover: #888888;
 }
 
 /* GLOBAL */
@@ -141,6 +142,7 @@ body.light-theme .logo-img {
   cursor: pointer;
   border: none;
   margin-bottom: 12px;
+  width: 100%;
 }
 .login-btn:hover {
   background: var(--accent-hover);
@@ -159,14 +161,16 @@ body.light-theme .logo-img {
   border-radius: 10px;
   text-decoration: none;
   transition: 0.25s ease;
-  box-shadow: 0 6px 16px rgba(77,148,255,0.35);
+  box-shadow: 0 6px 16px rgba(136,136,136,0.35);
   cursor: pointer;
   border: none;
+  margin-bottom: 12px;
+  width: 100%;
 }
 .guest-btn:hover {
   background: var(--guest-btn-hover);
   transform: translateY(-2px);
-  box-shadow: 0 10px 22px rgba(77,148,255,0.45);
+  box-shadow: 0 10px 22px rgba(136,136,136,0.45);
 }
 
 /* INPUT FIELDS */
@@ -373,12 +377,10 @@ form.addEventListener("submit", (e) => {
 signupForm.addEventListener("submit", (e) => {
   e.preventDefault();
   
-  // Get password fields
   const passwords = signupForm.querySelectorAll('input[type="password"]');
   const password = passwords[0].value;
   const confirmPassword = passwords[1].value;
   
-  // Validate passwords match
   if (password !== confirmPassword) {
     alert("Passwords do not match. Please try again.");
     return;
@@ -386,7 +388,6 @@ signupForm.addEventListener("submit", (e) => {
   
   alert("Account created successfully! Welcome to Patholytica!");
   
-  // Switch to login form
   signupForm.style.opacity = "0";
   setTimeout(() => {
     signupForm.style.display = "none";
