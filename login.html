@@ -13,6 +13,8 @@
   --card-border: rgba(255,255,255,0.07);
   --accent: #ff4d4d;
   --accent-hover: #ff3333;
+  --guest-btn: #4d94ff;
+  --guest-btn-hover: #3377ff;
 }
 
 body.light-theme {
@@ -22,6 +24,8 @@ body.light-theme {
   --card-border: rgba(0,0,0,0.1);
   --accent: #e53935;
   --accent-hover: #c62828;
+  --guest-btn: #4285f4;
+  --guest-btn-hover: #3367d6;
 }
 
 /* GLOBAL */
@@ -136,11 +140,33 @@ body.light-theme .logo-img {
   box-shadow: 0 6px 16px rgba(255,77,77,0.35);
   cursor: pointer;
   border: none;
+  margin-bottom: 12px;
 }
 .login-btn:hover {
   background: var(--accent-hover);
   transform: translateY(-2px);
   box-shadow: 0 10px 22px rgba(255,77,77,0.45);
+}
+
+/* Guest mode button */
+.guest-btn {
+  display: inline-block;
+  padding: 16px 42px;
+  font-size: 16px;
+  font-weight: 600;
+  background: var(--guest-btn);
+  color: #fff;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: 0.25s ease;
+  box-shadow: 0 6px 16px rgba(77,148,255,0.35);
+  cursor: pointer;
+  border: none;
+}
+.guest-btn:hover {
+  background: var(--guest-btn-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(77,148,255,0.45);
 }
 
 /* INPUT FIELDS */
@@ -222,6 +248,8 @@ footer a:hover {
 
     <!-- Login button (initial state) -->
     <a class="login-btn" id="startLoginBtn">🔐 Login to Continue</a>
+    <!-- Guest mode button -->
+    <a class="guest-btn" id="guestBtn">👤 Guest Mode</a>
 
     <!-- Hidden login form -->
     <form id="loginForm" style="display:none; margin-top:20px; animation: fadeUp 0.5s ease both;">
@@ -292,15 +320,24 @@ const form = document.getElementById("loginForm");
 const signupForm = document.getElementById("signupForm");
 const showSignupLink = document.getElementById("showSignupLink");
 const showLoginLink = document.getElementById("showLoginLink");
+const guestBtn = document.getElementById("guestBtn");
 
 startBtn.addEventListener("click", () => {
   startBtn.style.opacity = "0";
+  guestBtn.style.opacity = "0";
   startBtn.style.pointerEvents = "none";
+  guestBtn.style.pointerEvents = "none";
 
   setTimeout(() => {
     startBtn.style.display = "none";
+    guestBtn.style.display = "none";
     form.style.display = "block";
   }, 250);
+});
+
+// Guest mode button click
+guestBtn.addEventListener("click", () => {
+  alert("Entering Guest Mode. Limited features available.");
 });
 
 // Toggle to signup form
