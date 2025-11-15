@@ -198,18 +198,18 @@ footer a:hover { color: var(--accent); }
 <!-- CAROUSEL -->
 <div class="carousel" id="carousel">
   <div class="card">
-    <img src="founder1.jpg" alt="Founder 1">
-    <h4>Founder Name</h4>
+    <img src="IMG_0749.jpeg" alt="Founder Eyad Al-Basyouni">
+    <h4>Eyad Al-Basyouni</h4>
     <p>"Our mission is to make medical learning accessible to everyone."</p>
   </div>
   <div class="card">
-    <img src="team1.jpg" alt="Team Member">
-    <h4>Team Member</h4>
+    <img src="IMG_0749.jpeg" alt="Web Dev Ahmed Samir">
+    <h4>Ahmed Samir</h4>
     <p>"We build tools that empower students and remove barriers."</p>
   </div>
   <div class="card">
-    <img src="team2.jpg" alt="Team Member">
-    <h4>Team Member</h4>
+    <img src="IMG_0750.jpeg" alt="Co-founder Omar Halawa">
+    <h4>Omar Halawa</h4>
     <p>"Collaboration and clarity are our core values."</p>
   </div>
 </div>
@@ -255,7 +255,7 @@ const initialButtonOffset = button.getBoundingClientRect().top;
 window.addEventListener('scroll', () => {
   const scrollY = window.scrollY;
 
-  // Hero text scrambling effect
+  // Hero text scrambling effect (blur/fade)
   const scrambleAmount = Math.min(scrollY / 300, 1);
   heroText.style.filter = `blur(${scrambleAmount*4}px)`;
   heroText.style.opacity = `${1 - scrambleAmount}`;
