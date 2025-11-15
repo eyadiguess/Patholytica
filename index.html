@@ -12,8 +12,6 @@
   --card-border: #333;
   --hover-bg: #222;
   --hover-text: #ff4d4d;
-  --header-bg: #fff; /* contrasting header */
-  --header-text: #000;
 }
 
 body.light-theme {
@@ -23,70 +21,58 @@ body.light-theme {
   --card-border: #ccc;
   --hover-bg: #eee;
   --hover-text: #e74c3c;
-  --header-bg: #0f0f0f; /* contrasting header */
-  --header-text: #fff;
 }
 
 * { box-sizing: border-box; }
 html, body { margin:0; padding:0; height:100%; font-family: Arial, sans-serif; }
-body { background: var(--bg-color); color: var(--text-color); transition: all 0.3s ease; }
+
+body { background: var(--bg-color); transition: background 0.3s ease; }
 
 /* HEADER */
 .header-wrapper {
   position: sticky;
   top: 0;
-  background: var(--header-bg);
+  background: #181818;
   z-index: 100;
-  padding-top: env(safe-area-inset-top);
 }
+
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 16px;
+  padding: env(safe-area-inset-top) 16px 0 16px;
   height: 50px;
-  color: var(--header-text);
 }
 
-.logo-img {
-  height: 28px;
-  width: auto;
-  filter: invert(0);
-  transition: filter 0.3s ease;
-}
+.logo-img { height: 28px; width: auto; }
 
-/* invert logo automatically in light/dark mode */
-body.light-theme .logo-img {
-  filter: invert(1) brightness(1.1);
-}
+.header-center { flex: 1; display: flex; justify-content: center; }
 
-.header-center { flex:1; display:flex; justify-content:center; }
 .menu-icon {
-  width:25px; height:20px; display:flex; flex-direction:column; justify-content:space-between;
-  cursor:pointer; z-index:1001;
+  width: 25px; height: 20px; display: flex; flex-direction: column; justify-content: space-between;
+  cursor: pointer; z-index: 1001;
 }
-.menu-icon span { display:block; height:3px; background: var(--header-text); border-radius:2px; transition: all 0.3s ease; }
+.menu-icon span { display:block; height:3px; background:#fff; border-radius:2px; transition: all 0.3s ease; }
 
 /* Menu buttons */
 .menu-buttons {
-  position:absolute; top: calc(100% + 1px); right:16px;
-  background: var(--header-bg);
-  border:1px solid var(--card-border);
-  border-radius:6px;
+  position: absolute; top: calc(100% + 1px); right: 16px;
+  background: #181818; border:1px solid #333; border-radius:6px;
   display:flex; flex-direction:column; overflow:hidden; opacity:0;
   transform:translateY(-10px); pointer-events:none; transition:all 0.3s ease; z-index:1000;
 }
 .menu-buttons.show { opacity:1; transform:translateY(0); pointer-events:all; }
-.menu-buttons a { padding:12px 20px; font-size:14px; color: var(--header-text); text-decoration:none; border-bottom:1px solid var(--card-border); white-space:nowrap; transition: all 0.2s ease; }
+.menu-buttons a { padding:12px 20px; font-size:14px; color:#ccc; text-decoration:none; border-bottom:1px solid #333; white-space:nowrap; transition: all 0.2s ease; }
 .menu-buttons a:last-child { border-bottom:none; }
-.menu-buttons a:hover { color: var(--hover-text); background: var(--hover-bg); padding-left:24px; }
+.menu-buttons a:hover { color:var(--hover-text); background:var(--hover-bg); padding-left:24px; }
 
 /* Theme toggle */
 .theme-toggle {
-  padding:4px 10px; border-radius:4px; border:1px solid var(--card-border); font-size:12px;
-  background: var(--header-bg); color: var(--header-text); cursor:pointer; transition: all 0.3s ease;
+  padding:4px 10px; border-radius:4px; border:1px solid #333; font-size:12px;
+  background:#181818; color:#fff; cursor:pointer; transition: all 0.3s ease;
 }
-.theme-toggle:hover { background: var(--hover-bg); color: var(--hover-text); border-color: var(--hover-text); }
+body.light-theme .theme-toggle { border-color:#fff; background:#fff; color:#111; }
+.theme-toggle:hover { background:var(--hover-bg); color:var(--hover-text); border-color:var(--hover-text); }
 
 /* GRID */
 .theme-container {
@@ -100,8 +86,8 @@ body.light-theme .logo-img {
 
 .thumbnail-link { display:block; width:100%; text-decoration:none; color:inherit; position:relative; }
 .thumbnail-container { position:relative; overflow:hidden; }
-.thumbnail { width:100%; height:200px; object-fit:cover; display:block; transition: transform 0.3s ease; }
-.video-card:hover .thumbnail { transform: scale(1.05); }
+.thumbnail { width:100%; height:200px; object-fit:cover; display:block; transition:transform 0.3s ease; }
+.video-card:hover .thumbnail { transform:scale(1.05); }
 
 .gradient-overlay {
   position:absolute; bottom:0; left:0; width:100%; height:40%;
@@ -111,6 +97,7 @@ body.light-theme .logo-img {
 .title { font-size:14px; font-weight:bold; color:#fff !important; }
 
 .info { padding:12px; display:flex; justify-content:flex-start; }
+
 .upload-btn { display:inline-block; font-size:14px; color:var(--text-color); cursor:pointer; padding:8px 12px; border:1px solid var(--card-border); border-radius:6px; transition:all 0.3s ease; }
 .upload-btn:hover { color:var(--hover-text); border-color:var(--hover-text); }
 .upload-btn input { display:none; }
@@ -168,10 +155,10 @@ footer a:hover { color:var(--hover-text); }
 <script>
 // Grid setup
 const grid = document.getElementById('grid');
-for (let i=1;i<=10;i++){
-  const card=document.createElement('div');
-  card.className='video-card';
-  card.innerHTML=`
+for (let i=1; i<=10; i++) {
+  const card = document.createElement('div');
+  card.className = 'video-card';
+  card.innerHTML = `
     <a href="semester${i}.html" class="thumbnail-link">
       <div class="thumbnail-container">
         <img class="thumbnail" src="https://picsum.photos/400/250?random=${i}">
@@ -180,17 +167,18 @@ for (let i=1;i<=10;i++){
     </a>
     <div class="info">
       <label class="upload-btn">Change Thumbnail →<input type="file" accept="image/*" onchange="changeThumb(this)"></label>
-    </div>`;
+    </div>
+  `;
   grid.appendChild(card);
 }
 
 // Add card
-const addCard=document.createElement('div');
+const addCard = document.createElement('div');
 addCard.className='video-card add-card';
 addCard.innerHTML='+';
-addCard.onclick=()=>{
-  const semesterNum=grid.querySelectorAll('.video-card:not(.add-card)').length+1;
-  const newCard=document.createElement('div');
+addCard.onclick = ()=>{
+  const semesterNum = grid.querySelectorAll('.video-card:not(.add-card)').length+1;
+  const newCard = document.createElement('div');
   newCard.className='video-card';
   newCard.innerHTML=`
     <a href="semester${semesterNum}.html" class="thumbnail-link">
@@ -201,11 +189,13 @@ addCard.onclick=()=>{
     </a>
     <div class="info">
       <label class="upload-btn">Change Thumbnail →<input type="file" accept="image/*" onchange="changeThumb(this)"></label>
-    </div>`;
+    </div>
+  `;
   grid.insertBefore(newCard, addCard);
 };
 grid.appendChild(addCard);
 
+// Thumbnail upload
 function changeThumb(input){
   const file=input.files[0]; if(!file) return;
   const reader=new FileReader();
@@ -224,7 +214,9 @@ function toggleMenu(icon){
     spans[2].style.transform='rotate(-45deg) translate(6px,-6px)';
   } else { spans[0].style.transform='none'; spans[1].style.opacity='1'; spans[2].style.transform='none'; }
 }
-document.addEventListener('click',e=>{
+
+// Close menu
+document.addEventListener('click', e=>{
   const menu=document.getElementById('menuButtons');
   const icon=document.querySelector('.menu-icon');
   if(!menu.contains(e.target)&&!icon.contains(e.target)&&menu.classList.contains('show')) toggleMenu(icon);
