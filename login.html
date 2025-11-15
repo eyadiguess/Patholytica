@@ -242,7 +242,7 @@ footer a:hover { color: var(--accent); }
 
     <!-- Hidden login form -->
     <form id="loginForm" style="display:none; margin-top:20px; animation: fadeUp 0.5s ease both;">
-      <input type="text" placeholder="Email or Username" class="input-field" required>
+      <input type="email" placeholder="Email" class="input-field" required>
       <input type="password" placeholder="Password" class="input-field" required>
 
       <button type="submit" class="login-btn" style="width:100%; margin-top:12px;">
@@ -259,7 +259,6 @@ footer a:hover { color: var(--accent); }
     <form id="signupForm" style="display:none; margin-top:20px; animation: fadeUp 0.5s ease both;">
       <input type="text" placeholder="Full Name" class="input-field" required>
       <input type="email" placeholder="Email Address" class="input-field" required>
-      <input type="text" placeholder="Username" class="input-field" required>
       <input type="password" placeholder="Password (min. 8 characters)" class="input-field" minlength="8" required>
       <input type="password" placeholder="Confirm Password" class="input-field" required>
 
@@ -290,6 +289,14 @@ footer a:hover { color: var(--accent); }
   <a href="#">Contact</a>
 </footer>
 
+<!-- Supabase SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.34.0/dist/supabase.min.js"></script>
+<script>
+const supabaseUrl = "https://kmwuqrbkbqhqhjncmzms.supabase.co";
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imttd3VxcmJrYnFocWhqbmNtem1zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMxNTg5MDYsImV4cCI6MjA3ODczNDkwNn0.DNhDZcoM3diHK5DEhtcQV4BTFfxz2996corYikb06C8";
+const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+</script>
+
 <script>
 function toggleTheme(){
   document.body.classList.toggle('light-theme');
@@ -303,7 +310,7 @@ if (localStorage.getItem("theme") === "light") {
   document.body.classList.add("light-theme");
 }
 
-/* Login button → form reveal */
+/* Elements */
 const startBtn = document.getElementById("startLoginBtn");
 const form = document.getElementById("loginForm");
 const signupForm = document.getElementById("signupForm");
@@ -311,79 +318,76 @@ const showSignupLink = document.getElementById("showSignupLink");
 const showLoginLink = document.getElementById("showLoginLink");
 const guestBtn = document.getElementById("guestBtn");
 
+/* Show login form */
 startBtn.addEventListener("click", () => {
-  startBtn.style.opacity = "0";
-  guestBtn.style.opacity = "0";
-  startBtn.style.pointerEvents = "none";
-  guestBtn.style.pointerEvents = "none";
-
-  setTimeout(() => {
-    startBtn.style.display = "none";
-    guestBtn.style.display = "none";
-    form.style.display = "block";
-  }, 250);
+  startBtn.style.display = "none";
+  guestBtn.style.display = "none";
+  form.style.display = "block";
 });
 
-// Guest mode click
+/* Guest mode */
 guestBtn.addEventListener("click", () => {
   alert("Entering Guest Mode. Limited features available.");
 });
 
-// Toggle to signup form
+/* Toggle signup/login */
 showSignupLink.addEventListener("click", (e) => {
   e.preventDefault();
-  form.style.opacity = "0";
-  
-  setTimeout(() => {
-    form.style.display = "none";
-    signupForm.style.display = "block";
-    signupForm.style.opacity = "1";
-  }, 250);
+  form.style.display = "none";
+  signupForm.style.display = "block";
 });
-
-// Toggle back to login form
 showLoginLink.addEventListener("click", (e) => {
   e.preventDefault();
-  signupForm.style.opacity = "0";
-  
-  setTimeout(() => {
-    signupForm.style.display = "none";
-    form.style.display = "block";
-    form.style.opacity = "1";
-  }, 250);
+  signupForm.style.display = "none";
+  form.style.display = "block";
 });
 
-// Form submissions
-form.addEventListener("submit", (e) => {
+/* SIGNUP */
+signupForm.addEventListener("submit", async (e) => {
   e.preventDefault();
-  alert("Login functionality would connect here. Welcome to Patholytica!");
-});
+  const email = signupForm.querySelector('input[type="email"]').value;
+  const password = signupForm.querySelectorAll('input[type="password"]')[0].value;
+  const confirmPassword = signupForm.querySelectorAll('input[type="password"]')[1].value;
 
-signupForm.addEventListener("submit", (e) => {
-  e.preventDefault();
-  
-  const passwords = signupForm.querySelectorAll('input[type="password"]');
-  const password = passwords[0].value;
-  const confirmPassword = passwords[1].value;
-  
-  if (password !== confirmPassword) {
-    alert("Passwords do not match. Please try again.");
+  if(password !== confirmPassword){
+    alert("Passwords do not match!");
     return;
   }
-  
-  alert("Account created successfully! Welcome to Patholytica!");
-  
-  signupForm.style.opacity = "0";
-  setTimeout(() => {
+
+  const { data, error } = await supabase.auth.signUp({
+    email: email,
+    password: password
+  });
+
+  if(error){
+    alert("Error: " + error.message);
+  } else {
+    alert("Account created! Please check your email to confirm.");
+    signupForm.reset();
     signupForm.style.display = "none";
     form.style.display = "block";
-    form.style.opacity = "1";
-  }, 250);
+  }
+});
+
+/* LOGIN */
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const email = form.querySelector('input[type="email"]').value;
+  const password = form.querySelector('input[type="password"]').value;
+
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email: email,
+    password: password
+  });
+
+  if(error){
+    alert("Error: " + error.message);
+  } else {
+    alert("Logged in successfully! Welcome to Patholytica.");
+    form.reset();
+  }
 });
 </script>
 
 </body>
 </html>
-
-
-Edit this & give me full working code
