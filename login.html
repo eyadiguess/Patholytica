@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -135,6 +136,7 @@ body.light-theme .logo-img {
   transition: 0.25s ease;
   box-shadow: 0 6px 16px rgba(255,77,77,0.35);
   cursor:pointer;
+  border: none;
 }
 .login-btn:hover {
   background: var(--accent-hover);
@@ -163,6 +165,11 @@ body.light-theme .input-field {
   border-color: var(--accent);
   outline: none;
   box-shadow: 0 0 8px rgba(255,77,77,0.35);
+}
+
+/* FORM TRANSITIONS */
+#loginForm, #signupForm {
+  transition: opacity 0.25s ease;
 }
 
 /* FOOTER */
@@ -194,11 +201,13 @@ footer a:hover {
   .login-card h1 { font-size: 27px; }
 }
 </style>
+
 </head>
 
 <body>
 
 <!-- HEADER -->
+
 <div class="header-wrapper">
   <div class="header">
     <img src="IMG_0696.png" class="logo-img" alt="Patholytica Logo">
@@ -207,29 +216,61 @@ footer a:hover {
 </div>
 
 <!-- MAIN -->
+
 <div class="login-container">
   <div class="login-card">
 
-    <h1>Welcome to Patholytica</h1>
-    <p>Your premium pathology learning platform powered by MedicineBank.</p>
+```
+<h1>Welcome to Patholytica</h1>
+<p>Your premium pathology learning platform powered by MedicineBank.</p>
 
-    <!-- Login button (initial state) -->
-    <a class="login-btn" id="startLoginBtn">🔐 Login to Continue</a>
+<!-- Login button (initial state) -->
+<a class="login-btn" id="startLoginBtn">🔐 Login to Continue</a>
 
-    <!-- Hidden login form -->
-    <form id="loginForm" style="display:none; margin-top:20px; animation: fadeUp 0.5s ease both;">
-      <input type="text" placeholder="Email or Username" class="input-field">
-      <input type="password" placeholder="Password" class="input-field">
+<!-- Hidden login form -->
+<form id="loginForm" style="display:none; margin-top:20px; animation: fadeUp 0.5s ease both;">
+  <input type="text" placeholder="Email or Username" class="input-field" required>
+  <input type="password" placeholder="Password" class="input-field" required>
 
-      <button type="submit" class="login-btn" style="width:100%; margin-top:12px;">
-        Continue
-      </button>
-    </form>
+  <button type="submit" class="login-btn" style="width:100%; margin-top:12px;">
+    Continue
+  </button>
+
+  <p style="margin-top:20px; font-size:14px; color:#999;">
+    Don't have an account? 
+    <a href="#" id="showSignupLink" style="color:var(--accent); text-decoration:none; font-weight:600;">Sign up</a>
+  </p>
+</form>
+
+<!-- Hidden signup form -->
+<form id="signupForm" style="display:none; margin-top:20px; animation: fadeUp 0.5s ease both;">
+  <input type="text" placeholder="Full Name" class="input-field" required>
+  <input type="email" placeholder="Email Address" class="input-field" required>
+  <input type="text" placeholder="Username" class="input-field" required>
+  <input type="password" placeholder="Password (min. 8 characters)" class="input-field" minlength="8" required>
+  <input type="password" placeholder="Confirm Password" class="input-field" required>
+
+  <label style="display:flex; align-items:center; justify-content:center; margin:16px 0; font-size:13px; color:#999;">
+    <input type="checkbox" required style="margin-right:8px;">
+    I agree to the <a href="#" style="color:var(--accent); text-decoration:none; margin:0 3px;">Terms</a> and <a href="#" style="color:var(--accent); text-decoration:none; margin:0 3px;">Privacy Policy</a>
+  </label>
+
+  <button type="submit" class="login-btn" style="width:100%; margin-top:12px;">
+    Create Account
+  </button>
+
+  <p style="margin-top:20px; font-size:14px; color:#999;">
+    Already have an account? 
+    <a href="#" id="showLoginLink" style="color:var(--accent); text-decoration:none; font-weight:600;">Login</a>
+  </p>
+</form>
+```
 
   </div>
 </div>
 
 <!-- FOOTER -->
+
 <footer>
   © 2025 Patholytica by MedicineBank. All rights reserved.
   <br>
@@ -254,6 +295,9 @@ if (localStorage.getItem("theme") === "light") {
 /* Login button → form reveal */
 const startBtn = document.getElementById("startLoginBtn");
 const form = document.getElementById("loginForm");
+const signupForm = document.getElementById("signupForm");
+const showSignupLink = document.getElementById("showSignupLink");
+const showLoginLink = document.getElementById("showLoginLink");
 
 startBtn.addEventListener("click", () => {
   startBtn.style.opacity = "0";
@@ -262,6 +306,61 @@ startBtn.addEventListener("click", () => {
   setTimeout(() => {
     startBtn.style.display = "none";
     form.style.display = "block";
+  }, 250);
+});
+
+// Toggle to signup form
+showSignupLink.addEventListener("click", (e) => {
+  e.preventDefault();
+  form.style.opacity = "0";
+  
+  setTimeout(() => {
+    form.style.display = "none";
+    signupForm.style.display = "block";
+    signupForm.style.opacity = "1";
+  }, 250);
+});
+
+// Toggle back to login form
+showLoginLink.addEventListener("click", (e) => {
+  e.preventDefault();
+  signupForm.style.opacity = "0";
+  
+  setTimeout(() => {
+    signupForm.style.display = "none";
+    form.style.display = "block";
+    form.style.opacity = "1";
+  }, 250);
+});
+
+// Form submissions
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+  alert("Login functionality would connect here. Welcome to Patholytica!");
+});
+
+signupForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  
+  // Get password fields
+  const passwords = signupForm.querySelectorAll('input[type="password"]');
+  const password = passwords[0].value;
+  const confirmPassword = passwords[1].value;
+  
+  // Validate passwords match
+  if (password !== confirmPassword) {
+    alert("Passwords do not match. Please try again.");
+    return;
+  }
+  
+  alert("Account created successfully! Welcome to Patholytica!");
+  
+  // Switch to login form
+  signupForm.style.opacity = "0";
+  setTimeout(() => {
+    signupForm.style.display = "none";
+    form.style.display = "block";
+    form.style.opacity = "1";
   }, 250);
 });
 </script>
