@@ -101,7 +101,7 @@ body.light-theme .logo-img {
   background: var(--gradient-1);
   border-radius: 24px;
   max-width: 1000px;
-  margin: 80px auto;
+  margin: 80px auto 40px;
   border: 1px solid var(--card-border);
   position: relative;
   overflow: hidden;
@@ -151,6 +151,7 @@ body.light-theme .logo-img {
   -webkit-text-fill-color: transparent;
   background-clip: text;
   animation: gradientMove 4s ease-in-out infinite;
+  text-align: center;
 }
 
 @keyframes gradientMove {
@@ -161,8 +162,9 @@ body.light-theme .logo-img {
 .cta-subtitle {
   font-size: 20px;
   color: var(--text-secondary);
-  margin-bottom: 16px;
+  margin-bottom: 32px;
   font-weight: 500;
+  text-align: center;
 }
 
 .cta p { 
@@ -170,7 +172,9 @@ body.light-theme .logo-img {
   font-size: 19px;
   max-width: 700px;
   color: var(--text-secondary);
-  line-height: 1.7;
+  line-height: 1.8;
+  text-align: justify;
+  text-align-last: center;
 }
 
 .cta-buttons {
@@ -242,9 +246,9 @@ body.light-theme .logo-img {
 
 /* STATS SECTION */
 .stats {
-  max-width: 1100px;
-  margin: var(--section-gap) auto;
-  padding: 80px 30px;
+  max-width: 1000px;
+  margin: 0 auto 100px;
+  padding: 60px 40px;
   background: var(--gradient-2);
   border-radius: 24px;
   border: 1px solid var(--card-border);
@@ -306,45 +310,77 @@ body.light-theme .logo-img {
 
 .faq-section h2 {
   text-align: center;
-  font-size: 38px;
+  font-size: 42px;
   font-weight: 700;
-  margin-bottom: 50px;
+  margin-bottom: 60px;
   letter-spacing: -0.01em;
+  position: relative;
+  padding-bottom: 20px;
+}
+
+.faq-section h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  border-radius: 2px;
 }
 
 .faq-item { 
-  margin-bottom: 16px;
+  margin-bottom: 20px;
   background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  border-radius: 12px;
+  border: 2px solid var(--card-border);
+  border-radius: 16px;
   overflow: hidden;
   transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
 }
 
 .faq-item:hover {
+  border-color: rgba(255,77,77,0.3);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+
+.faq-item.active {
   border-color: var(--accent);
+  box-shadow: 0 8px 24px var(--accent-glow);
 }
 
 .faq-item h4 { 
   font-size: 18px; 
   cursor: pointer; 
-  padding: 20px 24px;
+  padding: 24px 28px;
   margin: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-weight: 600;
-  transition: color 0.25s ease;
+  transition: all 0.3s ease;
+  user-select: none;
 }
 
 .faq-item h4:hover {
   color: var(--accent);
+  padding-left: 32px;
+}
+
+.faq-item.active h4 {
+  color: var(--accent);
+  background: rgba(255,77,77,0.05);
 }
 
 .faq-item h4::after {
   content: '+';
-  font-size: 24px;
+  font-size: 28px;
+  font-weight: 300;
   transition: transform 0.3s ease;
+  color: var(--accent);
+  min-width: 28px;
+  text-align: center;
 }
 
 .faq-item.active h4::after {
@@ -353,20 +389,26 @@ body.light-theme .logo-img {
 
 .faq-item p { 
   display: none;
-  padding: 0 24px 20px;
-  line-height: 1.7;
-  font-size: 15px;
+  padding: 0 28px 28px;
+  line-height: 1.8;
+  font-size: 16px;
   color: var(--text-secondary);
 }
 
 .faq-item.active p {
   display: block;
-  animation: fadeIn 0.3s ease;
+  animation: fadeIn 0.4s ease;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { 
+    opacity: 0; 
+    transform: translateY(-10px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
 }
 
 /* FOOTER */
@@ -394,19 +436,23 @@ footer a:hover {
 /* Responsive */
 @media (max-width: 768px) {
   .cta h3 { font-size: 38px; }
-  .cta { padding: 80px 25px 70px; margin: 40px 20px; }
+  .cta { padding: 80px 25px 70px; margin: 60px 20px 30px; }
   .cta-subtitle { font-size: 18px; }
   .cta-buttons { flex-direction: column; width: 100%; }
   .cta-btn, .cta-btn-secondary { width: 100%; text-align: center; }
+  .stats { margin: 0 20px 80px; padding: 50px 30px; }
   .faq-section h2 { font-size: 32px; }
   .stat-item h3 { font-size: 40px; }
 }
 
 @media (max-width: 480px) {
   .cta h3 { font-size: 28px; }
-  .cta p { font-size: 16px; }
+  .cta p { font-size: 16px; text-align: center; }
   .cta-subtitle { font-size: 16px; }
+  .stats { padding: 40px 20px; }
   .stats-grid { gap: 30px; }
+  .faq-item h4 { font-size: 16px; padding: 20px; }
+  .faq-item p { padding: 0 20px 20px; font-size: 15px; }
 }
 </style>
 
