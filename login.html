@@ -15,6 +15,7 @@
   --accent-hover: #ff3333;
 }
 
+/* Light theme */
 body.light-theme {
   --bg-color: #f5f5f5;
   --text-color: #111;
@@ -24,6 +25,7 @@ body.light-theme {
   --accent-hover: #c62828;
 }
 
+/* GLOBAL */
 * { box-sizing: border-box; }
 html, body { margin:0; padding:0; height:100%; font-family: "Inter", Arial, sans-serif; }
 
@@ -56,6 +58,7 @@ body {
   height: 32px;
   width: auto;
   transition: filter 0.25s ease;
+  cursor: pointer;
 }
 
 body.light-theme .logo-img {
@@ -102,7 +105,6 @@ body.light-theme .logo-img {
   animation: fadeUp 0.5s ease both;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
-
 .login-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 12px 35px rgba(0,0,0,0.55);
@@ -137,14 +139,13 @@ body.light-theme .logo-img {
   margin-bottom: 6px;
   width: 100%;
 }
-
 .login-btn:hover {
   background: var(--accent-hover);
   transform: translateY(-2px);
   box-shadow: 0 10px 22px rgba(255,77,77,0.45);
 }
 
-/* Guest Mode */
+/* Guest Mode text styled like signup link */
 .guest-text {
   display: block;
   font-size: 14px;
@@ -181,6 +182,11 @@ body.light-theme .input-field {
   box-shadow: 0 0 8px rgba(255,77,77,0.35);
 }
 
+/* FORM TRANSITIONS */
+#loginForm, #signupForm {
+  transition: opacity 0.25s ease;
+}
+
 /* FOOTER */
 footer {
   text-align: center;
@@ -208,8 +214,8 @@ footer a:hover { color: var(--accent); }
   .login-card h1 { font-size: 27px; }
 }
 </style>
-</head>
 
+</head>
 <body>
 
 <!-- HEADER -->
@@ -229,13 +235,13 @@ footer a:hover { color: var(--accent); }
     <h1>Welcome to Patholytica</h1>
     <p>Your tool to <strong>LOVE</strong> what you learn</p>
 
-    <!-- FIXED LOGIN BUTTON -->
-    <button type="button" class="login-btn" id="startLoginBtn">🔐 Login to Continue</button>
-
+    <!-- Login button -->
+    <a class="login-btn" id="startLoginBtn">🔐 Login to Continue</a>
+    <!-- Guest Mode text link -->
     <span class="guest-text" id="guestBtn">Guest Mode</span>
 
-    <!-- LOGIN FORM -->
-    <form id="loginForm" style="display:none; margin-top:20px;">
+    <!-- Hidden login form -->
+    <form id="loginForm" style="display:none; margin-top:20px; animation: fadeUp 0.5s ease both;">
       <input type="text" placeholder="Email or Username" class="input-field" required>
       <input type="password" placeholder="Password" class="input-field" required>
 
@@ -244,13 +250,13 @@ footer a:hover { color: var(--accent); }
       </button>
 
       <p style="margin-top:20px; font-size:14px; color:#999;">
-        Don't have an account?
-        <a href="#" id="showSignupLink" style="color:var(--accent); font-weight:600;">Sign up</a>
+        Don't have an account? 
+        <a href="#" id="showSignupLink" style="color:var(--accent); text-decoration:none; font-weight:600;">Sign up</a>
       </p>
     </form>
 
-    <!-- SIGNUP FORM -->
-    <form id="signupForm" style="display:none; margin-top:20px;">
+    <!-- Hidden signup form -->
+    <form id="signupForm" style="display:none; margin-top:20px; animation: fadeUp 0.5s ease both;">
       <input type="text" placeholder="Full Name" class="input-field" required>
       <input type="email" placeholder="Email Address" class="input-field" required>
       <input type="text" placeholder="Username" class="input-field" required>
@@ -259,7 +265,7 @@ footer a:hover { color: var(--accent); }
 
       <label style="display:flex; align-items:center; justify-content:center; margin:16px 0; font-size:13px; color:#999;">
         <input type="checkbox" required style="margin-right:8px;">
-        I agree to the <a href="#" style="color:var(--accent);">Terms</a> and <a href="#" style="color:var(--accent);">Privacy Policy</a>
+        I agree to the <a href="#" style="color:var(--accent); text-decoration:none; margin:0 3px;">Terms</a> and <a href="#" style="color:var(--accent); text-decoration:none; margin:0 3px;">Privacy Policy</a>
       </label>
 
       <button type="submit" class="login-btn" style="width:100%; margin-top:12px;">
@@ -267,8 +273,8 @@ footer a:hover { color: var(--accent); }
       </button>
 
       <p style="margin-top:20px; font-size:14px; color:#999;">
-        Already have an account?
-        <a href="#" id="showLoginLink" style="color:var(--accent); font-weight:600;">Login</a>
+        Already have an account? 
+        <a href="#" id="showLoginLink" style="color:var(--accent); text-decoration:none; font-weight:600;">Login</a>
       </p>
     </form>
 
@@ -297,6 +303,7 @@ if (localStorage.getItem("theme") === "light") {
   document.body.classList.add("light-theme");
 }
 
+/* Login button → form reveal */
 const startBtn = document.getElementById("startLoginBtn");
 const form = document.getElementById("loginForm");
 const signupForm = document.getElementById("signupForm");
@@ -304,10 +311,7 @@ const showSignupLink = document.getElementById("showSignupLink");
 const showLoginLink = document.getElementById("showLoginLink");
 const guestBtn = document.getElementById("guestBtn");
 
-/* FIXED CLICK HANDLER */
-startBtn.addEventListener("click", (e) => {
-  e.preventDefault();
-
+startBtn.addEventListener("click", () => {
   startBtn.style.opacity = "0";
   guestBtn.style.opacity = "0";
   startBtn.style.pointerEvents = "none";
@@ -320,37 +324,66 @@ startBtn.addEventListener("click", (e) => {
   }, 250);
 });
 
+// Guest mode click
 guestBtn.addEventListener("click", () => {
   alert("Entering Guest Mode. Limited features available.");
 });
 
+// Toggle to signup form
 showSignupLink.addEventListener("click", (e) => {
   e.preventDefault();
-  form.style.display = "none";
-  signupForm.style.display = "block";
+  form.style.opacity = "0";
+  
+  setTimeout(() => {
+    form.style.display = "none";
+    signupForm.style.display = "block";
+    signupForm.style.opacity = "1";
+  }, 250);
 });
 
+// Toggle back to login form
 showLoginLink.addEventListener("click", (e) => {
   e.preventDefault();
-  signupForm.style.display = "none";
-  form.style.display = "block";
+  signupForm.style.opacity = "0";
+  
+  setTimeout(() => {
+    signupForm.style.display = "none";
+    form.style.display = "block";
+    form.style.opacity = "1";
+  }, 250);
 });
 
+// Form submissions
 form.addEventListener("submit", (e) => {
   e.preventDefault();
-  alert("Login functionality would connect here.");
+  alert("Login functionality would connect here. Welcome to Patholytica!");
 });
 
 signupForm.addEventListener("submit", (e) => {
   e.preventDefault();
-  const pass = signupForm.querySelectorAll('input[type="password"]');
-  if (pass[0].value !== pass[1].value) {
-    alert("Passwords do not match.");
+  
+  const passwords = signupForm.querySelectorAll('input[type="password"]');
+  const password = passwords[0].value;
+  const confirmPassword = passwords[1].value;
+  
+  if (password !== confirmPassword) {
+    alert("Passwords do not match. Please try again.");
     return;
   }
-  alert("Account created successfully!");
+  
+  alert("Account created successfully! Welcome to Patholytica!");
+  
+  signupForm.style.opacity = "0";
+  setTimeout(() => {
+    signupForm.style.display = "none";
+    form.style.display = "block";
+    form.style.opacity = "1";
+  }, 250);
 });
 </script>
 
 </body>
 </html>
+
+
+Edit this & give me full working code
