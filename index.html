@@ -51,38 +51,46 @@ body {
 }
 
 /* HEADER */
-.header-wrapper { 
-  position: sticky; 
-  top: 0; 
-  background: var(--bg-color); 
-  padding-top: env(safe-area-inset-top); 
-  border-bottom: 1px solid var(--card-border); 
+.header-wrapper {
+  position: sticky;
+  top: 0;
+  background: var(--bg-color);
+  padding-top: env(safe-area-inset-top);
+  border-bottom: 1px solid var(--card-border);
   z-index: 100;
 }
-.header { 
-  display: flex; 
-  justify-content: space-between; 
-  align-items: center; 
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   padding: 16px 18px;
 }
-.logo-img { 
-  height: 32px; 
-  transition: filter 0.25s ease; 
+
+.logo-img {
+  height: 32px;
+  width: auto;
+  transition: filter 0.25s ease;
+  cursor: pointer;
 }
-body.light-theme .logo-img { filter: invert(1); }
-.theme-toggle { 
-  padding: 6px 14px; 
-  font-size: 12.5px; 
-  background: transparent; 
-  border-radius: 6px; 
-  border: 1px solid var(--card-border); 
-  color: var(--text-color); 
-  cursor: pointer; 
+
+body.light-theme .logo-img {
+  filter: invert(1);
+}
+
+.theme-toggle {
+  padding: 6px 14px;
+  font-size: 12.5px;
+  background: transparent;
+  border-radius: 6px;
+  border: 1px solid var(--card-border);
+  color: var(--text-color);
+  cursor: pointer;
   transition: 0.25s ease;
 }
-.theme-toggle:hover { 
-  border-color: var(--accent); 
-  color: var(--accent); 
+.theme-toggle:hover {
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 /* HERO CTA */
@@ -413,7 +421,9 @@ footer a:hover {
 
 <div class="header-wrapper">
   <div class="header">
-    <img src="IMG_0696.png" class="logo-img" alt="Patholytica Logo">
+    <a href="https://patholytica.com">
+      <img src="IMG_0696.png" class="logo-img" alt="Patholytica Logo">
+    </a>
     <button class="theme-toggle" onclick="toggleTheme()">Theme</button>
   </div>
 </div>
