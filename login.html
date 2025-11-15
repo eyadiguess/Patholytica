@@ -7,152 +7,127 @@
 
 <style>
 :root {
-  --bg-color: #0d0d0d;
+  --bg-color: #0f0f0f;
   --text-color: #fff;
-  --card-bg: rgba(24,24,24,0.7);
-  --card-border: rgba(255,255,255,0.07);
+  --card-bg: #181818;
+  --card-border: #333;
   --accent: #ff4d4d;
-  --accent-hover: #ff3333;
+  --header-height: 64px;
 }
 
 body.light-theme {
-  --bg-color: #f5f5f5;
-  --text-color: #111;
-  --card-bg: rgba(255,255,255,0.65);
-  --card-border: rgba(0,0,0,0.1);
-  --accent: #e53935;
-  --accent-hover: #c62828;
+  --bg-color: #f3f3f3;
+  --text-color: #000;
+  --card-bg: #fff;
+  --card-border: #ddd;
+  --accent: #ff4d4d;
 }
-
-/* GLOBAL */
-* { box-sizing: border-box; }
-html, body { margin:0; padding:0; height:100%; font-family: "Inter", Arial, sans-serif; }
 
 body {
+  margin: 0;
   background: var(--bg-color);
   color: var(--text-color);
-  display: flex;
-  flex-direction: column;
-  transition: background 0.35s ease;
+  font-family: system-ui, sans-serif;
+  transition: background 0.3s, color 0.3s;
 }
 
-/* HEADER */
-.header-wrapper {
+/* Header */
+.header {
+  height: var(--header-height);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px;
+  background: var(--bg-color);
   position: sticky;
   top: 0;
-  background: var(--bg-color);
-  padding-top: env(safe-area-inset-top);
-  border-bottom: 1px solid var(--card-border);
-  z-index: 40;
+  z-index: 99;
 }
 
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 18px;
+/* Logo auto-invert on light theme */
+.header img {
+  height: 38px;
+  transition: 0.3s;
+  filter: invert(0);
 }
 
-.logo-img {
-  height: 32px;
-  width: auto;
-  transition: filter 0.25s ease;
-}
-
-/* Auto-invert logo in light mode */
-body.light-theme .logo-img {
+body.light-theme .header img {
   filter: invert(1);
 }
 
 /* Theme button */
-.theme-toggle {
-  padding: 6px 14px;
-  font-size: 12.5px;
-  background: transparent;
-  border-radius: 6px;
-  border: 1px solid var(--card-border);
-  color: var(--text-color);
-  cursor: pointer;
-  transition: 0.25s ease;
-}
-.theme-toggle:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-
-/* MAIN CONTENT */
-.login-container {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: calc(40px + env(safe-area-inset-top))
-           calc(20px + env(safe-area-inset-left))
-           calc(40px + env(safe-area-inset-bottom))
-           calc(20px + env(safe-area-inset-right));
-}
-
-.login-card {
-  width: 100%;
-  max-width: 430px;
-  padding: 55px 42px;
+.theme-btn {
+  padding: 8px 14px;
+  border-radius: 8px;
   background: var(--card-bg);
-  backdrop-filter: blur(22px);
+  color: var(--text-color);
+  border: 1px solid var(--card-border);
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* Login card */
+.login-card {
+  max-width: 400px;
+  margin: 90px auto;
+  padding: 32px 26px;
+  background: var(--card-bg);
   border-radius: 16px;
   border: 1px solid var(--card-border);
-  box-shadow: 0 8px 28px rgba(0,0,0,0.45);
   text-align: center;
-  animation: fadeUp 0.5s ease both;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-.login-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 35px rgba(0,0,0,0.55);
 }
 
 .login-card h1 {
-  font-size: 32px;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
+  font-size: 26px;
 }
 
 .login-card p {
-  font-size: 15px;
-  margin-bottom: 34px;
-  color: #999;
-  line-height: 1.55;
+  opacity: 0.8;
+  margin-bottom: 24px;
 }
 
-/* BUTTONS */
+/* Buttons */
 .login-btn {
-  display: inline-block;
-  padding: 16px 42px;
-  font-size: 16px;
-  font-weight: 600;
+  display: block;
+  width: 100%;
+  padding: 14px;
   background: var(--accent);
   color: #fff;
   border-radius: 10px;
   text-decoration: none;
-  transition: 0.25s ease;
-  box-shadow: 0 6px 16px rgba(255,77,77,0.35);
-  cursor:pointer;
-}
-.login-btn:hover {
-  background: var(--accent-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 10px 22px rgba(255,77,77,0.45);
+  font-size: 17px;
+  transition: 0.25s;
+  cursor: pointer;
 }
 
-/* INPUT FIELDS */
+.login-btn:hover {
+  opacity: 0.85;
+}
+
+/* Sign up link */
+.signup {
+  margin-top: 14px;
+  font-size: 15px;
+  opacity: 0.8;
+}
+
+.signup a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+/* Input fields */
 .input-field {
   width: 100%;
   padding: 14px;
   margin-bottom: 14px;
   border-radius: 8px;
   border: 1px solid var(--card-border);
-  background: rgba(0,0,0,0.25);
+  background: rgba(0,0,0,0.2);
   color: var(--text-color);
   font-size: 15px;
-  transition: 0.25s ease;
+  transition: 0.25s;
 }
 
 body.light-theme .input-field {
@@ -165,33 +140,10 @@ body.light-theme .input-field {
   box-shadow: 0 0 8px rgba(255,77,77,0.35);
 }
 
-/* FOOTER */
-footer {
-  text-align: center;
-  padding: 22px;
-  font-size: 12px;
-  border-top: 1px solid var(--card-border);
-  color: #888;
-}
-footer a {
-  color: #888;
-  margin: 0 6px;
-  text-decoration: none;
-  transition: color 0.25s ease;
-}
-footer a:hover {
-  color: var(--accent);
-}
-
-/* Animations */
+/* Fade animation */
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-@media (max-width: 640px) {
-  .login-card { padding: 45px 30px; }
-  .login-card h1 { font-size: 27px; }
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 </style>
 </head>
@@ -199,59 +151,43 @@ footer a:hover {
 <body>
 
 <!-- HEADER -->
-<div class="header-wrapper">
-  <div class="header">
-    <img src="IMG_0696.png" class="logo-img" alt="Patholytica Logo">
-    <button class="theme-toggle" onclick="toggleTheme()">Theme</button>
-  </div>
+<div class="header">
+  <img src="your-logo.png" alt="Logo">
+  <button class="theme-btn" onclick="toggleTheme()">Toggle Theme</button>
 </div>
 
-<!-- MAIN -->
-<div class="login-container">
-  <div class="login-card">
+<!-- LOGIN CARD -->
+<div class="login-card">
 
-    <h1>Welcome to Patholytica</h1>
-    <p>Your premium pathology learning platform powered by MedicineBank.</p>
+  <h1>Welcome</h1>
+  <p>Your all-in-one learning platform powered by MedicineBank.</p>
 
-    <!-- Login button (initial state) -->
-    <a class="login-btn" id="startLoginBtn">🔐 Login to Continue</a>
+  <!-- LOGIN BUTTON -->
+  <a class="login-btn" id="startLoginBtn">🔐 Login to Continue</a>
 
-    <!-- Hidden login form -->
-    <form id="loginForm" style="display:none; margin-top:20px; animation: fadeUp 0.5s ease both;">
-      <input type="text" placeholder="Email or Username" class="input-field">
-      <input type="password" placeholder="Password" class="input-field">
-
-      <button type="submit" class="login-btn" style="width:100%; margin-top:12px;">
-        Continue
-      </button>
-    </form>
-
+  <!-- SIGNUP LINK -->
+  <div class="signup">
+    First time here? <a href="#">Create an account</a>
   </div>
+
+  <!-- HIDDEN LOGIN FORM -->
+  <form id="loginForm" style="display:none; margin-top:20px; animation: fadeUp 0.5s ease both;">
+    <input type="text" placeholder="Email or Username" class="input-field">
+    <input type="password" placeholder="Password" class="input-field">
+
+    <button type="submit" class="login-btn" style="margin-top:12px;">
+      Continue
+    </button>
+  </form>
+
 </div>
 
-<!-- FOOTER -->
-<footer>
-  © 2025 Patholytica by MedicineBank. All rights reserved.
-  <br>
-  <a href="#">Privacy Policy</a> |
-  <a href="#">Terms</a> |
-  <a href="#">Contact</a>
-</footer>
-
+<!-- SCRIPT -->
 <script>
-function toggleTheme(){
-  document.body.classList.toggle('light-theme');
-  localStorage.setItem(
-    "theme",
-    document.body.classList.contains("light-theme") ? "light" : "dark"
-  );
+function toggleTheme() {
+  document.body.classList.toggle("light-theme");
 }
 
-if (localStorage.getItem("theme") === "light") {
-  document.body.classList.add("light-theme");
-}
-
-/* Login button → form reveal */
 const startBtn = document.getElementById("startLoginBtn");
 const form = document.getElementById("loginForm");
 
