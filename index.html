@@ -28,220 +28,15 @@ body.light-theme {
 
 * { box-sizing: border-box; }
 html, body { margin:0; padding:0; font-family: "Inter", Arial, sans-serif; }
-body { background: var(--bg-color); color: var(--text-color); transition: 0.35s ease; overflow-x: hidden; }
+body { background: var(--bg-color); color: var(--text-color); transition: 0.35s ease; display:flex; justify-content:center; align-items:center; height:100vh; text-align:center; }
 
-/* HEADER */
-.header-wrapper { position: sticky; top:0; background: var(--bg-color); padding-top: env(safe-area-inset-top); border-bottom: 1px solid var(--card-border); z-index:100; }
-.header { display:flex; justify-content:space-between; align-items:center; padding:16px 18px; }
-.logo-img { height:32px; transition: filter 0.25s ease; }
-body.light-theme .logo-img { filter: invert(1); }
-.theme-toggle { padding:6px 14px; font-size:12.5px; background:transparent; border-radius:6px; border:1px solid var(--card-border); color:var(--text-color); cursor:pointer; transition:0.25s ease; }
-.theme-toggle:hover { border-color:var(--accent); color:var(--accent); }
-
-/* HERO */
-.hero { position: relative; display:flex; flex-direction:column; align-items:center; padding:110px 25px 90px; max-width:760px; margin:auto; text-align:center; }
-.hero h1 { font-size:42px; font-weight:700; margin-bottom:18px; }
-.hero p { font-size:17px; opacity:0.8; margin-bottom:38px; line-height:1.6; max-width:650px; margin-left:auto; margin-right:auto; }
-
-/* BUTTON */
-.main-btn { position: relative; padding:16px 42px; background:var(--accent); color:#fff; border-radius:12px; font-size:17px; text-decoration:none; transition:0.25s ease, transform 0.25s ease; box-shadow:0 6px 16px var(--btn-shadow); display:inline-block; }
-.main-btn:hover { background:var(--accent-hover); transform:translateY(-2px); box-shadow:0 10px 24px var(--btn-shadow-hover); }
-
-/* Sparks */
-.spark { position:absolute; width:6px; height:6px; background:#fff5; border-radius:50%; pointer-events:none; animation:sparkAnim 1.5s linear infinite; }
-@keyframes sparkAnim { 0%{transform:translate(0,0) scale(1); opacity:1;} 50%{transform:translate(var(--x), var(--y)) scale(0.5); opacity:0.5;} 100%{transform:translate(0,0) scale(1); opacity:1;} }
-
-/* VIDEO SECTION */
-.video-wrapper {
-  margin-top: 60px;
-  width: 100%;
-  max-width: 720px;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-  border: 1px solid var(--card-border);
-}
-
-.video-wrapper iframe {
-  width: 100%;
-  height: 405px;
-  display: block;
-}
-
-/* CAROUSEL SECTION */
-.carousel-section { 
-  padding: 80px 0; 
-  background: linear-gradient(180deg, transparent 0%, rgba(255,77,77,0.03) 50%, transparent 100%);
-}
-
-.carousel-section h2 { 
-  text-align: center; 
-  font-size: 32px; 
-  margin-bottom: 16px; 
-  font-weight: 700;
-  padding: 0 20px;
-}
-
-.carousel-section > p { 
-  text-align: center; 
-  opacity: 0.75; 
-  max-width: 600px; 
-  margin: 0 auto 50px; 
-  font-size: 16px; 
-  line-height: 1.6;
-  padding: 0 20px;
-}
-
-/* Carousel container */
-.carousel-container { 
-  position: relative; 
-  width: 100%;
-  max-width: 100vw;
-}
-
-/* Instagram-style scrollable carousel */
-.carousel-wrapper { 
-  overflow-x: auto;
-  overflow-y: hidden;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  padding: 20px 0;
-  scroll-behavior: smooth;
-  width: 100%;
-}
-
-.carousel-wrapper::-webkit-scrollbar {
-  display: none;
-}
-
-.carousel {
-  display: flex;
-  gap: 24px;
-  padding: 0 max(20px, calc((100vw - 1200px) / 2));
-  width: fit-content;
-}
-
-.card {
-  flex: 0 0 280px;
-  background: var(--bg-color);
-  border: 1px solid var(--card-border);
-  border-radius: 16px;
-  padding: 28px 20px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  scroll-snap-align: start;
-  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.card:hover {
-  transform: translateY(-8px);
-  border-color: var(--accent);
-  box-shadow: 0 12px 32px rgba(255,77,77,0.15);
-}
-
-.card img {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  margin-bottom: 18px;
-  object-fit: cover;
-  border: 3px solid var(--card-border);
-  transition: border-color 0.3s ease;
-}
-
-.card:hover img {
-  border-color: var(--accent);
-}
-
-.card h4 { 
-  margin: 0 0 10px 0; 
-  text-align: center;
-  font-size: 18px;
-  font-weight: 600;
-}
-
-.card p { 
-  font-size: 14px; 
-  opacity: 0.85; 
-  line-height: 1.5; 
-  text-align: center;
-  font-style: italic;
-}
-
-/* Carousel buttons */
-.carousel-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: var(--bg-color);
-  border: 1px solid var(--card-border);
-  color: var(--text-color);
-  width: 48px;
-  height: 48px;
-  cursor: pointer;
-  border-radius: 50%;
-  z-index: 10;
-  transition: all 0.25s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  opacity: 0.9;
-}
-
-.carousel-btn:hover {
-  background: var(--accent);
-  color: #fff;
-  border-color: var(--accent);
-  transform: translateY(-50%) scale(1.1);
-  opacity: 1;
-}
-
-.carousel-btn.left { left: 20px; }
-.carousel-btn.right { right: 20px; }
-
-.carousel-btn:disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
-  pointer-events: none;
-}
-
-/* Scroll indicators (dots) */
-.carousel-dots {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 24px;
-  padding: 0 20px;
-}
-
-.dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--card-border);
-  transition: all 0.3s ease;
-  cursor: pointer;
-}
-
-.dot.active {
-  background: var(--accent);
-  width: 24px;
-  border-radius: 4px;
-}
-
-/* CTA section */
+/* CTA Section */
 .cta { 
   text-align: center; 
-  padding: 80px 30px; 
+  padding: 60px 30px; 
   background: linear-gradient(135deg, rgba(255,77,77,0.08), rgba(255,77,77,0.02)); 
   border-radius: 20px; 
   max-width: 900px; 
-  margin: 80px auto; 
   border: 1px solid var(--card-border); 
   position: relative; 
   overflow: hidden;
@@ -257,174 +52,32 @@ body.light-theme .logo-img { filter: invert(1); }
   background: linear-gradient(90deg, transparent, var(--accent), transparent); 
 }
 
-.cta h3 { margin-bottom: 16px; font-size: 32px; font-weight: 700; }
-.cta p { margin-bottom: 32px; opacity: 0.85; font-size: 17px; line-height: 1.7; max-width: 700px; margin-left: auto; margin-right: auto; }
-.cta-btn { display: inline-block; padding: 16px 40px; background: var(--accent); color: #fff; border-radius: 12px; text-decoration: none; transition: all 0.25s ease; font-size: 16px; font-weight: 500; box-shadow: 0 6px 20px var(--btn-shadow); }
-.cta-btn:hover { background: var(--accent-hover); transform: translateY(-3px); box-shadow: 0 10px 30px var(--btn-shadow-hover); }
-
-/* FOOTER */
-footer { text-align: center; padding: 24px 16px; font-size: 12px; border-top: 1px solid var(--card-border); opacity: 0.7; margin-top: 40px; }
-footer a { color: inherit; text-decoration: none; margin: 0 8px; transition: color 0.25s ease; }
-footer a:hover { color: var(--accent); }
+.cta h3 { margin-bottom:16px; font-size:32px; font-weight:700; }
+.cta p { margin-bottom:32px; opacity:0.85; font-size:17px; line-height:1.7; max-width:700px; margin-left:auto; margin-right:auto; }
+.cta-btn { display:inline-block; padding:16px 40px; background: var(--accent); color:#fff; border-radius:12px; text-decoration:none; transition:all 0.25s ease; font-size:16px; font-weight:500; box-shadow:0 6px 20px var(--btn-shadow); }
+.cta-btn:hover { background:var(--accent-hover); transform:translateY(-3px); box-shadow:0 10px 30px var(--btn-shadow-hover); }
 
 /* Responsive */
-@media (max-width: 640px) {
-  .hero h1 { font-size: 34px; }
-  .hero p { font-size: 15.5px; }
-  .video-wrapper iframe { height: 240px; }
-  .carousel-section h2 { font-size: 28px; }
-  .cta h3 { font-size: 26px; }
-  .card { flex: 0 0 85%; }
-  .cta { padding: 60px 25px; margin: 60px 20px; }
-  .carousel-btn { width: 40px; height: 40px; font-size: 20px; }
-  .carousel-btn.left { left: 10px; }
-  .carousel-btn.right { right: 10px; }
-  .carousel { padding: 0 20px; }
+@media (max-width:640px){
+  .cta { padding:40px 20px; }
+  .cta h3 { font-size:26px; }
+  .cta p { font-size:15px; }
 }
 </style>
 </head>
 <body>
 
-<div class="header-wrapper">
-  <div class="header">
-    <img src="IMG_0696.png" class="logo-img" alt="Patholytica Logo">
-    <button class="theme-toggle" onclick="toggleTheme()">Theme</button>
-  </div>
-</div>
-
-<div class="hero">
-  <h1>Ahlan Wa Sahlan!</h1>
+<div class="cta">
+  <h3>Ahlan Wa Sahlan!</h3>
   <p>
     Patholytica is a platform created by students committed to reshaping how peers access medical knowledge. Our goal is to provide clear, focused, and community-based learning that empowers students and removes the barriers of cost and complexity.
   </p>
-  <a href="login.html" class="main-btn" id="getStartedBtn">Get Started</a>
-  
-  <!-- YouTube Embed -->
-  <div class="video-wrapper">
-    <iframe src="https://www.youtube.com/embed/TGO4LtCctTk?si=7f-IweIBG1seU3Yu" title="YouTube video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-  </div>
+  <a href="login.html" class="cta-btn">Get Started</a>
 </div>
-
-<!-- CAROUSEL SECTION -->
-<div class="carousel-section">
-  <h2>Meet Our Team</h2>
-  <p>Dedicated students and innovators working together to transform medical education for everyone.</p>
-  
-  <div class="carousel-container">
-    <button class="carousel-btn left" id="prevBtn" onclick="scrollCarousel(-1)">‹</button>
-    <div class="carousel-wrapper" id="carouselWrapper">
-      <div class="carousel" id="carousel">
-        <div class="card">
-          <img src="IMG_0751.jpeg" alt="Founder Eyad Al-Basyouni">
-          <h4>Eyad Al-Basyouni</h4>
-          <p>"Our mission is to make medical learning accessible to everyone."</p>
-        </div>
-        <div class="card">
-          <img src="IMG_0749.jpeg" alt="Web Dev Ahmed Samir">
-          <h4>Ahmed Samir</h4>
-          <p>"We build tools that empower students and remove barriers."</p>
-        </div>
-        <div class="card">
-          <img src="IMG_0750.jpeg" alt="Co-founder Omar Halawa">
-          <h4>Omar Halawa</h4>
-          <p>"Collaboration and clarity are our core values."</p>
-        </div>
-      </div>
-    </div>
-    <button class="carousel-btn right" id="nextBtn" onclick="scrollCarousel(1)">›</button>
-  </div>
-  
-  <!-- Scroll indicators -->
-  <div class="carousel-dots" id="carouselDots"></div>
-</div>
-
-<!-- CTA Section -->
-<div class="cta">
-  <h3>Join the Patholytica Community</h3>
-  <p>Stay updated with our latest features, events, and resources. Be part of the growing community of learners and contributors shaping the future of medical education.</p>
-  <a href="#" class="cta-btn">Subscribe Now</a>
-</div>
-
-<footer>
-  © 2025 Patholytica by MedicineBank — All rights reserved.
-  <br>
-  <a href="#">Privacy Policy</a> | <a href="#">Terms</a> | <a href="#">Contact</a>
-</footer>
 
 <script>
-/* Theme toggle */
-function toggleTheme(){
-  document.body.classList.toggle('light-theme');
-  localStorage.setItem("theme", document.body.classList.contains("light-theme") ? "light":"dark");
-}
+/* Theme toggle if needed later */
 if(localStorage.getItem("theme")==="light"){ document.body.classList.add("light-theme"); }
-
-/* Sparks */
-const btn = document.getElementById('getStartedBtn');
-function createSpark() {
-  const spark = document.createElement('div');
-  spark.classList.add('spark');
-  const x = (Math.random()-0.5)*200 + 'px';
-  const y = (Math.random()-0.5)*60 + 'px';
-  spark.style.setProperty('--x',x);
-  spark.style.setProperty('--y',y);
-  btn.appendChild(spark);
-  setTimeout(()=>spark.remove(),1500);
-}
-setInterval(createSpark,300);
-
-/* Instagram-style carousel */
-const carouselWrapper = document.getElementById('carouselWrapper');
-const carousel = document.getElementById('carousel');
-const prevBtn = document.getElementById('prevBtn');
-const nextBtn = document.getElementById('nextBtn');
-const dotsContainer = document.getElementById('carouselDots');
-const cards = carousel.querySelectorAll('.card');
-
-// Create dots
-cards.forEach((_, index) => {
-  const dot = document.createElement('div');
-  dot.classList.add('dot');
-  if (index === 0) dot.classList.add('active');
-  dot.addEventListener('click', () => scrollToCard(index));
-  dotsContainer.appendChild(dot);
-});
-
-function scrollCarousel(direction) {
-  const cardWidth = cards[0].offsetWidth + 24; // card width + gap
-  carouselWrapper.scrollBy({
-    left: cardWidth * direction,
-    behavior: 'smooth'
-  });
-}
-
-function scrollToCard(index) {
-  const cardWidth = cards[0].offsetWidth + 24;
-  carouselWrapper.scrollTo({
-    left: cardWidth * index,
-    behavior: 'smooth'
-  });
-}
-
-// Update dots and button states on scroll
-function updateCarousel() {
-  const scrollLeft = carouselWrapper.scrollLeft;
-  const cardWidth = cards[0].offsetWidth + 24;
-  const currentIndex = Math.round(scrollLeft / cardWidth);
-  
-  // Update dots
-  document.querySelectorAll('.dot').forEach((dot, index) => {
-    dot.classList.toggle('active', index === currentIndex);
-  });
-  
-  // Update button states
-  prevBtn.disabled = scrollLeft <= 0;
-  nextBtn.disabled = scrollLeft >= carouselWrapper.scrollWidth - carouselWrapper.clientWidth - 10;
-}
-
-carouselWrapper.addEventListener('scroll', updateCarousel);
-window.addEventListener('resize', updateCarousel);
-updateCarousel();
 </script>
 
 </body>
